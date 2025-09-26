@@ -19,7 +19,6 @@ public class Control {
 
     public void add(int id, String name, double price, Product.Category category) {
         Product product = new Product(id, name, price, category);
-
     }
     public String echo(String s) {
         // Muestra un mensaje
@@ -43,6 +42,22 @@ public class Control {
     }
     public void update(){
 
+    }
+    public static int readNumber(Scanner keyboard, String message, int min, int max) {
+        // Muestra un mensaje y lee un número por teclado (si no es un número, vuelve a solicitar uno)
+        int number;
+        while (true) {
+            try {
+                System.out.print(message);
+                number = Integer.parseInt(keyboard.nextLine().trim());
+                if (number >= min && number <= max) {
+                    return number;
+                }
+                System.out.println("Please select a number between " + min + " and " + max + ".");
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        }
     }
 
 
