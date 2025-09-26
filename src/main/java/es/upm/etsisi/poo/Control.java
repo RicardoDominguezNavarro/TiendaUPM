@@ -4,9 +4,14 @@ import java.util.Scanner;
 
 public class Control {
 
-    public static String echo(Scanner keyboard, String s) {
-        System.out.print(s);
-        return keyboard.nextLine();
+
+    public static String echo(String s) {
+        // Muestra un mensaje
+        return s;
     }
+
+    public
+
+
 
 }
