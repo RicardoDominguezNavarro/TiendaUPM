@@ -1,14 +1,56 @@
 package es.upm.etsisi.poo;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Control {
+    private ArrayList<Product> products;
 
-
-    public static String echo(String s) {
+    public void add(int id, String name, double price, Product.Category category) {
+        if(id <= 0) { //id mayor que 0
+            throw new IllegalArgumentException("Id may not be negative!");
+        }
+        if(name == null || name.trim().isEmpty() || name.trim().length() >= 100) {
+            //el nombre no sea null, quita los espacios en blanco para ver si está vacía y quita los
+            // espacios y cuenta caracteres para que no haya más de 100
+            throw new IllegalArgumentException("Invalid name!");
+        }
+        if(price <= 0.0) { //precio mayor que 0
+            throw new IllegalArgumentException("Price may not be negative!");
+        }
+        if(category == null) { //categoria no es null
+            throw new IllegalArgumentException("Category may not be null!");
+        }
+        Product product= new Product(id,name,price,category);
+        products.add(product);
+    }
+    public String echo(String s) {
         // Muestra un mensaje
+
         return s;
     }
+    public void help(){
+        products.clear();
+        System.out.println("Commands:\n" +
+                " prod add <id> \"<name>\" <category> <price>\n" +
+                " prod list\n" +
+                " prod update <id> NAME|CATEGORY|PRICE <value>\n" +
+                " prod remove <id>\n" +
+                " ticket new\n" +
+                " ticket add <prodId> <quantity>\n" +
+                " ticket remove <prodId>\n" +
+                " ticket print\n" +
+                " echo \"<texto>\"\n" +
+                " help\n" +
+                " exit");
+    }
+    public void update(){
+
+    }
+
+
+
+
 
 
 
