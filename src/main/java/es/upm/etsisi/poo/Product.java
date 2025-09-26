@@ -5,7 +5,6 @@ public class Product {
     private int id;
     private String name;
     private double price;
-    private int numProducts = 0;
     private Category category;
 
     public enum Category{
@@ -31,7 +30,6 @@ public class Product {
         this.name = name;
         this.price = price;
         this.category = category;
-        numProducts +=1;
     }
     public Product() {
         this.id = -1;
@@ -54,9 +52,6 @@ public class Product {
     public double getPrice() {
         return price;
     }
-    public  int getNumProducts() {
-        return numProducts;
-    }
 
     public Category getCategory() {
         return category;
@@ -67,10 +62,6 @@ public class Product {
             throw new IllegalArgumentException("Category may not be null!");
         }
         this.category = category;
-    }
-
-    public void setNumProducts (int numProducts) {
-        this.numProducts = numProducts;
     }
 
     public void setName(String name) {
