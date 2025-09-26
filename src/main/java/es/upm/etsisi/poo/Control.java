@@ -10,7 +10,7 @@ public class Control {
         return s;
     }
 
-    public
+
 
 
 

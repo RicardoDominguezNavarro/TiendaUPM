@@ -15,6 +15,18 @@ public class Product {
     controlar excepciones
      */
     public Product(int id, String name, double price, Category category) {
+        if(id <= 0) {
+            throw new IllegalArgumentException("Id may not be negative!");
+        }
+        if(name == null || name.isEmpty() || name.length() > 100) {
+            throw new IllegalArgumentException("Invalid name!");
+        }
+        if(price <= 0.0) {
+            throw new IllegalArgumentException("Price may not be negative!");
+        }
+        if(category == null) {
+            throw new IllegalArgumentException("Category may not be null!");
+        }
         this.id = id;
         this.name = name;
         this.price = price;
