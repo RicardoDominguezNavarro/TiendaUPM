@@ -1,37 +1,56 @@
+
 package es.upm.etsisi.poo;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Control {
     private ArrayList<Product> products;
+    private final int maxNumProducts = 200;
+    private final int maxNumProductsTicket = 100;
+    private int numProducts;
+    private int numproductsTicket;
+    private Map<Integer, Product> catalog = new LinkedHashMap<>();
 
-    public void add(int id, String name, double price, Product.Category category) {
-        if(id <= 0) { //id mayor que 0
-            throw new IllegalArgumentException("Id may not be negative!");
-        }
-        if(name == null || name.trim().isEmpty() || name.trim().length() >= 100) {
-            //el nombre no sea null, quita los espacios en blanco para ver si está vacía y quita los
-            // espacios y cuenta caracteres para que no haya más de 100
-            throw new IllegalArgumentException("Invalid name!");
-        }
-        if(price <= 0.0) { //precio mayor que 0
-            throw new IllegalArgumentException("Price may not be negative!");
-        }
-        if(category == null) { //categoria no es null
-            throw new IllegalArgumentException("Category may not be null!");
-        }
-        Product product= new Product(id,name,price,category);
-        products.add(product);
+
+    public int geNumProducts() {
+        return numProducts;
     }
-    public String echo(String s) {
-        // Muestra un mensaje
 
+    public int getNumProductsTicket() {
+        return numproductsTicket;
+    }
+
+    public void prodAdd(int id, String name, double price, Product.Category category) {
+        Product product = new Product(id, name, price, category);
+        /*
+        Este no sé hacerlo
+         */
+    }
+
+    public String prodList() {
+        if (catalog.isEmpty()) { //Comprueba si está vacío
+            return "Catalog is empty.\nprod list: ok";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("Catalog:\n");
+        for (Product p : catalog.values()) { //imprime los valores del catálogo
+            sb.append(p.toString()).append("\n");
+        }
+        sb.append("prod list: ok");
+        return sb.toString();
+    }
+
+    public static String echo(String s) {
+        // Muestra un mensaje
         return s;
     }
-    public void help(){
+
+    public void help() {
         products.clear();
-        System.out.println("Commands:\n" +
+        echo("Commands:\n" +
                 " prod add <id> \"<name>\" <category> <price>\n" +
                 " prod list\n" +
                 " prod update <id> NAME|CATEGORY|PRICE <value>\n" +
@@ -44,10 +63,27 @@ public class Control {
                 " help\n" +
                 " exit");
     }
-    public void update(){
+
+    public void update() {
 
     }
 
+    public static int readNumber(Scanner keyboard, String message, int min, int max) {
+        // Muestra un mensaje y lee un número por teclado (si no es un número, vuelve a solicitar uno)
+        int number;
+        while (true) {
+            try {
+                echo(message);
+                number = Integer.parseInt(keyboard.nextLine().trim());
+                if (number >= min && number <= max) {
+                    return number;
+                }
+                echo("Please select a number between " + min + " and " + max + ".");
+            } catch (NumberFormatException e) {
+                echo("Please enter a valid number.");
+            }
+        }
+    }
 
 
 
