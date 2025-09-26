@@ -1,6 +1,8 @@
 package es.upm.etsisi.poo;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Control {
@@ -9,6 +11,8 @@ public class Control {
     private final int maxNumProductsTicket = 100;
     private int numProducts;
     private int numproductsTicket;
+    private Map<Integer, Product> catalog = new LinkedHashMap<>();
+
 
     public int geNumProducts() {
         return numProducts;
@@ -17,17 +21,33 @@ public class Control {
         return numproductsTicket;
     }
 
-    public void add(int id, String name, double price, Product.Category category) {
+    public void prodAdd(int id, String name, double price, Product.Category category) {
         Product product = new Product(id, name, price, category);
+        /*
+        Este no sé hacerlo
+         */
     }
-    public String echo(String s) {
-        // Muestra un mensaje
 
+    public String prodList() {
+        if (catalog.isEmpty()) { //Comprueba si está vacío
+            return "Catalog is empty.\nprod list: ok";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("Catalog:\n");
+        for (Product p : catalog.values()) { //imprime los valores del catálogo
+            sb.append(p.toString()).append("\n");
+        }
+        sb.append("prod list: ok");
+        return sb.toString();
+    }
+
+    public static String echo(String s) {
+        // Muestra un mensaje
         return s;
     }
     public void help(){
         products.clear();
-        System.out.println("Commands:\n" +
+        echo("Commands:\n" +
                 " prod add <id> \"<name>\" <category> <price>\n" +
                 " prod list\n" +
                 " prod update <id> NAME|CATEGORY|PRICE <value>\n" +
@@ -48,14 +68,14 @@ public class Control {
         int number;
         while (true) {
             try {
-                System.out.print(message);
+                echo(message);
                 number = Integer.parseInt(keyboard.nextLine().trim());
                 if (number >= min && number <= max) {
                     return number;
                 }
-                System.out.println("Please select a number between " + min + " and " + max + ".");
+                echo("Please select a number between " + min + " and " + max + ".");
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+                echo("Please enter a valid number.");
             }
         }
     }

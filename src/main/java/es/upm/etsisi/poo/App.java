@@ -11,8 +11,8 @@ public class App {
         // Muestra el menú principal y gestiona la entrada del usuario para dirigirlo a la opción seleccionada
         scanner = new Scanner(System.in);
         while (true) {
-            System.out.print("\n--- Commands ---");
-            System.out.println("1. prod add <id> \"<name>\" <category> <price>\n" +
+            Control.echo("\n--- Commands ---");
+            Control.echo("1. prod add <id> \"<name>\" <category> <price>\n" +
                     " 2. prod list\n" +
                     " 3. prod update <id> NAME|CATEGORY|PRICE <value>\n" +
                     " 4. prod remove <id>\n" +
@@ -22,7 +22,7 @@ public class App {
                     " 8. ticket print\n" +
                     " 9. help\n" +
                     " 10. exit");
-            System.out.println(" ");
+            Control.echo(" ");
             int option = Control.readNumber(scanner, "Select an option", 1, 10);
             switch (option) {
                 case 1:
@@ -56,7 +56,7 @@ public class App {
 
                     break;
                 default:
-                    System.out.println("Please select a valid option");
+                    Control.echo("Please select a valid option");
             }
         }
 
