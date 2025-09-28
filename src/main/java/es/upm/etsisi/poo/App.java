@@ -1,4 +1,5 @@
 package es.upm.etsisi.poo;
+import java.util.Scanner;
 
 import java.util.Scanner;
 
@@ -7,6 +8,7 @@ import java.util.Scanner;
  *
  */
 public class App {
+
     private void menuPrincipal(Scanner scanner) {
         // Muestra el menú principal y gestiona la entrada del usuario para dirigirlo a la opción seleccionada
         scanner = new Scanner(System.in);
