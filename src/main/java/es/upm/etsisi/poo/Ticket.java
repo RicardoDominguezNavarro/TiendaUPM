@@ -1,8 +1,6 @@
 package es.upm.etsisi.poo;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class Ticket {
 
@@ -12,6 +10,12 @@ public class Ticket {
     private int numItems;
 
     public Ticket() {
+        this.products = new Product[maxItems];
+        this.quantities = new int[maxItems];
+        this.numItems = 0;
+    }
+
+    public void newTicket() {
         this.products = new Product[maxItems];
         this.quantities = new int[maxItems];
         this.numItems = 0;
