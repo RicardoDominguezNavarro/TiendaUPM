@@ -44,6 +44,22 @@ public class Control {
                 " help\n" +
                 " exit");
     }
+    public static int readNumber(Scanner keyboard, String message, int min, int max) {
+        // Muestra un mensaje y lee un número por teclado (si no es un número, vuelve a solicitar uno)
+        int number;
+        while (true) {
+            try {
+                echo(message);
+                number = Integer.parseInt(keyboard.nextLine().trim());
+                if (number >= min && number <= max) {
+                    return number;
+                }
+                echo("Please select a number between " + min + " and " + max + ".");
+            } catch (NumberFormatException e) {
+                echo("Please enter a valid number.");
+            }
+        }
+    }
     public void update(int id, String field, String value) {
         Product product = null;
         int position = -1;
