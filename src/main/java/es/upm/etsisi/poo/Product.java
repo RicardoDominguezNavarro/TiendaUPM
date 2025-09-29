@@ -1,33 +1,31 @@
 package es.upm.etsisi.poo;
-
+import java.util.Scanner;
 public class Product {
-
+    Scanner teclado = new Scanner(System.in);
+    private Almacen perteneceAAlmacen;
     private int id;
     private String name;
     private double price;
-    private Category category;
+    private String category;
 
-    public enum Category{
-        MERCH, PAPELERIA, ROPA, LIBRO, ELECTRONICA
-    }
+
+
+
     /*
     controlar excepciones
      */
-    public Product(int id, String name, double price, Category category) {
+    public Product(int id, String name, double price, String category) {
+        while(id>200 || id<0){
+            System.out.println("El id debe encontrarse entre 0 y 200");
+            id = teclado.nextInt();
+        }
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
-    }
-    public Product() {
-        this.id = -1;
-        /*no sé si esto está bien pero para controlar que no se guarde ningún producto
-        vacío(luego hay que comprobar que el id sea positivo).
-        Mirar también como asignar los id, no sé si hay que hacerlo automáticamente en plan con una función o
-        lo mete el usuario
 
-         */
     }
+
 
     public int getId() {
         return id;
@@ -41,11 +39,11 @@ public class Product {
         return price;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -59,5 +57,19 @@ public class Product {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Almacen getPerteneceAAlmacen() {
+        return perteneceAAlmacen;
+    }
+
+    public void setPerteneceAAlmacen(Almacen perteneceAAlmacen) {
+        this.perteneceAAlmacen = perteneceAAlmacen;
+    }
+
+
+    public void printInfoProd(){
+        System.out.print("{class:Product, id:" + this.getId() + ", name:" + this.getName() + ", category:" + this.getCategory() + ", price:" + this.getPrice() + "}");
+
     }
 }
