@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Control {
     private ArrayList<Product> products;
     private Product p;
-    public void add(int id, String name, double price, Product.Category category) {
+    public void productAdd(int id, String name, double price, Product.Category category) {
         if(id <= 0) { //id mayor que 0
             throw new IllegalArgumentException("Id may not be negative!");
         }
@@ -26,9 +26,9 @@ public class Control {
     }
     public static String echo(String s) {
         // Muestra un mensaje
-
         return s;
     }
+
     public void help(){
         products.clear();
         System.out.println("Commands:\n" +
