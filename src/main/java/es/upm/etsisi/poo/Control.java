@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class Control {
     private ArrayList<Product> products;
     private Product p;
-
     private static final int MAX_PRODUCTS = 200;
+
     public void add(int id, String name, double price, Product.Category category) {
         if(products.size() >= MAX_PRODUCTS) {
             throw new IllegalArgumentException("Too many products (" + MAX_PRODUCTS + ")!");
