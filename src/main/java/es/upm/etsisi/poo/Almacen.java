@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Almacen {
     public static void main(String[] args) {
         Almacen almacen = new Almacen();
-        Product product = new Product(43, "Mesa", 7.5, "MERCH");
-        Product product1 = new Product(22, "Silla", 23, "PAPELERIA");
-        Product product2 = new Product(27, "Cama", 51, "ELECTRONICA");
-        Product product3 = new Product(13, "Escritorio", 33, "MUEBLE");
+        Product product = new Product(43, "Merch", 7.5, "MERCH");
+        Product product1 = new Product(22, "Boli", 23, "STATIONERY");
+        Product product2 = new Product(27, "Ordenador", 51, "ELECTRONICS");
+        Product product3 = new Product(13, "Libro", 33, "BOOK");
         almacen.addProd(product);
         almacen.addProd(product1);
         almacen.addProd(product2);
@@ -97,7 +97,7 @@ public class Almacen {
     public boolean idLibre(int id){
 
         boolean x = true;
-        if(products.size() > 0){
+        if(!products.isEmpty()){
             for (int i = 0; i < products.size(); i++) {
                 if(id == products.get(i).getId()){
                     x = false;
