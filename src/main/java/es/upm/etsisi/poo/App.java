@@ -6,6 +6,7 @@ import java.util.Scanner;
  * Hello world!
  *
  */
+
 public class App {
     private void menuPrincipal(Scanner scanner) {
         // Muestra el menú principal y gestiona la entrada del usuario para dirigirlo a la opción seleccionada

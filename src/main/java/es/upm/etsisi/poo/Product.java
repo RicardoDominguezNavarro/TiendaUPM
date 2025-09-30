@@ -5,7 +5,7 @@ public class Product {
     private int id;
     private String name;
     private double price;
-    private Category category;
+    public Category category;
 
     public enum Category{
         MERCH, PAPELERIA, ROPA, LIBRO, ELECTRONICA
