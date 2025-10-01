@@ -121,6 +121,18 @@ public class Control {
             echo("Error: producto con ID " + id + " no encontrado.");
         }
     }
+    public Product getProductId (int id){
+        Product resul = null;
+        for (int i = 0; i < products.size(); i++) {
+            Product actual = products.get(i);
+            if (actual.getId()==id){
+                resul = actual;
+            }
+        }
+        return  resul;
+    }
+
+
 
 }
 
