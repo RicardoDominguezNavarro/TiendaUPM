@@ -16,7 +16,7 @@ public class Catalog {
             System.out.println("The id doesn't exist");
             return false;
         } else {
-            int posicion = posicionProd(id);
+            int posicion = positionProd(id);
             products.remove(posicion);
             return true;
         }
@@ -58,28 +58,24 @@ public class Catalog {
             product.setBelongToCatalog(this);
             x = true;
         } else {
-            System.out.println("El número de id asignado ya pertenece a otro producto");
+            System.out.println("The id belongs to another product");
             x = false;
         }
         return x;
     }
-
 
     public ArrayList<Product> getProducts() {
         return products;
 
     }
 
-
-
-    public int posicionProd(int id) {
-        int contador = 0;
+    public int positionProd(int id) {
         int posicion = 0;
         for (int i = 0; i < products.size(); i++) {
             if (id == products.get(i).getId()) {
-                posicion = contador;
+                posicion = i;
             }
-            contador++;
+
         }
         return posicion;
     }
@@ -98,14 +94,14 @@ public class Catalog {
         return free;
     }
     public Product getProductId (int id){
-        Product resul = null;
+        Product result = null;
         for (int i = 0; i < products.size(); i++) {
             Product actual = products.get(i);
             if (actual.getId()==id){
-                resul = actual;
+                result = actual;
             }
         }
-        return  resul;
+        return  result;
     }
 
 
