@@ -6,7 +6,7 @@ public class Product {
     private String name;
     private double price;
     public Category category;
-    private Catalog catalog;
+    private Catalog belongToCatalog;
 
 
     public Product(int id, String name, double price, Category category) {
@@ -88,7 +88,11 @@ public class Product {
     }
 
     public void setBelongToCatalog(Catalog catalog) {
+        this.belongToCatalog = catalog;
 
+    }
 
+    private Catalog getBelongToCatalog(){
+        return belongToCatalog;
     }
 }
