@@ -6,17 +6,23 @@ import java.util.Scanner;
 public class Control {
     private ArrayList<Product> products;
     private Product p;
-    private static final int MAX_PRODUCTS = 200;
-
-    public void add(int id, String name, double price, Product.Category category) {
-        if(products.size() >= MAX_PRODUCTS) {
-            throw new IllegalArgumentException("Too many products (" + MAX_PRODUCTS + ")!");
+    public void prodAdd(int id, String name, double price, Product.Category category) {
+        if(id <= 0) { //id mayor que 0
+            throw new IllegalArgumentException("Id may not be negative!");
         }
-        if(products.contains(id)) {
-            throw new IllegalArgumentException("Product with id " + id + " already exists!");
+        if(name == null || name.trim().isEmpty() || name.trim().length() >= 100) {
+            //el nombre no sea null, quita los espacios en blanco para ver si está vacía y quita los
+            // espacios y cuenta caracteres para que no haya más de 100
+            throw new IllegalArgumentException("Invalid name!");
         }
-       Product p = new Product(id, name, price, category);
-        products.add(p);
+        if(price <= 0.0) { //precio mayor que 0
+            throw new IllegalArgumentException("Price may not be negative!");
+        }
+        if(category == null) { //categoria no es null
+            throw new IllegalArgumentException("Category may not be null!");
+        }
+        Product product= new Product(id,name,price,category);
+        products.add(product);
     }
     public void prodRemove(int id){
         if (!products.isEmpty()){
