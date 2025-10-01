@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Catalog {
 
-    public static ArrayList<Product> products;
+    public ArrayList<Product> products;
 
     public Catalog() {
         products = new ArrayList<>(200);
