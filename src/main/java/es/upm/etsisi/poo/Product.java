@@ -6,7 +6,7 @@ public class Product {
     private String name;
     private double price;
     public Category category;
-
+    private Catalog catalog;
 
 
     public Product(int id, String name, double price, Category category) {
@@ -85,5 +85,10 @@ public class Product {
     public String toString(){
 
         return Control.echo("{class:Product, id:" + this.getId() + ", name:" + this.getName() + ", category:" + this.getCategory() + ", price:" + this.getPrice() + "}");
+    }
+
+    public void setBelongToCatalog(Catalog catalog) {
+
+
     }
 }

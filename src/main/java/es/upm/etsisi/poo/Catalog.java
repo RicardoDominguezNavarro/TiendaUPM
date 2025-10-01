@@ -52,16 +52,16 @@ public class Catalog {
     }
 
     public boolean addProd(Product product) {
-        boolean x;
+        boolean check;
         if (existId(product.getId())) {
             products.add(product);
             product.setBelongToCatalog(this);
-            x = true;
+            check = true;
         } else {
             System.out.println("The id belongs to another product");
-            x = false;
+            check = false;
         }
-        return x;
+        return check;
     }
 
     public ArrayList<Product> getProducts() {
