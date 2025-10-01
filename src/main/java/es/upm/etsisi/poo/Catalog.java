@@ -12,8 +12,8 @@ public class Catalog {
     }
 
     public boolean prodRemove(int id) {
-        if (idLibre(id)) {
-            System.out.println("El id dado no está asignado a ningún producto");
+        if (idFree(id)) {
+            System.out.println("The id doesn't exist");
             return false;
         } else {
             int posicion = posicionProd(id);
@@ -23,18 +23,18 @@ public class Catalog {
     }
 
     public void updateProd(int id, String campo, String value) {
-        Product productoACambiar = dadoIdDevolverProducto(id);
+        Product productToChange = getProductId(id);
         String campoUpper = campo.toUpperCase();
         switch (campoUpper) {
             case "NAME":
-                productoACambiar.setName(value);
+                productToChange.setName(value);
                 break;
             case "CATEGORY":
-                productoACambiar.setCategory(value);
+                productToChange.setCategory(value);
                 break;
             case "PRICE":
                 try {
-                    productoACambiar.setPrice(Double.parseDouble(value));
+                    productToChange.setPrice(Double.parseDouble(value));
                 } catch (NumberFormatException e) {
                     System.out.println("Precio inválido.");
                     break;
@@ -53,7 +53,7 @@ public class Catalog {
 
     public boolean addProd(Product product) {
         boolean x;
-        if (idLibre(product.getId())) {
+        if (existId(product.getId())) {
             products.add(product);
             product.setBelongsToCatalog(this);
             x = true;
@@ -69,29 +69,9 @@ public class Catalog {
         return products;
     }
 
-    public boolean idLibre(int id) {
 
-        boolean x = true;
-        if (!products.isEmpty()) {
-            for (int i = 0; i < products.size(); i++) {
-                if (id == products.get(i).getId()) {
-                    x = false;
-                }
-            }
-        }
-        return x;
-    }
 
-    public Product dadoIdDevolverProducto(int id) {
-        Product devolver = null;
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId() == id) {
-                devolver = products.get(i);
-            }
-        }
-        return devolver;
 
-    }
 
     public int posicionProd(int id) {
         int contador = 0;
@@ -105,15 +85,28 @@ public class Catalog {
         return posicion;
     }
 
-    public boolean existeId(int id) {
-        boolean x = false;
-        for (int i = 0; i < products.size(); i++) {
-            if (id == products.get(i).getId()) {
-                x = true;
+    public boolean existId(int id) {
+        boolean free = true;
+        if (!products.isEmpty()) {
+            for (int i = 0; i < products.size(); i++) {
+                if (id == products.get(i).getId()) {
+                    free = false;
+                }
             }
-
+        }else {
+            System.out.println("The catalog is empty!");
         }
-        return x;
+        return free;
+    }
+    public Product getProductId (int id){
+        Product resul = null;
+        for (int i = 0; i < products.size(); i++) {
+            Product actual = products.get(i);
+            if (actual.getId()==id){
+                resul = actual;
+            }
+        }
+        return  resul;
     }
 
 
