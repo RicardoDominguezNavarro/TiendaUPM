@@ -55,7 +55,7 @@ public class Catalog {
         boolean x;
         if (idLibre(product.getId())) {
             products.add(product);
-            product.setBelongsToCatalog(this);
+            product.setBelongToCatalog(this);
             x = true;
         } else {
             System.out.println("El número de id asignado ya pertenece a otro producto");

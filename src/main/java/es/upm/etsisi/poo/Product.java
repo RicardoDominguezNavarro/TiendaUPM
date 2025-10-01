@@ -6,6 +6,7 @@ public class Product {
     private String name;
     private double price;
     public Category category;
+    private Catalog belongToCatalog;
 
 
 
@@ -29,14 +30,13 @@ public class Product {
         this.price = price;
         this.category = category;
     }
-    public Product() {
-        this.id = -1;
-        /*no sé si esto está bien pero para controlar que no se guarde ningún producto
-        vacío(luego hay que comprobar que el id sea positivo).
-        Mirar también como asignar los id, no sé si hay que hacerlo automáticamente en plan con una función o
-        lo mete el usuario
+    public Product(int id, String name, double price, String category) {
 
-         */
+        this.id = id;
+        this.name = name;
+        this.price = price;
+
+
     }
 
     public int getId() {
@@ -85,5 +85,13 @@ public class Product {
     public String toString(){
 
         return Control.echo("{class:Product, id:" + this.getId() + ", name:" + this.getName() + ", category:" + this.getCategory() + ", price:" + this.getPrice() + "}");
+    }
+
+    public Catalog getBelongToCatalog() {
+        return belongToCatalog;
+    }
+
+    public void setBelongToCatalog(Catalog belongToCatalog) {
+        this.belongToCatalog = belongToCatalog;
     }
 }
