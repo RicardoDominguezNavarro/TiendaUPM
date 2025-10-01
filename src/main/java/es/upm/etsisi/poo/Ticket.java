@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 public class Ticket {
 
+    private Category category;
     private final int maxItems = 100;  //es 100 porque es el máx de elementos que puede haber en un ticket
     private Product[] products;   //es array porque pueden haber hasta 100 product en un ticket
     private int[] quantities; // array de int ya que vamos a introducir un núm, y aparte es 100 el máx porque como máx solo 100 product

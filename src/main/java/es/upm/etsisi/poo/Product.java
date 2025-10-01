@@ -7,9 +7,7 @@ public class Product {
     private double price;
     public Category category;
 
-    public enum Category{
-        MERCH, PAPELERIA, ROPA, LIBRO, ELECTRONICA
-    }
+
 
     public Product(int id, String name, double price, Category category) {
         if(id <= 0) { //id mayor que 0
