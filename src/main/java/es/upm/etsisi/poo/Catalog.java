@@ -16,8 +16,8 @@ public class Catalog {
             System.out.println("The id doesn't exist");
             return false;
         } else {
-            int posicion = positionProd(id);
-            products.remove(posicion);
+            int position = positionProd(id);
+            products.remove(position);
             return true;
         }
     }
@@ -70,14 +70,14 @@ public class Catalog {
     }
 
     public int positionProd(int id) {
-        int posicion = 0;
+        int position = 0;
         for (int i = 0; i < products.size(); i++) {
             if (id == products.get(i).getId()) {
-                posicion = i;
+                position = i;
             }
 
         }
-        return posicion;
+        return position;
     }
 
     public boolean existId(int id) {
