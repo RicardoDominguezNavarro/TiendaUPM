@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Control {
     private ArrayList<Product> products;
     private Product p;
-    public void prodAdd(int id, String name, double price, Product.Category category) {
+    public void prodAdd(int id, String name, double price, Category category) {
         if(id <= 0) { //id mayor que 0
             throw new IllegalArgumentException("Id may not be negative!");
         }
@@ -100,7 +100,7 @@ public class Control {
                     break;
                 case "categoria":
                     try {
-                        product.setCategory(Product.Category.valueOf(value.toUpperCase()));
+                        product.setCategory(Category.valueOf(value.toUpperCase()));
                     } catch (IllegalArgumentException e) {
                         echo("Error: la categoría \"" + value + "\" no existe.");
                     }
