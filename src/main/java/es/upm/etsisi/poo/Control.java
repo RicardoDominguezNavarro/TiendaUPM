@@ -66,14 +66,14 @@ public class Control {
         int number;
         while (true) {
             try {
-                System.out.println(message);
+                echo(message);
                 number = Integer.parseInt(keyboard.nextLine().trim());
                 if (number >= min && number <= max) {
                     return number;
                 }
-                System.out.println("Please select a number between " + min + " and " + max + ".");
+                echo("Please select a number between " + min + " and " + max + ".");
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+                echo("Please enter a valid number.");
             }
         }
     }
@@ -91,7 +91,7 @@ public class Control {
 
         if (product != null) {
             if (field == null || value == null) {
-                System.out.println("Error: campo o valor nulo.");
+                echo("Error: campo o valor nulo.");
                 return;
             }
             switch (field.toLowerCase()) {
@@ -102,29 +102,29 @@ public class Control {
                     try {
                         product.setCategory(Category.valueOf(value.toUpperCase()));
                     } catch (IllegalArgumentException e) {
-                        System.out.println("Error: la categoría \"" + value + "\" no existe.");
+                        echo("Error: la categoría \"" + value + "\" no existe.");
                     }
                     break;
                 case "precio":
                     try {
                         double price = Double.parseDouble(value);
                         if (price < 0) {
-                            System.out.println("Error: el precio no puede ser negativo.");
+                            echo("Error: el precio no puede ser negativo.");
                         } else {
                             product.setPrice(price);
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println("Error: El valor \"" + value + "\" no es un número válido.");
+                        echo("Error: El valor \"" + value + "\" no es un número válido.");
                     }
                     break;
                 default:
-                    System.out.println("Error: campo \"" + field + "\" no reconocido.");
+                    echo("Error: campo \"" + field + "\" no reconocido.");
                     break;
             }
             products.set(position, product);
 
         } else {
-            System.out.println("Error: producto con ID " + id + " no encontrado.");
+            echo("Error: producto con ID " + id + " no encontrado.");
         }
     }
     public Product getProductId (int id){
