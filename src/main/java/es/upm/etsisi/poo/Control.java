@@ -77,66 +77,8 @@ public class Control {
             }
         }
     }
-    public void update(int id, String field, String value) {
-        Product product = null;
-        int position = -1;
 
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId() == id) {
-                product = products.get(i);
-                position = i;
-                break;
-            }
-        }
 
-        if (product != null) {
-            if (field == null || value == null) {
-                echo("Error: campo o valor nulo.");
-                return;
-            }
-            switch (field.toLowerCase()) {
-                case "nombre":
-                    product.setName(value);
-                    break;
-                case "categoria":
-                    try {
-                        product.setCategory(Category.valueOf(value.toUpperCase()));
-                    } catch (IllegalArgumentException e) {
-                        echo("Error: la categoría \"" + value + "\" no existe.");
-                    }
-                    break;
-                case "precio":
-                    try {
-                        double price = Double.parseDouble(value);
-                        if (price < 0) {
-                            echo("Error: el precio no puede ser negativo.");
-                        } else {
-                            product.setPrice(price);
-                        }
-                    } catch (NumberFormatException e) {
-                        echo("Error: El valor \"" + value + "\" no es un número válido.");
-                    }
-                    break;
-                default:
-                    echo("Error: campo \"" + field + "\" no reconocido.");
-                    break;
-            }
-            products.set(position, product);
-
-        } else {
-            echo("Error: producto con ID " + id + " no encontrado.");
-        }
-    }
-    public Product getProductId (int id){
-        Product resul = null;
-        for (int i = 0; i < products.size(); i++) {
-            Product actual = products.get(i);
-            if (actual.getId()==id){
-                resul = actual;
-            }
-        }
-        return  resul;
-    }
 
 
 

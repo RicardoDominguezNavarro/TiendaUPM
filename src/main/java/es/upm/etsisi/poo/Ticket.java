@@ -8,6 +8,7 @@ public class Ticket {
     private Product[] products;   //es array porque pueden haber hasta 100 product en un ticket
     private int[] quantities; // array de int ya que vamos a introducir un núm, y aparte es 100 el máx porque como máx solo 100 product
     private int numItems;
+    private Catalog catalog;
     private Control control;
 
 
@@ -27,7 +28,7 @@ public class Ticket {
 
 
     public void addProduct(int prodId, int amount, Control control) {//Añadimos un producto nuevo al ticket
-        Product p = control.getProductId(prodId);
+        Product p = catalog.getProductId(prodId);
         if (p == null) {
             Control.echo("There is no product");
         } else {
@@ -54,7 +55,7 @@ public class Ticket {
 
 
     public void removeProduct(int prodId, Control control) {
-        Product p = control.getProductId(prodId);
+        Product p = catalog.getProductId(prodId);
         if (p == null) {
             Control.echo("There is no product");
         } else {
