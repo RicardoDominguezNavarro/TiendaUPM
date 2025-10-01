@@ -29,15 +29,6 @@ public class Product {
         this.price = price;
         this.category = category;
     }
-    public Product() {
-        this.id = -1;
-        /*no sé si esto está bien pero para controlar que no se guarde ningún producto
-        vacío(luego hay que comprobar que el id sea positivo).
-        Mirar también como asignar los id, no sé si hay que hacerlo automáticamente en plan con una función o
-        lo mete el usuario
-
-         */
-    }
 
     public int getId() {
         return id;
