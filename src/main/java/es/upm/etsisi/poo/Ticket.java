@@ -29,7 +29,7 @@ public class Ticket {
     public void addProduct(int prodId, int amount, Control control) {//Añadimos un producto nuevo al ticket
         Product p = control.getProductId(prodId);
         if (p == null) {
-            Control.echo("There is no product");
+            System.out.println("There is no product");
         } else {
             boolean found = false;
             for (int i = 0; i < numItems; i++) {
@@ -46,7 +46,7 @@ public class Ticket {
                     quantities[numItems] = amount;
                     numItems++;
                 } else {
-                    Control.echo("The ticket is full");
+                    System.out.println("The ticket is full");
                 }
             }
         }
@@ -56,7 +56,7 @@ public class Ticket {
     public void removeProduct(int prodId, Control control) {
         Product p = control.getProductId(prodId);
         if (p == null) {
-            Control.echo("There is no product");
+            System.out.println("There is no product");
         } else {
             boolean found = false;
             for (int i = 0; i < numItems; i++) {
@@ -117,18 +117,14 @@ public class Ticket {
         double totalPrice = 0.0;
         double totalDiscount = 0.0;
 
-
-
-
         sb.append("===========  TICKET  ===========\n");
         for (int i = 0; i < numItems; i++) {
             Product p = products[i];
             int amount = quantities[i];
 
-
             for (int j = 0; j < amount; j++) {
                 double discount = calculateDiscount(p, amount);
-                //poner el toString del producto
+                products.toString();
                 if (discount > 0) {
                     sb.append("/ discount= -").append(discount).append("\n");
                 }
@@ -137,10 +133,8 @@ public class Ticket {
             }
         }
 
-
         sb.append("Total price =").append(totalPrice).append("\n");
         sb.append("Total discount =").append(totalDiscount).append("\n");
-
 
         return sb.toString();
     }

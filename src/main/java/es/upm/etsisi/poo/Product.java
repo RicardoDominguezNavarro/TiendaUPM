@@ -82,9 +82,16 @@ public class Product {
         }
         this.id = id;
     }
-    public String toString(){
 
-        return Control.echo("{class:Product, id:" + this.getId() + ", name:" + this.getName() + ", category:" + this.getCategory() + ", price:" + this.getPrice() + "}");
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", category=" + category +
+                ", belongToCatalog=" + belongToCatalog +
+                '}';
     }
 
     public void setBelongToCatalog(Catalog catalog) {
