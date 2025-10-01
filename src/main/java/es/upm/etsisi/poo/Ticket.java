@@ -82,22 +82,22 @@ public class Ticket {
     }
 
 
-    public double getDiscount(Product.Category category) {
+    public double getDiscount(Category category) {
         double percent = 0.0;
         switch (category) {
-            case "ROPA":
+            case ROPA:
                 percent = 0.07;
                 break;
-            case "LIBRO":
+            case LIBRO:
                 percent = 0.1;
                 break;
-            case "MERCH":
+            case MERCH:
                 percent = 0.0;
                 break;
-            case "PAPELERIA":
+            case PAPELERIA:
                 percent = 0.05;
                 break;
-            case "ELECTRONICA":
+            case ELECTRONICA:
                 percent = 0.03;
                 break;
             default:
