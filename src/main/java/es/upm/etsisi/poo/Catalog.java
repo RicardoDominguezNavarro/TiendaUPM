@@ -12,7 +12,7 @@ public class Catalog {
     }
 
     public boolean prodRemove(int id) {
-        if (idFree(id)) {
+        if (existId(id)) {
             System.out.println("The id doesn't exist");
             return false;
         } else {
@@ -22,10 +22,10 @@ public class Catalog {
         }
     }
 
-    public void updateProd(int id, String campo, String value) {
+    public void updateProd(int id, String field, String value) {
         Product productToChange = getProductId(id);
-        String campoUpper = campo.toUpperCase();
-        switch (campoUpper) {
+        field = field.toUpperCase();
+        switch (field) {
             case "NAME":
                 productToChange.setName(value);
                 break;
@@ -67,9 +67,8 @@ public class Catalog {
 
     public ArrayList<Product> getProducts() {
         return products;
+
     }
-
-
 
 
 
