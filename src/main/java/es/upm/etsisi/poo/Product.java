@@ -82,4 +82,8 @@ public class Product {
         }
         this.id = id;
     }
+    public String toString(){
+
+        return Control.echo("{class:Product, id:" + this.getId() + ", name:" + this.getName() + ", category:" + this.getCategory() + ", price:" + this.getPrice() + "}");
+    }
 }

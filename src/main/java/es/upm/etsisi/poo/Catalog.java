@@ -46,7 +46,7 @@ public class Catalog {
     public void prodList() {
         System.out.println("Catalog:");
         for (int i = 0; i < products.size(); i++) {
-            products.get(i).printInfoProd();
+            products.get(i).toString();
             System.out.println();
         }
     }
