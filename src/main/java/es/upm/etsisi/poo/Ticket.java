@@ -23,10 +23,11 @@ public class Ticket {
         this.products = new Product[maxItems];
         this.quantities = new int[maxItems];
         this.numItems = 0;
+        System.out.println("ticket new: ok ");
     }
 
 
-    public void addProduct(int prodId, int amount) {//Añadimos un producto nuevo al ticket
+    public void addProduct(int prodId, int quantity) {//Añadimos un producto nuevo al ticket
         Product p = catalog.getProductId(prodId);
         if (p == null) {
             System.out.println("There is no product");
@@ -34,7 +35,7 @@ public class Ticket {
             boolean found = false;
             for (int i = 0; i < numItems; i++) {
                 if (products[i].getId() == prodId) {
-                    quantities[i] += amount;
+                    quantities[i] += quantity;
                     found = true;
                 }
 
@@ -43,7 +44,7 @@ public class Ticket {
             if (!found) {
                 if (numItems < maxItems) {
                     products[numItems] = p;
-                    quantities[numItems] = amount;
+                    quantities[numItems] = quantity;
                     numItems++;
                 } else {
                     System.out.println("The ticket is full");

@@ -8,58 +8,125 @@ import java.util.Scanner;
  */
 
 public class App {
-    private void menuPrincipal(Scanner scanner) {
-        // Muestra el menú principal y gestiona la entrada del usuario para dirigirlo a la opción seleccionada
-        scanner = new Scanner(System.in);
-        while (true) {
-            Control.echo("\n--- Commands ---");
-            Control.echo("1. prod add <id> \"<name>\" <category> <price>\n" +
-                    " 2. prod list\n" +
-                    " 3. prod update <id> NAME|CATEGORY|PRICE <value>\n" +
-                    " 4. prod remove <id>\n" +
-                    " 5. ticket new\n" +
-                    " 6. ticket add <prodId> <quantity>\n" +
-                    " 7. ticket remove <prodId>\n" +
-                    " 8. ticket print\n" +
-                    " 9. help\n" +
-                    " 10. exit");
-            Control.echo(" ");
-            int option = Control.readNumber(scanner, "Select an option", 1, 10);
-            switch (option) {
-                case 1:
 
-                    break;
-                case 2:
+    private static final String UPM = "tUPM>";
+    private static final String welcome = "Welcome to the ticket module App";
+    private static final String welcome1 = "Type 'help' to see commands";
+    private static final String end = "Closing application. ";
+    private static final String goodbye = "Goodbye! ";
+    public Control control;
+    public Catalog catalog;
+    public Ticket ticket;
 
-                    break;
-                case 3:
+    private Product[] productList;
+    private Ticket[] ticketList;
 
-                    break;
-                case 4:
 
-                    break;
-                case 5:
+    public static void main(String [] Args) {
 
-                    break;
-                case 6:
+        App app = new App();
+        app.start();
+        app.run();
+        app.exit();
+    }
 
-                    break;
-                case 7:
+    private void run(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(welcome);
+        System.out.println(welcome1);
 
-                    break;
-                case 8:
+        while (true){
+            System.out.println(UPM);
+            String line = scanner.nextLine();
+            line = line.replace("\"",""); //quitamos las \ por lada para q al separarlo por espacios sea más facil
+            String[]split = line.split(" ");
 
-                    break;
-                case 9:
+            String command = split[0];
+            String accion = split[1];
+            String id = split[2];
 
-                    break;
-                case 10:
 
+            switch (command){
+                case "help":
+                    control.help();
                     break;
-                default:
-                    Control.echo("Please select a valid option");
+
+                case "prod":
+                    if (accion.equals("add")) {
+                        String name = split[3] + " " + split[4];
+                        String category = split[5];
+                        String price = split[6];
+                        Product product = new Product(Integer.parseInt(id),name,Double.parseDouble(price),Category.valueOf(category));
+                        catalog.addProd(product);
+
+                    }else if(accion.equals("list")) {
+                        catalog.prodList();
+
+                    } else if (accion.equals("update")) {
+                        String field = split[3];
+                        String value = split
+                        catalog.updateProd();
+                        //no sé como hacer esto porq como a veces te pueden poner un nombre y otras solo una cosa ns como poner lo del String de value
+
+                    }else if (accion.equals("remove")){
+                        catalog.prodRemove(Integer.parseInt(id));
+
+                    }
+                    break;
+
+                case "ticket":
+                    if (accion.equals("new")) {
+                        ticket.newTicket();
+
+                    } else if (accion.equals("add")) {
+                        String prodId = split[2];
+                        String quantity = split[3];
+                        ticket.addProduct(Integer.parseInt(prodId), Integer.parseInt(quantity));
+
+                    } else if (accion.equals("remove")) {
+                        String prodId = split[2];
+                        ticket.removeProduct(Integer.parseInt(prodId));
+
+                    } else if (accion.equals("print")) {
+                        ticket.print();
+
+                    }
+                    break;
+
+                case "exit":
+                    return;
+
+                case "echo":
+                    Control.echo(line);
+                    break;
+
             }
         }
+    }
+
+
+    private void start(){
+        productList = new Product[200];
+        ticketList = new Ticket[100];
 
     }
+    private void exit(){
+        System.out.println(end);
+        System.out.println(goodbye);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

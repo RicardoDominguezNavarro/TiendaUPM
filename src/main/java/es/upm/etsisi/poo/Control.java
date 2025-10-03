@@ -46,7 +46,7 @@ public class Control {
         System.out.println(s);
         return s;
     }
-    public void help(){
+    public  void help(){
         products.clear();
         System.out.println("Commands:\n" +
                 " prod add <id> \"<name>\" <category> <price>\n" +
