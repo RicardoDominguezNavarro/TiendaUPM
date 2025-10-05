@@ -6,7 +6,9 @@ import java.util.Scanner;
 public class Control {
     private ArrayList<Product> products;
     private Product p;
-
+    public Control() {
+        this.products = new ArrayList<>();
+    }
     public static String echo(String s) {
         // Muestra un mensaje
         System.out.println(s);
