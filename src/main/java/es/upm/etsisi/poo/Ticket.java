@@ -13,10 +13,12 @@ public class Ticket {
 
 
     public Ticket(Catalog catalog) {
+        this.catalog = catalog;
         this.products = new Product[maxItems];
         this.quantities = new int[maxItems];
         this.numItems = 0;
     }
+
 
 
     public void newTicket() {

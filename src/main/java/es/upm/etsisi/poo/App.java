@@ -30,7 +30,7 @@ public class App {
         System.out.println(welcome1);
 
         while (true){
-            System.out.println(UPM);
+            System.out.print(UPM);
             String line = scanner.nextLine();
             line = line.replace("\"",""); //quitamos las \ por lada para q al separarlo por espacios sea más facil
             if(line.trim().isEmpty()){

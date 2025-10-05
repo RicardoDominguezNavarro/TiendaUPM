@@ -76,7 +76,7 @@ public void updateProd(int id, String field, String value) {
     public void prodList() {
         System.out.println("Catalog:");
         for (int i = 0; i < products.size(); i++) {
-            products.get(i).toString();
+            System.out.println(products.get(i).toString());
             System.out.println();
         }
     }
