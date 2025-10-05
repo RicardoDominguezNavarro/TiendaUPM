@@ -64,7 +64,7 @@ public class App {
 
                     } else if (accion.equals("update")) {
                         String field = split[3];
-                        String value = split
+                        String value = split;
                         catalog.updateProd();
                         //no sé como hacer esto porq como a veces te pueden poner un nombre y otras solo una cosa ns como poner lo del String de value
 
@@ -94,6 +94,7 @@ public class App {
                     break;
 
                 case "exit":
+                    exit();
                     return;
 
                 case "echo":
