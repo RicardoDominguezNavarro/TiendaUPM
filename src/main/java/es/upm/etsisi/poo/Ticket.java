@@ -12,7 +12,7 @@ public class Ticket {
 
 
 
-    public Ticket(Control control) {
+    public Ticket(Catalog catalog) {
         this.products = new Product[maxItems];
         this.quantities = new int[maxItems];
         this.numItems = 0;

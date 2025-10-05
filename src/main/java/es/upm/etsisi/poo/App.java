@@ -1,5 +1,6 @@
 package es.upm.etsisi.poo;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -30,7 +31,7 @@ public class App {
         app.exit();
     }
 
-    private void run(){
+    public void run(){
         Scanner scanner = new Scanner(System.in);
         System.out.println(welcome);
         System.out.println(welcome1);
@@ -63,10 +64,10 @@ public class App {
                         catalog.prodList();
 
                     } else if (accion.equals("update")) {
+                        String id = split[2];
                         String field = split[3];
-                        String value = split;
-                        catalog.updateProd();
-                        //no sé como hacer esto porq como a veces te pueden poner un nombre y otras solo una cosa ns como poner lo del String de value
+                        String value = String.join(" ", Arrays.copyOfRange(split, 4, split.length));
+                        catalog.updateProd(Integer.parseInt(id), field, value);
 
                     }else if (accion.equals("remove")){
                         catalog.prodRemove(Integer.parseInt(id));
@@ -79,6 +80,9 @@ public class App {
                         ticket.newTicket();
 
                     } else if (accion.equals("add")) {
+                        if(split.length < 4) {
+                            System.out.println("");
+                        }
                         String prodId = split[2];
                         String quantity = split[3];
                         ticket.addProduct(Integer.parseInt(prodId), Integer.parseInt(quantity));
@@ -100,18 +104,24 @@ public class App {
                 case "echo":
                     Control.echo(line);
                     break;
+                default:
+                    System.out.println("Unkown command");
+                    break;
 
             }
         }
     }
 
 
-    private void start(){
+    public void start(){
         productList = new Product[200];
         ticketList = new Ticket[100];
+        catalog = new Catalog();
+        control = new Control();
+        ticket = new Ticket(catalog);
 
     }
-    private void exit(){
+    public void exit(){
         System.out.println(end);
         System.out.println(goodbye);
     }
