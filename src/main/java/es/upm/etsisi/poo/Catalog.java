@@ -87,6 +87,9 @@ public void updateProd(int id, String field, String value) {
             products.add(product);
             product.setBelongToCatalog(this); //añade el producto al catálogo
             check = true;
+            System.out.println(product.toString());
+
+            System.out.println("prod add: ok");
         } else {
             System.out.println("The id belongs to another product");
             check = false;

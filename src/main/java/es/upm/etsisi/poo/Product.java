@@ -75,15 +75,12 @@ public class Product {
     }
 
     @Override
+
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", category=" + category +
-                ", belongToCatalog=" + belongToCatalog +
-                '}';
+        return String.format("{class:Product, id:%d, name:'%s', category:%s, price:%.1f}",
+                id, name, category, price);
     }
+
 
     public void setBelongToCatalog(Catalog catalog) {
         this.belongToCatalog = catalog;
