@@ -1,27 +1,30 @@
 package es.upm.etsisi.poo;
+import java.util.ArrayList;
+import java.util.ArrayList;
+
 
 
 public class Ticket {
 
 
     private final int maxItems = 100;  //es 100 porque es el máx de elementos que puede haber en un ticket
-    private Product[] products;   //es array porque pueden haber hasta 100 product en un ticket
-    private int[] quantities; // array de int ya que vamos a introducir un núm, y aparte es 100 el máx porque como máx solo 100 product
+    private ArrayList<Product> products;   //es array porque pueden haber hasta 100 product en un ticket
+    private ArrayList<Integer> quantities; // array de int ya que vamos a introducir un núm, y aparte es 100 el máx porque como máx solo 100 product
     private int numItems;
     private Catalog catalog;
 
 
 
-    public Ticket(Control control) {
-        this.products = new Product[maxItems];
-        this.quantities = new int[maxItems];
+    public Ticket(Catalog catalog) {
+        this.products = new ArrayList<>(maxItems);
+        this.quantities = new ArrayList<>(maxItems);
         this.numItems = 0;
     }
 
 
     public void newTicket() {
-        this.products = new Product[maxItems];
-        this.quantities = new int[maxItems];
+        this.products = new ArrayList<>(maxItems);
+        this.quantities = new ArrayList<>(maxItems);
         this.numItems = 0;
         System.out.println("ticket new: ok ");
     }
@@ -34,8 +37,8 @@ public class Ticket {
         } else {
             boolean found = false;
             for (int i = 0; i < numItems; i++) {
-                if (products[i].getId() == prodId) {
-                    quantities[i] += quantity;
+                if (products.get(i).getId() == prodId) {
+                    quantities.set(i, quantities.get(i) + quantity);
                     found = true;
                 }
 
@@ -43,8 +46,8 @@ public class Ticket {
             }
             if (!found) {
                 if (numItems < maxItems) {
-                    products[numItems] = p;
-                    quantities[numItems] = quantity;
+                    products.set(numItems, p);
+                    quantities.set(numItems, quantity);
                     numItems++;
                 } else {
                     System.out.println("The ticket is full");
@@ -59,15 +62,13 @@ public class Ticket {
         if (p == null) {
             System.out.println("There is no product");
         } else {
-            boolean found = false;
-            for (int i = 0; i < numItems; i++) {
-                if (products[i].getId() == prodId) {
-                    products[i + 1] = products[i];
-                    found = true;
+
+            for (int i = products.size() - 1; i > 0; i--) {
+                if (products.get(i).getId() == prodId) {
+                    products.remove(i);
+
                 }
-                if (found) {
-                    products[i + 1] = products[i];
-                }
+
             }
         }
     }
@@ -86,19 +87,19 @@ public class Ticket {
     public double getDiscount(Category category) {
         double percent = 0.0;
         switch (category) {
-            case ROPA:
+            case CLOTHES:
                 percent = 0.07;
                 break;
-            case LIBRO:
+            case BOOK:
                 percent = 0.1;
                 break;
             case MERCH:
                 percent = 0.0;
                 break;
-            case PAPELERIA:
+            case STATIONERY:
                 percent = 0.05;
                 break;
-            case ELECTRONICA:
+            case ELECTRONICS:
                 percent = 0.03;
                 break;
             default:
@@ -120,8 +121,8 @@ public class Ticket {
 
         sb.append("===========  TICKET  ===========\n");
         for (int i = 0; i < numItems; i++) {
-            Product p = products[i];
-            int amount = quantities[i];
+            Product p = products.get(i);
+            int amount = quantities.get(i);
 
             for (int j = 0; j < amount; j++) {
                 double discount = calculateDiscount(p, amount);
