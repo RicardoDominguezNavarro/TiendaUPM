@@ -46,8 +46,8 @@ public void updateProd(int id, String field, String value) {
             case "CATEGORY":
                 try {
                     // convertir a mayúsculas por si el usuario pasa minúsculas
-                    Category cat = Category.valueOf(value.trim().toUpperCase());
-                    productToChange.setCategory(cat);
+                    Category category = Category.valueOf(value.trim().toUpperCase());
+                    productToChange.setCategory(category);
                     System.out.println("product update: ok");
                 } catch (IllegalArgumentException e) {
                     System.out.println("The category \"" + value + "\" doesn't exist.");
