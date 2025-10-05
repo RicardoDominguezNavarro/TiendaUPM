@@ -64,10 +64,10 @@ public class App {
                         catalog.prodList();
 
                     } else if (accion.equals("update")) {
-                        String id = split[2];
+                        String idToUpdate = split[2];
                         String field = split[3];
                         String value = String.join(" ", Arrays.copyOfRange(split, 4, split.length));
-                        catalog.updateProd(Integer.parseInt(id), field, value);
+                        catalog.updateProd(Integer.parseInt(idToUpdate), field, value);
 
                     }else if (accion.equals("remove")){
                         catalog.prodRemove(Integer.parseInt(id));
