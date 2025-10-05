@@ -12,29 +12,57 @@ public class Catalog {
     }
 
     public boolean prodRemove(int id) {
-        if (existId(id)) {
+        if (isIdFree(id)) {//Si el id no está free == no existe
             System.out.println("The id doesn't exist");
             return false;
         } else {
             int position = positionProd(id);
+            if (position < 0) {
+                System.out.println("The id doesn't exist");
+                return false;
+            }
             products.remove(position);
+            System.out.println("prod remove: ok");
             return true;
         }
     }
 
-    public void updateProd(int id, String field, String value) {
+public void updateProd(int id, String field, String value) {
+        if(field == null || value == null) {
+            System.out.println("field or value is null");
+            return;
+        }
         Product productToChange = getProductId(id);
+        if(productToChange == null){
+            System.out.println("The product with the ID " + id + " doesn't exist");
+            return;
+        }
         field = field.toUpperCase();
         switch (field) {
             case "NAME":
                 productToChange.setName(value);
+                System.out.println("product update: ok");
                 break;
             case "CATEGORY":
-                productToChange.setCategory(value);
+                try {
+                    // convertir a mayúsculas por si el usuario pasa minúsculas
+                    Category cat = Category.valueOf(value.trim().toUpperCase());
+                    productToChange.setCategory(cat);
+                    System.out.println("product update: ok");
+                } catch (IllegalArgumentException e) {
+                    System.out.println("The category \"" + value + "\" doesn't exist.");
+                }
                 break;
             case "PRICE":
                 try {
+                    double price = Double.parseDouble(value);
                     productToChange.setPrice(Double.parseDouble(value));
+                    if (price <= 0.0) {
+                        System.out.println("The price may not be negative or zero.");
+                    } else {
+                        productToChange.setPrice(price);
+                        System.out.println("product update: ok");
+                    }
                 } catch (NumberFormatException e) {
                     System.out.println("The price is not valid.");
                     break;
@@ -43,20 +71,25 @@ public class Catalog {
         }
     }
 
+
+
     public void prodList() {
         System.out.println("Catalog:");
         for (int i = 0; i < products.size(); i++) {
-            products.get(i).toString();
+            System.out.println(products.get(i).toString());
             System.out.println();
         }
     }
 
     public boolean addProd(Product product) {
         boolean check;
-        if (existId(product.getId())) {
+        if (isIdFree(product.getId())) { //si el id está libre se puede añadir el producto
             products.add(product);
-            product.setBelongToCatalog(this);
+            product.setBelongToCatalog(this); //añade el producto al catálogo
             check = true;
+            System.out.println(product.toString());
+
+            System.out.println("prod add: ok");
         } else {
             System.out.println("The id belongs to another product");
             check = false;
@@ -70,28 +103,28 @@ public class Catalog {
     }
 
     public int positionProd(int id) {
-        int position = 0;
         for (int i = 0; i < products.size(); i++) {
             if (id == products.get(i).getId()) {
-                position = i;
+                return i;
             }
 
         }
-        return position;
+        return -1;
     }
 
-    public boolean existId(int id) {
-        boolean free = true;
+    public boolean isIdFree(int id) {
+        /*
+        Devuelve true si NO existe el id
+         */
+
         if (!products.isEmpty()) {
             for (int i = 0; i < products.size(); i++) {
                 if (id == products.get(i).getId()) {
-                    free = false;
+                    return false;
                 }
             }
-        }else {
-            System.out.println("The catalog is empty!");
         }
-        return free;
+        return true;
     }
     public Product getProductId (int id){
         Product result = null;

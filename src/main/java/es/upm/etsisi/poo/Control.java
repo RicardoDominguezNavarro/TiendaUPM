@@ -6,7 +6,9 @@ import java.util.Scanner;
 public class Control {
     private ArrayList<Product> products;
     private Product p;
-
+    public Control() {
+        this.products = new ArrayList<>();
+    }
     public static String echo(String s) {
         // Muestra un mensaje
         System.out.println(s);
@@ -26,6 +28,9 @@ public class Control {
                 " echo \"<texto>\"\n" +
                 " help\n" +
                 " exit");
+        System.out.println("Categories: MERCH, STATIONERY, CLOTHES, BOOK, ELECTRONICS \n" +
+                "Discounts if there are ≥2 units in the category: MERCH 0%, STATIONERY 5%, CLOTHES 7%, BOOK 10%, \n" +
+                "ELECTRONICS 3%. ");
     }
     public static int readNumber(Scanner keyboard, String message, int min, int max) {
         // Muestra un mensaje y lee un número por teclado (si no es un número, vuelve a solicitar uno)

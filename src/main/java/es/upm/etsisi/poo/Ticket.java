@@ -1,28 +1,27 @@
 package es.upm.etsisi.poo;
-import java.util.ArrayList;
 
 
 public class Ticket {
 
 
     private final int maxItems = 100;  //es 100 porque es el máx de elementos que puede haber en un ticket
-    private ArrayList<Product> products;   //es array porque pueden haber hasta 100 product en un ticket
-    private ArrayList<Integer> quantities; // array de int ya que vamos a introducir un núm, y aparte es 100 el máx porque como máx solo 100 product
+    private Product[] products;   //es array porque pueden haber hasta 100 product en un ticket
+    private int[] quantities; // array de int ya que vamos a introducir un núm, y aparte es 100 el máx porque como máx solo 100 product
     private int numItems;
     private Catalog catalog;
 
 
 
     public Ticket(Control control) {
-        this.products = new ArrayList<>(maxItems);
-        this.quantities = new ArrayList<>(maxItems);
+        this.products = new Product[maxItems];
+        this.quantities = new int[maxItems];
         this.numItems = 0;
     }
 
 
     public void newTicket() {
-        this.products = new ArrayList<>(maxItems);
-        this.quantities = new ArrayList<>(maxItems);
+        this.products = new Product[maxItems];
+        this.quantities = new int[maxItems];
         this.numItems = 0;
         System.out.println("ticket new: ok ");
     }
@@ -35,8 +34,8 @@ public class Ticket {
         } else {
             boolean found = false;
             for (int i = 0; i < numItems; i++) {
-                if (products.get(i).getId() == prodId) {
-                    quantities.set(i, quantities.get(i) + quantity);
+                if (products[i].getId() == prodId) {
+                    quantities[i] += quantity;
                     found = true;
                 }
 
@@ -44,8 +43,8 @@ public class Ticket {
             }
             if (!found) {
                 if (numItems < maxItems) {
-                    products.set(numItems, p);
-                    quantities.set(numItems, quantity);
+                    products[numItems] = p;
+                    quantities[numItems] = quantity;
                     numItems++;
                 } else {
                     System.out.println("The ticket is full");
@@ -60,9 +59,14 @@ public class Ticket {
         if (p == null) {
             System.out.println("There is no product");
         } else {
-            for (int i = products.size() - 1; i >= 0; i--) {
-                if (prodId == products.get(i).getId()) {
-                    products.remove(i);
+            boolean found = false;
+            for (int i = 0; i < numItems; i++) {
+                if (products[i].getId() == prodId) {
+                    products[i + 1] = products[i];
+                    found = true;
+                }
+                if (found) {
+                    products[i + 1] = products[i];
                 }
             }
         }
@@ -116,8 +120,8 @@ public class Ticket {
 
         sb.append("===========  TICKET  ===========\n");
         for (int i = 0; i < numItems; i++) {
-            Product p = products.get(i);
-            int amount = quantities.get(i);
+            Product p = products[i];
+            int amount = quantities[i];
 
             for (int j = 0; j < amount; j++) {
                 double discount = calculateDiscount(p, amount);
