@@ -3,13 +3,14 @@ package es.upm.etsisi.poo;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/**
- * Hello world!
- *
- */
 
 public class App {
-
+    public static void main(String[] args) {
+        App app = new App();
+        app.start();
+        app.run();
+        app.exit();
+    }
     private static final String UPM = "tUPM>";
     private static final String welcome = "Welcome to the ticket module App";
     private static final String welcome1 = "Type 'help' to see commands";
@@ -23,13 +24,7 @@ public class App {
     private Ticket[] ticketList;
 
 
-    public static void main(String [] Args) {
 
-        App app = new App();
-        app.start();
-        app.run();
-        app.exit();
-    }
 
     public void run(){
         Scanner scanner = new Scanner(System.in);
