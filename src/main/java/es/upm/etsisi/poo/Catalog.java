@@ -12,7 +12,7 @@ public class Catalog {
     }
 
     public boolean prodRemove(int id) {
-        if (existId(id)) {
+        if (isIdFree(id)) {//Si el id no está free == no existe
             System.out.println("The id doesn't exist");
             return false;
         } else {
@@ -53,7 +53,7 @@ public class Catalog {
 
     public boolean addProd(Product product) {
         boolean check;
-        if (existId(product.getId())) {
+        if (isIdFree(product.getId())) { //si el id está libre
             products.add(product);
             product.setBelongToCatalog(this);
             check = true;
@@ -80,7 +80,11 @@ public class Catalog {
         return position;
     }
 
-    public boolean existId(int id) {
+    public boolean isIdFree(int id) {
+        /*
+        Devuelve false si no está libre y true si está libre
+        Devuelve false si existe y true si no existe
+         */
         boolean free = true;
         if (!products.isEmpty()) {
             for (int i = 0; i < products.size(); i++) {
