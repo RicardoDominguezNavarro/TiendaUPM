@@ -1,3 +1,4 @@
+
 package es.upm.etsisi.poo;
 
 import java.util.Arrays;
@@ -60,9 +61,9 @@ public class App {
                             break;
                         }
                         try {
-                            String name = onlyName[1];
-                            String category = split[5];
-                            String price = split[6];
+                            String name = line.split("\"")[1];
+                            String category = split[split.length-2];
+                            String price = split[split.length-1];
                             Product product = new Product(Integer.parseInt(id), name, Double.parseDouble(price), Category.valueOf(category));
                             catalog.addProd(product);
                         } catch (NumberFormatException e) {
@@ -164,18 +165,3 @@ public class App {
         System.out.println(goodbye);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

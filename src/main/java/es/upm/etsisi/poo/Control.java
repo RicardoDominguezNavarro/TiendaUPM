@@ -9,11 +9,13 @@ public class Control {
     public Control() {
         this.products = new ArrayList<>();
     }
+
     public static String echo(String s) {
         // Muestra un mensaje
         System.out.println(s);
         return s;
     }
+
     public  void help(){
         products.clear();
         System.out.println("Commands:\n" +
