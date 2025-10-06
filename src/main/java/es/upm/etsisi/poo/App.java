@@ -1,4 +1,3 @@
-
 package es.upm.etsisi.poo;
 
 import java.util.Arrays;
@@ -38,7 +37,6 @@ public class App {
                 continue;
             }
             String[] split = line.split(" ");
-            String[] onlyName = line.split("\"");
 
             String command = split[0];
             String accion = (split.length > 1) ? split[1] : "";
