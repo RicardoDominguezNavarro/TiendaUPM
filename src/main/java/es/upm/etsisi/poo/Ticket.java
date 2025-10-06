@@ -19,6 +19,8 @@ public class Ticket {
         this.products = new ArrayList<>(maxItems);
         this.quantities = new ArrayList<>(maxItems);
         this.numItems = 0;
+        this.catalog = catalog;
+
     }
 
 
@@ -46,8 +48,8 @@ public class Ticket {
             }
             if (!found) {
                 if (numItems < maxItems) {
-                    products.set(numItems, p);
-                    quantities.set(numItems, quantity);
+                    products.add(numItems, p);
+                    quantities.add(numItems, quantity);
                     numItems++;
                 } else {
                     System.out.println("The ticket is full");

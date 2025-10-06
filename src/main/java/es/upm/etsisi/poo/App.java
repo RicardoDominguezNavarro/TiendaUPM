@@ -24,48 +24,46 @@ public class App {
         app.exit();
     }
 
-    public void run(){
+    public void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(welcome);
         System.out.println(welcome1);
 
-        while (true){
+        while (true) {
             System.out.print(UPM);
             String line = scanner.nextLine();
-            line = line.replace("\"",""); //quitamos las \ por lada para q al separarlo por espacios sea más facil
-            if(line.trim().isEmpty()){
+            //line = line.replace("\"", ""); //quitamos las \ por lada para q al separarlo por espacios sea más facil
+            if (line.trim().isEmpty()) {
                 continue;
             }
-            String[]split = line.split(" ");
-            if(split.length == 0) {
-                continue;
-            }
+            String[] split = line.split(" ");
+            String[] onlyName = line.split("\"");
 
             String command = split[0];
             String accion = (split.length > 1) ? split[1] : "";
             String id = (split.length > 2) ? split[2] : "";
 
 
-            switch (command){
+            switch (command) {
                 case "help":
-                    if(control != null){
+                    if (control != null) {
                         control.help();
-                    }else{
+                    } else {
                         System.out.println("Help not available.");
                     }
                     break;
 
                 case "prod":
                     if (accion.equals("add")) {
-                        if(split.length < 7) {
+                        if (split.length < 7) {
                             System.out.println("Invalid prod add command Usage: prod add <id> \\\"<name>\\\" <category> <price>");
                             break;
                         }
-                        try{
-                            String name = split[3] + " " + split[4];
+                        try {
+                            String name = onlyName[1];
                             String category = split[5];
                             String price = split[6];
-                            Product product = new Product(Integer.parseInt(id),name,Double.parseDouble(price),Category.valueOf(category));
+                            Product product = new Product(Integer.parseInt(id), name, Double.parseDouble(price), Category.valueOf(category));
                             catalog.addProd(product);
                         } catch (NumberFormatException e) {
                             System.out.println("Invalid numeric value for id or price.");
@@ -73,11 +71,11 @@ public class App {
                             System.out.println("Invalid category or parameters.");
                         }
 
-                    }else if(accion.equals("list")) {
+                    } else if (accion.equals("list")) {
                         catalog.prodList();
 
                     } else if (accion.equals("update")) {
-                        if(split.length < 5) {
+                        if (split.length < 5) {
                             System.out.println("Invalid prod update command. Usage: prod update <id> <field> <value>");
                             break;
                         }
@@ -86,7 +84,7 @@ public class App {
                         String value = String.join(" ", Arrays.copyOfRange(split, 4, split.length));
                         catalog.updateProd(Integer.parseInt(idToUpdate), field, value);
 
-                    }else if (accion.equals("remove")){
+                    } else if (accion.equals("remove")) {
                         if (split.length < 3) {
                             System.out.println("Invalid prod remove command. Usage: prod remove <id>");
                             break;
@@ -137,9 +135,9 @@ public class App {
                     return;
 
                 case "echo":
-                    if (control != null){
+                    if (control != null) {
                         control.echo(line);
-                    }else{
+                    } else {
                         System.out.println("Echo not available.");
                     }
                     break;
@@ -152,7 +150,7 @@ public class App {
     }
 
 
-    public void start(){
+    public void start() {
         productList = new Product[200];
         ticketList = new Ticket[100];
         catalog = new Catalog();
@@ -160,7 +158,8 @@ public class App {
         ticket = new Ticket(catalog);
 
     }
-    public void exit(){
+
+    public void exit() {
         System.out.println(end);
         System.out.println(goodbye);
     }
