@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Control {
     private ArrayList<Product> products;
-    private Product p;
+    private Product product;
     public Control() {
         this.products = new ArrayList<>();
     }

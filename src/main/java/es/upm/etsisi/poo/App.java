@@ -125,7 +125,9 @@ public class App {
                             System.out.println("Invalid prodId for ticket remove.");
                         }
                     } else if (accion.equals("print")) {
-                        ticket.print();
+                        System.out.println(ticket.print());
+                        System.out.println("ticket print: ok");
+                        ticket.newTicket();
                     }
                     break;
 

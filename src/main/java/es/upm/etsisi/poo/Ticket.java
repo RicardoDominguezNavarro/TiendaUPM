@@ -25,7 +25,7 @@ public class Ticket {
         this.products = new ArrayList<>(maxItems);
         this.quantities = new ArrayList<>(maxItems);
         this.numItems = 0;
-        System.out.println("ticket new: ok ");
+        System.out.println("ticket new: ok");
     }
 
 
@@ -40,14 +40,14 @@ public class Ticket {
                     quantities.set(i, quantities.get(i) + quantity);
                     found = true;
                 }
-
-
             }
             if (!found) {
                 if (numItems < maxItems) {
                     products.add(numItems, product);
                     quantities.add(numItems, quantity);
                     numItems++;
+                    System.out.println(print());
+                    System.out.println("ticket add: ok");
                 } else {
                     System.out.println("The ticket is full");
                 }
@@ -65,6 +65,8 @@ public class Ticket {
             for (int i = products.size() - 1; i > 0; i--) {
                 if (products.get(i).getId() == prodId) {
                     products.remove(i);
+                    System.out.println(print());
+                    System.out.println("prod remove: ok");
 
                 }
             }
@@ -124,7 +126,7 @@ public class Ticket {
 
             for (int j = 0; j < amount; j++) {
                 double discount = calculateDiscount(p, amount);
-                products.toString();
+                sb.append(products.toString());
                 if (discount > 0) {
                     sb.append("/ discount= -").append(discount).append("\n");
                 }
@@ -132,14 +134,11 @@ public class Ticket {
                 totalDiscount += discount;
             }
         }
-
+        double finalPrice = totalPrice - totalDiscount;
         sb.append("Total price =").append(totalPrice).append("\n");
         sb.append("Total discount =").append(totalDiscount).append("\n");
-
+        sb.append("Final price =").append(finalPrice).append("\n");
         return sb.toString();
     }
-
-
-
 
 }
