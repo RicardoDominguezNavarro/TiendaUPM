@@ -56,14 +56,14 @@ public class App {
 
                 case "prod":
                     if (accion.equals("add")) {
-                        if (split.length < 7) {
+                        if (split.length < 6) {
                             System.out.println("Invalid prod add command Usage: prod add <id> \\\"<name>\\\" <category> <price>");
                             System.out.println();
                             break;
                         }
                         try {
                             String name = line.split("\"")[1];
-                            String category = split[split.length-2];
+                            String category = split[split.length-2].toUpperCase();
                             String price = split[split.length-1];
                             Product product = new Product(Integer.parseInt(id), name, Double.parseDouble(price), Category.valueOf(category));
                             catalog.addProd(product);
