@@ -70,17 +70,13 @@ public class Catalog {
                     System.out.println("The price is not valid.");
                     break;
                 }
-
         }
-
     }
-
 
     public void prodList() {
         System.out.println("Catalog:");
         for (int i = 0; i < products.size(); i++) {
             System.out.println(products.get(i).toString());
-            System.out.println();
         }
         System.out.println("prod list: ok");
     }
@@ -118,7 +114,6 @@ public class Catalog {
         /*
         Devuelve true si NO existe el id
          */
-
         if (!products.isEmpty()) {
             for (int i = 0; i < products.size(); i++) {
                 if (id == products.get(i).getId()) {
@@ -139,7 +134,6 @@ public class Catalog {
         }
         return result;
     }
-
 }
 
 

@@ -30,6 +30,7 @@ public class Control {
                 " echo \"<texto>\"\n" +
                 " help\n" +
                 " exit");
+        System.out.println();
         System.out.println("Categories: MERCH, STATIONERY, CLOTHES, BOOK, ELECTRONICS \n" +
                 "Discounts if there are ≥2 units in the category: MERCH 0%, STATIONERY 5%, CLOTHES 7%, BOOK 10%, \n" +
                 "ELECTRONICS 3%. ");
