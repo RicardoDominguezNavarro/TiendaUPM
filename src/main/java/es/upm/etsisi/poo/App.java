@@ -78,6 +78,8 @@ public class App {
             String accion = (split.length > 1) ? split[1] : "";
             String id = (split.length > 2) ? split[2] : "";
 
+            if (System.getenv("debugFile")!=null)
+                System.out.println(line);
 
             switch (command) {
                 case "help":
