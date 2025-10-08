@@ -61,13 +61,6 @@ public class Control {
                 "ELECTRONICS 3%. ");
     }
 
-    /**
-     *
-     * @param keyboard used to read user input
-     * @param message the message displayed to the user before reading input
-     * @param min the minimum valid value
-     * @param max the maximum valid value
-     * @return
-     */
+
 
 }
