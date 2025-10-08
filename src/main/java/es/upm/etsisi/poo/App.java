@@ -39,7 +39,9 @@ public class App {
      * Reference to the ticket class for the ticket operations
      */
     public Ticket ticket;
-
+    /**
+     * Creates arrays of products and tickets
+     */
     private Product[] productList;
     private Ticket[] ticketList;
 
@@ -55,7 +57,9 @@ public class App {
     }
 
     /**
-     *
+     *This method is the main execution loop of the program.
+     *It continuously reads user input from the console, interprets commands,
+     *and delegates actions to different components
      */
     public void run() {
         Scanner scanner = new Scanner(System.in);
@@ -65,7 +69,6 @@ public class App {
         while (true) {
             System.out.print(UPM);
             String line = scanner.nextLine();
-            //line = line.replace("\"", ""); //quitamos las \ por lada para q al separarlo por espacios sea más facil
             if (line.trim().isEmpty()) {
                 continue;
             }
@@ -209,7 +212,7 @@ public class App {
 
 
     /**
-     *
+     *This method initialize the objects with the limits needed
      */
     public void start() {
         productList = new Product[200];
