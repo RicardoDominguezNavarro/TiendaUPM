@@ -4,7 +4,6 @@ package es.upm.etsisi.poo;
  * Represents a product with an ID, name, price and category.
  */
 public class Product {
-
     /**
      * Unique ID for each product.
      */
