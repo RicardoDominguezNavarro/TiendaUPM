@@ -3,19 +3,44 @@ package es.upm.etsisi.poo;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ *
+ */
 public class Control {
+
+    /**
+     * List that stores all available products
+     */
     private ArrayList<Product> products;
+    /**
+     * Represent the current product
+     */
     private Product product;
+
+
+    /**
+     * Builder.
+     * The list starts empty
+     */
     public Control() {
         this.products = new ArrayList<>();
     }
 
+    /**
+     * Prints and returns the specified message.
+     *
+     * @param s the message to display
+     * @return the same message that was printed
+     */
     public static String echo(String s) {
-        // Muestra un mensaje
         System.out.println(s);
         return s;
     }
 
+    /**
+     * Print the list of commands and category information.
+     * It provides guidance on how to use product-related and ticket-related commands.
+     */
     public  void help(){
         products.clear();
         System.out.println("Commands:\n" +
@@ -35,6 +60,15 @@ public class Control {
                 "Discounts if there are ≥2 units in the category: MERCH 0%, STATIONERY 5%, CLOTHES 7%, BOOK 10%, \n" +
                 "ELECTRONICS 3%. ");
     }
+
+    /**
+     *
+     * @param keyboard used to read user input
+     * @param message the message displayed to the user before reading input
+     * @param min the minimum valid value
+     * @param max the maximum valid value
+     * @return
+     */
     public static int readNumber(Scanner keyboard, String message, int min, int max) {
         // Muestra un mensaje y lee un número por teclado (si no es un número, vuelve a solicitar uno)
         int number;
@@ -51,13 +85,4 @@ public class Control {
             }
         }
     }
-
-
-
-
-
-
 }
-
-
-

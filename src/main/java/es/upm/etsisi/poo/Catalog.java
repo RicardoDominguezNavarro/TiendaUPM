@@ -2,15 +2,25 @@ package es.upm.etsisi.poo;
 
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class Catalog {
 
     public ArrayList<Product> products;
 
+    /**
+     *
+     */
     public Catalog() {
         products = new ArrayList<>(200);
 
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public boolean prodRemove(int id) {
         if (isIdFree(id)) {//Si el id no está free == no existe
             System.out.println("The id doesn't exist");
@@ -27,6 +37,11 @@ public class Catalog {
         }
     }
 
+    /**
+     * @param id
+     * @param field
+     * @param value
+     */
     public void updateProd(int id, String field, String value) {
         if (field == null || value == null) {
             System.out.println("field or value is null");
@@ -73,6 +88,9 @@ public class Catalog {
         }
     }
 
+    /**
+     *
+     */
     public void prodList() {
         System.out.println("Catalog:");
         for (int i = 0; i < products.size(); i++) {
@@ -81,6 +99,10 @@ public class Catalog {
         System.out.println("prod list: ok");
     }
 
+    /**
+     * @param product
+     * @return
+     */
     public boolean addProd(Product product) {
         boolean check;
         if (isIdFree(product.getId())) { //si el id está libre se puede añadir el producto
@@ -101,6 +123,10 @@ public class Catalog {
 
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public int positionProd(int id) {
         for (int i = 0; i < products.size(); i++) {
             if (id == products.get(i).getId()) {
@@ -110,6 +136,10 @@ public class Catalog {
         return -1;
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public boolean isIdFree(int id) {
         /*
         Devuelve true si NO existe el id
@@ -124,6 +154,10 @@ public class Catalog {
         return true;
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public Product getProductId(int id) {
         Product result = null;
         for (int i = 0; i < products.size(); i++) {
