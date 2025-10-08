@@ -3,26 +3,29 @@ package es.upm.etsisi.poo;
 import java.util.ArrayList;
 
 /**
- *
+ *This class manage a collection of products objects.
  */
 public class Catalog {
-
-    public ArrayList<Product> products;
-
     /**
-     *
+     *List that stores products in this catalog.
+     */
+    public ArrayList<Product> products;
+    /**
+     *Construct an empty catalog.
+     * Initializes the internal ArrayList with an initial capacity of 200
      */
     public Catalog() {
         products = new ArrayList<>(200);
 
     }
-
     /**
-     * @param id
-     * @return
+     * Remove the product with the given id from the catalog.
+     *
+     * @param id product identifier to remove.
+     * @return true if the product is removed succeeded, false if the id does not exist.
      */
     public boolean prodRemove(int id) {
-        if (isIdFree(id)) {//Si el id no está free == no existe
+        if (isIdFree(id)) {
             System.out.println("The id doesn't exist");
             return false;
         } else {
@@ -38,7 +41,9 @@ public class Catalog {
     }
 
     /**
-     * @param id
+     * Update a field of the product identified by id
+     *
+     * @param id product identifier to update
      * @param field
      * @param value
      */
