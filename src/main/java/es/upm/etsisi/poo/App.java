@@ -53,7 +53,6 @@ public class App {
         App app = new App();
         app.start();
         app.run();
-        app.exit();
     }
 
     /**
