@@ -4,26 +4,62 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 
+/**
+ * This is the main entry point of the application.
+ * This class is the controller of the program, coordinating interactions
+ * with the rest of the classes.
+ */
 public class App {
+    /**
+     * Command line prompt prefix displayed before each user input.
+     */
     private static final String UPM = "tUPM>";
+    /**
+     * Welcome message that appear when teh application starts
+     */
     private static final String welcome = "Welcome to the ticket module App";
+    /**
+     * Instruction message
+     */
     private static final String welcome1 = "Type 'help' to see commands";
+    /**
+     * Closing message
+     */
     private static final String end = "Closing application. ";
     private static final String goodbye = "Goodbye! ";
+    /**
+     * Reference to control class for utility commands
+     */
     public Control control;
+    /**
+     * Reference to the catalog class that manages all products
+     */
     public Catalog catalog;
+    /**
+     * Reference to the ticket class for the ticket operations
+     */
     public Ticket ticket;
-
+    /**
+     * Creates arrays of products and tickets
+     */
     private Product[] productList;
     private Ticket[] ticketList;
 
+    /**
+     * The main method
+     * @param args
+     */
     public static void main(String[] args) {
         App app = new App();
         app.start();
         app.run();
-        app.exit();
     }
 
+    /**
+     *This method is the main execution loop of the program.
+     *It continuously reads user input from the console, interprets commands,
+     *and delegates actions to different components
+     */
     public void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(welcome);
@@ -32,7 +68,7 @@ public class App {
         while (true) {
             System.out.print(UPM);
             String line = scanner.nextLine();
-            //line = line.replace("\"", ""); //quitamos las \ por lada para q al separarlo por espacios sea más facil
+            System.out.println(line);
             if (line.trim().isEmpty()) {
                 continue;
             }
@@ -175,6 +211,9 @@ public class App {
     }
 
 
+    /**
+     *This method initialize the objects with the limits needed
+     */
     public void start() {
         productList = new Product[200];
         ticketList = new Ticket[100];
@@ -184,6 +223,9 @@ public class App {
 
     }
 
+    /**
+     * Print the closing messages and end the application.
+     */
     public void exit() {
         System.out.println(end);
         System.out.println(goodbye);

@@ -2,17 +2,30 @@ package es.upm.etsisi.poo;
 
 import java.util.ArrayList;
 
+/**
+ *This class manage a collection of products objects.
+ */
 public class Catalog {
-
+    /**
+     *List that stores products in this catalog.
+     */
     public ArrayList<Product> products;
-
+    /**
+     *Construct an empty catalog.
+     * Initializes the internal ArrayList with an initial capacity of 200
+     */
     public Catalog() {
         products = new ArrayList<>(200);
 
     }
-
+    /**
+     * Remove the product with the given id from the catalog.
+     *
+     * @param id product identifier to remove.
+     * @return true if the product is removed succeeded, false if the id does not exist.
+     */
     public boolean prodRemove(int id) {
-        if (isIdFree(id)) {//Si el id no está free == no existe
+        if (isIdFree(id)) {
             System.out.println("The id doesn't exist");
             return false;
         } else {
@@ -21,12 +34,20 @@ public class Catalog {
                 System.out.println("The id doesn't exist");
                 return false;
             }
+            System.out.println(products.toString());
             products.remove(position);
             System.out.println("prod remove: ok");
             return true;
         }
     }
 
+    /**
+     * Update a field of the product identified by id
+     *
+     * @param id product identifier to update
+     * @param field
+     * @param value
+     */
     public void updateProd(int id, String field, String value) {
         if (field == null || value == null) {
             System.out.println("field or value is null");
@@ -46,7 +67,6 @@ public class Catalog {
                 break;
             case "CATEGORY":
                 try {
-                    // convertir a mayúsculas por si el usuario pasa minúsculas
                     Category category = Category.valueOf(value.trim().toUpperCase());
                     productToChange.setCategory(category);
                     System.out.println(productToChange.toString());
@@ -73,6 +93,9 @@ public class Catalog {
         }
     }
 
+    /**
+     *
+     */
     public void prodList() {
         System.out.println("Catalog:");
         for (int i = 0; i < products.size(); i++) {
@@ -81,11 +104,15 @@ public class Catalog {
         System.out.println("prod list: ok");
     }
 
+    /**
+     * @param product
+     * @return
+     */
     public boolean addProd(Product product) {
         boolean check;
-        if (isIdFree(product.getId())) { //si el id está libre se puede añadir el producto
+        if (isIdFree(product.getId())) {
             products.add(product);
-            product.setBelongToCatalog(this); //añade el producto al catálogo
+            product.setBelongToCatalog(this);
             check = true;
             System.out.println(product.toString());
             System.out.println("prod add: ok");
@@ -101,6 +128,10 @@ public class Catalog {
 
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public int positionProd(int id) {
         for (int i = 0; i < products.size(); i++) {
             if (id == products.get(i).getId()) {
@@ -110,10 +141,11 @@ public class Catalog {
         return -1;
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public boolean isIdFree(int id) {
-        /*
-        Devuelve true si NO existe el id
-         */
         if (!products.isEmpty()) {
             for (int i = 0; i < products.size(); i++) {
                 if (id == products.get(i).getId()) {
@@ -124,6 +156,10 @@ public class Catalog {
         return true;
     }
 
+    /**
+     * @param id
+     * @return
+     */
     public Product getProductId(int id) {
         Product result = null;
         for (int i = 0; i < products.size(); i++) {
