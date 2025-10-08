@@ -34,6 +34,7 @@ public class Catalog {
                 System.out.println("The id doesn't exist");
                 return false;
             }
+            System.out.println(products.toString());
             products.remove(position);
             System.out.println("prod remove: ok");
             return true;
@@ -66,7 +67,6 @@ public class Catalog {
                 break;
             case "CATEGORY":
                 try {
-                    // convertir a mayúsculas por si el usuario pasa minúsculas
                     Category category = Category.valueOf(value.trim().toUpperCase());
                     productToChange.setCategory(category);
                     System.out.println(productToChange.toString());
@@ -110,9 +110,9 @@ public class Catalog {
      */
     public boolean addProd(Product product) {
         boolean check;
-        if (isIdFree(product.getId())) { //si el id está libre se puede añadir el producto
+        if (isIdFree(product.getId())) {
             products.add(product);
-            product.setBelongToCatalog(this); //añade el producto al catálogo
+            product.setBelongToCatalog(this);
             check = true;
             System.out.println(product.toString());
             System.out.println("prod add: ok");
@@ -146,9 +146,6 @@ public class Catalog {
      * @return
      */
     public boolean isIdFree(int id) {
-        /*
-        Devuelve true si NO existe el id
-         */
         if (!products.isEmpty()) {
             for (int i = 0; i < products.size(); i++) {
                 if (id == products.get(i).getId()) {
