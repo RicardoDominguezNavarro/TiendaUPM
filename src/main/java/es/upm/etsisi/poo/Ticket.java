@@ -122,6 +122,8 @@ public class Ticket {
         if (amount >= 2) {
             double discount = getDiscount(product.getCategory());
             result = product.getPrice() * discount;
+        }else{
+            System.out.println();
         }
         return result;
     }
@@ -183,16 +185,16 @@ public class Ticket {
                 double discount = calculateDiscount(p, amount);
                 sb.append(products.toString());
                 if (discount > 0) {
-                    sb.append("/ discount= -").append(discount).append("\n");
+                    sb.append("/ discount = -").append(discount).append("\n");
                 }
                 totalPrice += p.getPrice();
                 totalDiscount += discount;
             }
         }
         double finalPrice = totalPrice - totalDiscount;
-        sb.append("Total price =").append(totalPrice).append("\n");
-        sb.append("Total discount =").append(totalDiscount).append("\n");
-        sb.append("Final price =").append(finalPrice).append("\n");
+        sb.append("Total price = ").append(totalPrice).append("\n");
+        sb.append("Total discount = ").append(totalDiscount).append("\n");
+        sb.append("Final price = ").append(finalPrice).append("\n");
         return sb.toString();
     }
 
