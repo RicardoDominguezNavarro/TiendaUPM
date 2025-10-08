@@ -160,14 +160,6 @@ public class Ticket {
 
 
     /**
-     * Prints the current stage of the ticket on the console
-     */
-    public void currentTicket() {
-        System.out.println(print());
-    }
-
-
-    /**
      * @return a formatted string representing the ticket, showing the products,
      * their discounts and the total price.
      */
@@ -176,7 +168,6 @@ public class Ticket {
         double totalPrice = 0.0;
         double totalDiscount = 0.0;
 
-        sb.append("===========  TICKET  ===========\n");
         for (int i = 0; i < numItems; i++) {
             Product p = products.get(i);
             int amount = quantities.get(i);
@@ -185,7 +176,9 @@ public class Ticket {
                 double discount = calculateDiscount(p, amount);
                 sb.append(products.toString());
                 if (discount > 0) {
-                    sb.append("/ discount = -").append(discount).append("\n");
+                    sb.append("** discount = -").append(discount).append("\n");
+                }else{
+
                 }
                 totalPrice += p.getPrice();
                 totalDiscount += discount;

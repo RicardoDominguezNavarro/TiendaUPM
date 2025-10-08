@@ -68,6 +68,7 @@ public class App {
         while (true) {
             System.out.print(UPM);
             String line = scanner.nextLine();
+            System.out.println(line);
             if (line.trim().isEmpty()) {
                 continue;
             }
