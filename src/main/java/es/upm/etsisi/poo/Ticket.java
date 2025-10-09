@@ -127,8 +127,6 @@ public class Ticket {
         if (amount >= 2) {
             double discount = getDiscount(product.getCategory());
             result = product.getPrice() * discount;
-        } else {
-            System.out.println();
         }
         return result;
     }
