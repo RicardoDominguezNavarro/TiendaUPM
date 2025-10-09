@@ -34,7 +34,8 @@ public class Catalog {
                 System.out.println("The id doesn't exist");
                 return false;
             }
-            System.out.println(products.toString());
+            Product productRemove = products.get(position);
+            System.out.println(productRemove.toString());
             products.remove(position);
             System.out.println("prod remove: ok");
             return true;
