@@ -185,7 +185,7 @@ public class App {
                     } else if (accion.equals("print")) {
                         System.out.println(ticket.print());
                         System.out.println("ticket print: ok");
-                        ticket.newTicket();
+                        //ticket.newTicket();
                         System.out.println();
                     }
                     break;

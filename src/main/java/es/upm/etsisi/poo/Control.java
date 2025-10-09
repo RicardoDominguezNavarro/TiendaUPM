@@ -61,6 +61,28 @@ public class Control {
                 "ELECTRONICS 3%. ");
     }
 
-
-
+    /**
+     *
+     * @param keyboard used to read user input
+     * @param message the message displayed to the user before reading input
+     * @param min the minimum valid value
+     * @param max the maximum valid value
+     * @return
+     */
+    public static int readNumber(Scanner keyboard, String message, int min, int max) {
+        // Muestra un mensaje y lee un número por teclado (si no es un número, vuelve a solicitar uno)
+        int number;
+        while (true) {
+            try {
+                System.out.println(message);
+                number = Integer.parseInt(keyboard.nextLine().trim());
+                if (number >= min && number <= max) {
+                    return number;
+                }
+                System.out.println("Please select a number between " + min + " and " + max + ".");
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        }
+    }
 }

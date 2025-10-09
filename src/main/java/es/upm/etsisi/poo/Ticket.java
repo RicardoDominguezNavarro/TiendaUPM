@@ -1,8 +1,9 @@
 package es.upm.etsisi.poo;
+
 import java.util.ArrayList;
 
 /**
- *This class represents the receipt where the products added by the user are stored. It can contains up to 100 products
+ * This class represents the receipt where the products added by the user are stored. It can contains up to 100 products
  * and can call {@link Catalog} to check the availability of products.
  */
 public class Ticket {
@@ -31,6 +32,7 @@ public class Ticket {
     /**
      * Builder that create a new ticket
      * Initially, the ticket is empty
+     *
      * @param catalog Contains the available products
      */
     public Ticket(Catalog catalog) {
@@ -57,7 +59,7 @@ public class Ticket {
      * Adds a new product to the ticket based on its product ID and quantity.
      * If the product already exists in the ticket, its quantity is increased.
      *
-     * @param prodId  the product ID to add
+     * @param prodId   the product ID to add
      * @param quantity the number of units to add
      */
     public void addProduct(int prodId, int quantity) {
@@ -77,12 +79,13 @@ public class Ticket {
                     products.add(numItems, product);
                     quantities.add(numItems, quantity);
                     numItems++;
-                    System.out.println(print());
-                    System.out.println("ticket add: ok");
                 } else {
                     System.out.println("The ticket is full");
                 }
             }
+            System.out.println(print());
+            System.out.println("ticket add: ok");
+
         }
     }
 
@@ -90,6 +93,7 @@ public class Ticket {
     /**
      * Remove a product from the ticket using the ID
      * If the product exists, it is removed along with its quantity.
+     *
      * @param prodId the ID of the product to remove
      */
     public void removeProduct(int prodId) {
@@ -113,8 +117,9 @@ public class Ticket {
     /**
      * Calculate a discount for a specific product depending on its category and quantity.
      * The discount is applied only if the quantity is two or more.
+     *
      * @param product the product for which the discount is calculated
-     * @param amount the quantity of the product
+     * @param amount  the quantity of the product
      * @return the discount value
      */
     public double calculateDiscount(Product product, int amount) {
@@ -122,7 +127,7 @@ public class Ticket {
         if (amount >= 2) {
             double discount = getDiscount(product.getCategory());
             result = product.getPrice() * discount;
-        }else{
+        } else {
             System.out.println();
         }
         return result;
@@ -130,7 +135,8 @@ public class Ticket {
 
 
     /**
-     *  Returns the discount percentage for a specific product category.
+     * Returns the discount percentage for a specific product category.
+     *
      * @param category The category of the product
      * @return the discount
      */
@@ -160,6 +166,14 @@ public class Ticket {
 
 
     /**
+     * Prints the current stage of the ticket on the console
+     */
+    public void currentTicket() {
+        System.out.println(print());
+    }
+
+
+    /**
      * @return a formatted string representing the ticket, showing the products,
      * their discounts and the total price.
      */
@@ -168,26 +182,27 @@ public class Ticket {
         double totalPrice = 0.0;
         double totalDiscount = 0.0;
 
-        for (int i = 0; i < numItems; i++) {
-            Product p = products.get(i);
+        for (int i = numItems - 1; i >= 0; i--) {
+            Product product = products.get(i);
             int amount = quantities.get(i);
 
             for (int j = 0; j < amount; j++) {
-                double discount = calculateDiscount(p, amount);
-                sb.append(products.toString());
+                double discount = calculateDiscount(product, amount);
+                sb.append(product.toString());
                 if (discount > 0) {
-                    sb.append("** discount = -").append(discount).append("\n");
-                }else{
-
+                    sb.append(" **discount -").append(discount).append("\n");
+                } else {
+                    sb.append("\n");
                 }
-                totalPrice += p.getPrice();
+                totalPrice += product.getPrice();
                 totalDiscount += discount;
             }
         }
         double finalPrice = totalPrice - totalDiscount;
-        sb.append("Total price = ").append(totalPrice).append("\n");
-        sb.append("Total discount = ").append(totalDiscount).append("\n");
-        sb.append("Final price = ").append(finalPrice).append("\n");
+        sb.append("Total price: ").append(totalPrice).append("\n");
+        sb.append("Total discount: ").append(totalDiscount).append("\n");
+        sb.append("Final price: ").append(finalPrice);
+
         return sb.toString();
     }
 
