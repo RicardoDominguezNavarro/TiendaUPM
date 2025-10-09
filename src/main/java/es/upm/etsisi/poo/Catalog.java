@@ -62,6 +62,10 @@ public class Catalog {
         field = field.toUpperCase();
         switch (field) {
             case "NAME":
+                value = value.trim();
+                if (value.startsWith("\"") && value.endsWith("\"")) {
+                    value = value.substring(1, value.length() - 1);
+                }
                 productToChange.setName(value);
                 System.out.println(productToChange.toString());
                 System.out.println("prod update: ok");
