@@ -203,6 +203,9 @@ public class App {
                         System.out.println("ticket print: ok");
                         //ticket.newTicket();
                         System.out.println();
+                    } else {
+                        System.out.println("Unknown prod action");
+                        System.out.println();
                     }
                     break;
 
