@@ -43,11 +43,11 @@ public class Catalog {
     }
 
     /**
-     * Update a field of the product identified by id
+     * Update a field of the product identified by id.
      *
-     * @param id product identifier to update
-     * @param field
-     * @param value
+     * @param id product identifier to update.
+     * @param field The field name to modify ("NAME", "CATEGORY", or "PRICE").
+     * @param value The new value for the specified field.
      */
     public void updateProd(int id, String field, String value) {
         if (field == null || value == null) {
@@ -99,7 +99,7 @@ public class Catalog {
     }
 
     /**
-     *
+     * Display all products currently in the catalog.
      */
     public void prodList() {
         System.out.println("Catalog:");
@@ -110,8 +110,9 @@ public class Catalog {
     }
 
     /**
-     * @param product
-     * @return
+     * Adds a new product to the catalog if the id is not already in use.
+     * @param product The product object to be added.
+     * @return true if the product was successfully added, false otherwise.
      */
     public boolean addProd(Product product) {
         boolean check;
@@ -128,14 +129,17 @@ public class Catalog {
         return check;
     }
 
+    /**
+     * @return the list of all products in the catalog
+     */
     public ArrayList<Product> getProducts() {
         return products;
 
     }
 
     /**
-     * @param id
-     * @return
+     * @param id the id to search for.
+     * @return the position of the product if found, or -1 if not present.
      */
     public int positionProd(int id) {
         for (int i = 0; i < products.size(); i++) {
@@ -147,8 +151,9 @@ public class Catalog {
     }
 
     /**
-     * @param id
-     * @return
+     * Checks whether an ID is free (not associated with any product).
+     * @param id of the product to verify.
+     * @return true if no product with the id exists, false otherwise.
      */
     public boolean isIdFree(int id) {
         if (!products.isEmpty()) {
@@ -162,8 +167,9 @@ public class Catalog {
     }
 
     /**
-     * @param id
-     * @return
+     * Search for a product in the catalog by its id.
+     * @param id the id of the product to find.
+     * @return the product that matches the given id, or null if not match is found.
      */
     public Product getProductId(int id) {
         Product result = null;
