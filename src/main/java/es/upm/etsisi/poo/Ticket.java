@@ -1,6 +1,7 @@
 package es.upm.etsisi.poo;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * This class represents the receipt where the products added by the user are stored. It can contains up to 100 products
@@ -199,7 +200,7 @@ public class Ticket {
                 double discount = calculateDiscount(product, amount);
                 sb.append(product.toString());
                 if (discount > 0) {
-                    sb.append(" **discount -").append(discount).append("\n");
+                    sb.append(" **discount -").append(String.format(Locale.US,"%.2f", discount)).append("\n");
                 } else {
                     sb.append("\n");
                 }
@@ -209,7 +210,7 @@ public class Ticket {
         }
         double finalPrice = totalPrice - totalDiscount;
         sb.append("Total price: ").append(totalPrice).append("\n");
-        sb.append("Total discount: ").append(totalDiscount).append("\n");
+        sb.append("Total discount: ").append(String.format(Locale.US,"%.2f", totalDiscount)).append("\n");
         sb.append("Final price: ").append(finalPrice);
 
         return sb.toString();
