@@ -1,29 +1,12 @@
 package es.upm.etsisi.poo;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
  *
  */
 public class Control {
 
-    /**
-     * List that stores all available products
-     */
-    private ArrayList<Product> products;
-    /**
-     * Represent the current product
-     */
-    private Product product;
-
-
-    /**
-     * Builder.
-     * The list starts empty
-     */
     public Control() {
-        this.products = new ArrayList<>();
+        //  No initialization needed
     }
 
     /**
@@ -42,7 +25,7 @@ public class Control {
      * It provides guidance on how to use product-related and ticket-related commands.
      */
     public  void help(){
-        products.clear();
+
         System.out.println("Commands:\n" +
                 " prod add <id> \"<name>\" <category> <price>\n" +
                 " prod list\n" +

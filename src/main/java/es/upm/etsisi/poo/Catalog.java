@@ -30,24 +30,21 @@ public class Catalog {
      * Remove the product with the given id from the catalog.
      *
      * @param id product identifier to remove.
-     * @return true if the product is removed succeeded, false if the id does not exist.
      */
-    public boolean prodRemove(int id) {
+    public void prodRemove(int id) {
         if (isIdFree(id)) {
             System.out.println("The id doesn't exist");
-            return false;
         } else {
             int position = positionProd(id);
             if (position < 0) {
                 System.out.println("The id doesn't exist");
-                return false;
+            }else{
+                Product productRemove = products.get(position);
+                System.out.println(productRemove.toString());
+                products.remove(position);
+                numProducts--;
+                System.out.println("prod remove: ok");
             }
-            Product productRemove = products.get(position);
-            System.out.println(productRemove.toString());
-            products.remove(position);
-            numProducts--;
-            System.out.println("prod remove: ok");
-            return true;
         }
     }
 
@@ -124,22 +121,17 @@ public class Catalog {
     /**
      * Adds a new product to the catalog if the id is not already in use.
      * @param product The product object to be added.
-     * @return true if the product was successfully added, false otherwise.
      */
-    public boolean addProd(Product product) {
-        boolean check;
+    public void addProd(Product product) {
         if (isIdFree(product.getId())) {
             products.add(product);
             product.setBelongToCatalog(this);
-            check = true;
             System.out.println(product.toString());
             numProducts++;
             System.out.println("prod add: ok");
         } else {
             System.out.println("The id belongs to another product");
-            check = false;
         }
-        return check;
     }
 
     /**
@@ -170,8 +162,8 @@ public class Catalog {
      */
     public boolean isIdFree(int id) {
         if (!products.isEmpty()) {
-            for (int i = 0; i < products.size(); i++) {
-                if (id == products.get(i).getId()) {
+            for (Product product : products) {
+                if (id == product.getId()) {
                     return false;
                 }
             }
@@ -186,8 +178,7 @@ public class Catalog {
      */
     public Product getProductId(int id) {
         Product result = null;
-        for (int i = 0; i < products.size(); i++) {
-            Product actual = products.get(i);
+        for (Product actual : products) {
             if (actual.getId() == id) {
                 result = actual;
             }
