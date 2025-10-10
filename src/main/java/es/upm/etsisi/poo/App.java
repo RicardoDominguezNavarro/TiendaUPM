@@ -17,11 +17,11 @@ public class App {
     /**
      * Welcome message that appear when teh application starts
      */
-    private static final String welcome = "Welcome to the ticket module App";
+    private static final String welcome = "Welcome to the ticket module App.";
     /**
      * Instruction message
      */
-    private static final String welcome1 = "Type 'help' to see commands";
+    private static final String welcome1 = "Ticket module. Type 'help' to see commands.";
     /**
      * Closing message
      */
@@ -100,7 +100,23 @@ public class App {
                             break;
                         }
                         try {
-                            String name = line.split("\"")[1];
+                            String name ="";
+                            String rawName =split[3];
+                            if (rawName.contains("\"")){
+                                String[] rawNameSplit = rawName.split("\"");
+                                if (rawNameSplit[0]== "")
+                                    name = rawNameSplit[1];
+                                else {
+                                    for (int i = 0; i < rawNameSplit.length; i++) {
+                                        name += rawNameSplit[i];
+                                        if (i!=rawNameSplit.length-1){
+                                            name+= "\"";
+                                        }
+                                    }
+                                }
+                            }else {
+                                name = rawName;
+                            }
                             String category = split[split.length-2].toUpperCase();
                             String price = split[split.length-1];
                             Product product = new Product(Integer.parseInt(id), name, Double.parseDouble(price), Category.valueOf(category));

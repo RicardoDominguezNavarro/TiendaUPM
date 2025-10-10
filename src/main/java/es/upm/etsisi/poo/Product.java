@@ -1,5 +1,7 @@
 package es.upm.etsisi.poo;
 
+import java.util.Locale;
+
 /**
  * Represents a product with an ID, name, price and category.
  */
@@ -138,7 +140,7 @@ public class Product {
     @Override
 
     public String toString() {
-        return String.format("{class:Product, id:%d, name:'%s', category:%s, price:%.1f}",
+        return String.format(Locale.US,"{class:Product, id:%d, name:'%s', category:%s, price:%.1f}",
                 id, name, category, price);
     }
 
