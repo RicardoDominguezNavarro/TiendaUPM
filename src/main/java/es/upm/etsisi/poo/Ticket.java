@@ -66,25 +66,41 @@ public class Ticket {
         Product product = catalog.getProductId(prodId);
         if (product == null) {
             System.out.println("There is no product");
+        } else if (quantity < 0) {
+            System.out.println("The amount must be positive");
+        } else if (quantity > maxItems) {
+            System.out.println("The ticket can only have 100 products");
         } else {
             boolean found = false;
             for (int i = 0; i < numItems; i++) {
                 if (products.get(i).getId() == prodId) {
-                    quantities.set(i, quantities.get(i) + quantity);
-                    found = true;
+                    if(quantity + numItems > maxItems) {
+                        System.out.println("The ticket can only have 100 products");
+                    }else{
+                        quantities.set(i, quantities.get(i) + quantity);
+                        numItems = numItems + quantities.get(i);
+                        found = true;
+                        System.out.println(print());
+                        System.out.println("ticket add: ok");
+                    }
                 }
             }
             if (!found) {
                 if (numItems < maxItems) {
-                    products.add(numItems, product);
-                    quantities.add(numItems, quantity);
-                    numItems++;
+                    if(numItems + quantity > maxItems) {
+                        System.out.println("The ticket can only have 100 products");
+                    }else{
+                        products.add(numItems, product);
+                        quantities.add(numItems, quantity);
+                        numItems = numItems + quantity;
+                        System.out.println(print());
+                        System.out.println("ticket add: ok");
+                    }
+
                 } else {
                     System.out.println("The ticket is full");
                 }
             }
-            System.out.println(print());
-            System.out.println("ticket add: ok");
 
         }
     }
@@ -96,22 +112,26 @@ public class Ticket {
      *
      * @param prodId the ID of the product to remove
      */
-    public void removeProduct(int prodId) {
-        Product p = catalog.getProductId(prodId);
-        if (p == null) {
-            System.out.println("There is no product");
-        } else {
-            boolean found = false;
-            for (int i = products.size() - 1; i > 0; i--) {
-                if (products.get(i).getId() == prodId) {
-                    products.remove(i);
-                    System.out.println(print());
-                    System.out.println("prod remove: ok");
 
-                }
+    public void removeProduct(int prodId) {
+        boolean found = false;
+        for (int i = products.size() - 1; i >= 0; i--) {
+            if (products.get(i).getId() == prodId) {
+                products.remove(i);
+                quantities.remove(i);
+                numItems--;
+                found = true;
             }
         }
+        if (found) {
+            System.out.println(print());
+            System.out.println("prod remove: ok");
+        } else {
+            System.out.println("There is no product in the ticket");
+        }
     }
+
+
 
 
     /**
@@ -161,15 +181,6 @@ public class Ticket {
         }
         return percent;
     }
-
-
-    /**
-     * Prints the current stage of the ticket on the console
-     */
-    public void currentTicket() {
-        System.out.println(print());
-    }
-
 
     /**
      * @return a formatted string representing the ticket, showing the products,

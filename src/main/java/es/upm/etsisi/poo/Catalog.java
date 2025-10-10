@@ -7,6 +7,14 @@ import java.util.ArrayList;
  */
 public class Catalog {
     /**
+     * Maximum number of products in a catalog
+     */
+    private final int maxProducts = 200;
+    /**
+     * number of products in a catalog
+     */
+    private int numProducts;
+    /**
      *List that stores products in this catalog.
      */
     public ArrayList<Product> products;
@@ -37,17 +45,18 @@ public class Catalog {
             Product productRemove = products.get(position);
             System.out.println(productRemove.toString());
             products.remove(position);
+            numProducts--;
             System.out.println("prod remove: ok");
             return true;
         }
     }
 
     /**
-     * Update a field of the product identified by id
+     * Update a field of the product identified by id.
      *
-     * @param id product identifier to update
-     * @param field
-     * @param value
+     * @param id product identifier to update.
+     * @param field The field name to modify ("NAME", "CATEGORY", or "PRICE").
+     * @param value The new value for the specified field.
      */
     public void updateProd(int id, String field, String value) {
         if (field == null || value == null) {
@@ -77,13 +86,13 @@ public class Catalog {
                     System.out.println(productToChange.toString());
                     System.out.println("prod update: ok");
                 } catch (IllegalArgumentException e) {
-                    System.out.println("The category \"" + value + "\" doesn't exist.");
+                    System.out.println("The category " + value + " doesn't exist.");
                 }
                 break;
             case "PRICE":
                 try {
                     double price = Double.parseDouble(value);
-                    productToChange.setPrice(Double.parseDouble(value));
+                    //productToChange.setPrice(Double.parseDouble(value));
                     if (price <= 0.0) {
                         System.out.println("The price may not be negative or zero.");
                     } else {
@@ -95,11 +104,14 @@ public class Catalog {
                     System.out.println("The price is not valid.");
                     break;
                 }
+            default:
+                System.out.println("Invalid field. Valid fields are NAME, CATEGORY, or PRICE.");
+                break;
         }
     }
 
     /**
-     *
+     * Display all products currently in the catalog.
      */
     public void prodList() {
         System.out.println("Catalog:");
@@ -110,8 +122,9 @@ public class Catalog {
     }
 
     /**
-     * @param product
-     * @return
+     * Adds a new product to the catalog if the id is not already in use.
+     * @param product The product object to be added.
+     * @return true if the product was successfully added, false otherwise.
      */
     public boolean addProd(Product product) {
         boolean check;
@@ -120,6 +133,7 @@ public class Catalog {
             product.setBelongToCatalog(this);
             check = true;
             System.out.println(product.toString());
+            numProducts++;
             System.out.println("prod add: ok");
         } else {
             System.out.println("The id belongs to another product");
@@ -128,14 +142,17 @@ public class Catalog {
         return check;
     }
 
+    /**
+     * @return the list of all products in the catalog
+     */
     public ArrayList<Product> getProducts() {
         return products;
 
     }
 
     /**
-     * @param id
-     * @return
+     * @param id the id to search for.
+     * @return the position of the product if found, or -1 if not present.
      */
     public int positionProd(int id) {
         for (int i = 0; i < products.size(); i++) {
@@ -147,8 +164,9 @@ public class Catalog {
     }
 
     /**
-     * @param id
-     * @return
+     * Checks whether an ID is free (not associated with any product).
+     * @param id of the product to verify.
+     * @return true if no product with the id exists, false otherwise.
      */
     public boolean isIdFree(int id) {
         if (!products.isEmpty()) {
@@ -162,8 +180,9 @@ public class Catalog {
     }
 
     /**
-     * @param id
-     * @return
+     * Search for a product in the catalog by its id.
+     * @param id the id of the product to find.
+     * @return the product that matches the given id, or null if not match is found.
      */
     public Product getProductId(int id) {
         Product result = null;
