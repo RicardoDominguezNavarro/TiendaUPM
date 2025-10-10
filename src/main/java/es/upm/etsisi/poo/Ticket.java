@@ -64,44 +64,46 @@ public class Ticket {
      */
     public void addProduct(int prodId, int quantity) {
         Product product = catalog.getProductId(prodId);
+        boolean valid = true;
+
         if (product == null) {
             System.out.println("There is no product");
-        } else if (quantity < 0) {
+            valid = false;
+        }else if (quantity < 0) {
             System.out.println("The amount must be positive");
-        } else if (quantity > maxItems) {
-            System.out.println("The ticket can only have 100 products");
-        } else {
+            valid = false;
+
+        }else {
+            int currentTotal = 0;
+            for (int i = 0; i < quantities.size(); i++) {
+                currentTotal += quantities.get(i);
+            }
+            int newTotal = currentTotal + quantity;
+
+            if (newTotal > maxItems) {
+                System.out.println("The ticket can only have 100 products");
+                valid = false;
+            } else if (newTotal == maxItems) {
+                System.out.println("The ticket is full");
+            }
+        }
+
+        if (valid) {
             boolean found = false;
-            for (int i = 0; i < numItems; i++) {
+            for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getId() == prodId) {
-                    if(quantity + numItems > maxItems) {
-                        System.out.println("The ticket can only have 100 products");
-                    }else{
-                        quantities.set(i, quantities.get(i) + quantity);
-                        numItems = numItems + quantities.get(i);
-                        found = true;
-                        System.out.println(print());
-                        System.out.println("ticket add: ok");
-                    }
+                    quantities.set(i, quantities.get(i) + quantity);
+                    numItems += quantity;
+                    found = true;
                 }
             }
             if (!found) {
-                if (numItems < maxItems) {
-                    if(numItems + quantity > maxItems) {
-                        System.out.println("The ticket can only have 100 products");
-                    }else{
-                        products.add(numItems, product);
-                        quantities.add(numItems, quantity);
-                        numItems = numItems + quantity;
-                        System.out.println(print());
-                        System.out.println("ticket add: ok");
-                    }
-
-                } else {
-                    System.out.println("The ticket is full");
-                }
+                products.add(product);
+                quantities.add(quantity);
+                numItems += quantity;
             }
-
+            System.out.println(print());
+            System.out.println("ticket add: ok");
         }
     }
 
@@ -130,8 +132,6 @@ public class Ticket {
             System.out.println("There is no product in the ticket");
         }
     }
-
-
 
 
     /**
@@ -191,7 +191,7 @@ public class Ticket {
         double totalPrice = 0.0;
         double totalDiscount = 0.0;
 
-        for (int i = numItems - 1; i >= 0; i--) {
+        for (int i = products.size() - 1; i >= 0; i--) {
             Product product = products.get(i);
             int amount = quantities.get(i);
 
