@@ -30,7 +30,6 @@ public class Catalog {
      * Remove the product with the given id from the catalog.
      *
      * @param id product identifier to remove.
-     * @return true if the product is removed succeeded, false if the id does not exist.
      */
     public void prodRemove(int id) {
         if (isIdFree(id)) {
@@ -122,7 +121,6 @@ public class Catalog {
     /**
      * Adds a new product to the catalog if the id is not already in use.
      * @param product The product object to be added.
-     * @return true if the product was successfully added, false otherwise.
      */
     public void addProd(Product product) {
         if (isIdFree(product.getId())) {
