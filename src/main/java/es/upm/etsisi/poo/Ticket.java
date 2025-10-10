@@ -67,23 +67,32 @@ public class Ticket {
         if (product == null) {
             System.out.println("There is no product");
         } else if (quantity < 0) {
-            System.out.println("the amount must be positive");
+            System.out.println("The amount must be positive");
         } else if (quantity > maxItems) {
             System.out.println("The ticket can only have 100 products");
         } else {
             boolean found = false;
             for (int i = 0; i < numItems; i++) {
                 if (products.get(i).getId() == prodId) {
-                    quantities.set(i, quantities.get(i) + quantity);
-                    numItems = numItems + quantities.get(i);
-                    found = true;
+                    if(quantity + numItems > maxItems) {
+                        System.out.println("The ticket can only have 100 products");
+                    }else{
+                        quantities.set(i, quantities.get(i) + quantity);
+                        numItems = numItems + quantities.get(i);
+                        found = true;
+                    }
                 }
             }
             if (!found) {
                 if (numItems < maxItems) {
-                    products.add(numItems, product);
-                    quantities.add(numItems, quantity);
-                    numItems = numItems + quantity;
+                    if(numItems + quantity > maxItems) {
+                        System.out.println("The ticket can only have 100 products");
+                    }else{
+                        products.add(numItems, product);
+                        quantities.add(numItems, quantity);
+                        numItems = numItems + quantity;
+                    }
+
                 } else {
                     System.out.println("The ticket is full");
                 }
