@@ -209,9 +209,9 @@ public class Ticket {
             }
         }
         double finalPrice = totalPrice - totalDiscount;
-        sb.append("Total price: ").append(totalPrice).append("\n");
+        sb.append("Total price: ").append(String.format(Locale.US,"%.2f", totalPrice)).append("\n");
         sb.append("Total discount: ").append(String.format(Locale.US,"%.2f", totalDiscount)).append("\n");
-        sb.append("Final price: ").append(finalPrice);
+        sb.append("Final price: ").append(String.format(Locale.US,"%.2f", finalPrice));
 
         return sb.toString();
     }
