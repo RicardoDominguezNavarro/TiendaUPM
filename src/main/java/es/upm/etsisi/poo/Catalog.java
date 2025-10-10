@@ -77,13 +77,13 @@ public class Catalog {
                     System.out.println(productToChange.toString());
                     System.out.println("prod update: ok");
                 } catch (IllegalArgumentException e) {
-                    System.out.println("The category \"" + value + "\" doesn't exist.");
+                    System.out.println("The category " + value + " doesn't exist.");
                 }
                 break;
             case "PRICE":
                 try {
                     double price = Double.parseDouble(value);
-                    productToChange.setPrice(Double.parseDouble(value));
+                    //productToChange.setPrice(Double.parseDouble(value));
                     if (price <= 0.0) {
                         System.out.println("The price may not be negative or zero.");
                     } else {
@@ -95,6 +95,9 @@ public class Catalog {
                     System.out.println("The price is not valid.");
                     break;
                 }
+            default:
+                System.out.println("Invalid field. Valid fields are NAME, CATEGORY, or PRICE.");
+                break;
         }
     }
 

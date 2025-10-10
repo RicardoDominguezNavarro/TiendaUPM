@@ -66,6 +66,10 @@ public class Ticket {
         Product product = catalog.getProductId(prodId);
         if (product == null) {
             System.out.println("There is no product");
+        } else if (quantity < 0) {
+            System.out.println("the amount must be positive");
+        } else if (quantity > maxItems) {
+            System.out.println("The ticket can only have 100 products");
         } else {
             boolean found = false;
             for (int i = 0; i < numItems; i++) {
