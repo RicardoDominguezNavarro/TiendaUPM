@@ -68,18 +68,18 @@ public class App {
         while (true) {
             System.out.print(UPM);
             String line = scanner.nextLine();
-            System.out.println(line);
             if (line.trim().isEmpty()) {
                 continue;
             }
+            if (System.getenv("fileinput")!=null&&
+                    System.getenv("fileinput").equals("true"))
+                System.out.println(line);
+
             String[] split = line.split(" ");
 
             String command = split[0];
             String accion = (split.length > 1) ? split[1] : "";
             String id = (split.length > 2) ? split[2] : "";
-
-            if (System.getenv("debugFile")!=null)
-                System.out.println(line);
 
             switch (command) {
                 case "help":
