@@ -80,6 +80,8 @@ public class Ticket {
                         quantities.set(i, quantities.get(i) + quantity);
                         numItems = numItems + quantities.get(i);
                         found = true;
+                        System.out.println(print());
+                        System.out.println("ticket add: ok");
                     }
                 }
             }
@@ -91,14 +93,14 @@ public class Ticket {
                         products.add(numItems, product);
                         quantities.add(numItems, quantity);
                         numItems = numItems + quantity;
+                        System.out.println(print());
+                        System.out.println("ticket add: ok");
                     }
 
                 } else {
                     System.out.println("The ticket is full");
                 }
             }
-            System.out.println(print());
-            System.out.println("ticket add: ok");
 
         }
     }
