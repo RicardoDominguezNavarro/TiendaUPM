@@ -75,6 +75,7 @@ public class Ticket {
             for (int i = 0; i < numItems; i++) {
                 if (products.get(i).getId() == prodId) {
                     quantities.set(i, quantities.get(i) + quantity);
+                    numItems = numItems + quantities.get(i);
                     found = true;
                 }
             }
@@ -82,7 +83,7 @@ public class Ticket {
                 if (numItems < maxItems) {
                     products.add(numItems, product);
                     quantities.add(numItems, quantity);
-                    numItems++;
+                    numItems = numItems + quantity;
                 } else {
                     System.out.println("The ticket is full");
                 }
