@@ -7,6 +7,14 @@ import java.util.ArrayList;
  */
 public class Catalog {
     /**
+     * Maximum number of products in a catalog
+     */
+    private final int maxProducts = 200;
+    /**
+     * number of products in a catalog
+     */
+    private int numProducts;
+    /**
      *List that stores products in this catalog.
      */
     public ArrayList<Product> products;
@@ -37,6 +45,7 @@ public class Catalog {
             Product productRemove = products.get(position);
             System.out.println(productRemove.toString());
             products.remove(position);
+            numProducts--;
             System.out.println("prod remove: ok");
             return true;
         }
@@ -124,6 +133,7 @@ public class Catalog {
             product.setBelongToCatalog(this);
             check = true;
             System.out.println(product.toString());
+            numProducts++;
             System.out.println("prod add: ok");
         } else {
             System.out.println("The id belongs to another product");
