@@ -216,4 +216,11 @@ public class Ticket {
         return sb.toString();
     }
 
+    public int getNumItems() {
+        return numItems;
+    }
+
+    public void setNumItems(int numItems) {
+        this.numItems = numItems;
+    }
 }
