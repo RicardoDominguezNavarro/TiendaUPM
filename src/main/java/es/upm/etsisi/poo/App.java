@@ -68,10 +68,10 @@ public class App {
         while (true) {
             System.out.print(UPM);
             String line = scanner.nextLine();
-            if (line.trim().isEmpty()) {
+            if (line.trim().isEmpty()) { //si despues de eliminar los espacio sigue vacia pasa a la siguiente iteración
                 continue;
             }
-            if (System.getenv("fileinput")!=null&&
+            if (System.getenv("fileinput")!=null &&
                     System.getenv("fileinput").equals("true"))
                 System.out.println(line);
 
@@ -94,30 +94,21 @@ public class App {
 
                 case "prod":
                     if (accion.equals("add")) {
-                        if (split.length < 6) {
+                        if (split.length < 5) {
                             System.out.println("Invalid prod add command Usage: prod add <id> \\\"<name>\\\" <category> <price>");
                             System.out.println();
                             break;
                         }
+                        String[] nameSplit = line.split("\"");
+                        if (nameSplit.length < 2) {
+                            System.out.println("Error: the name must be between quotation marks");
+                            System.out.println();
+                            break;
+                        }
+
                         try {
-                            String name ="";
-                            String rawName =split[3];
-                            if (rawName.contains("\"")){
-                                String[] rawNameSplit = rawName.split("\"");
-                                if (rawNameSplit[0]== "")
-                                    name = rawNameSplit[1];
-                                else {
-                                    for (int i = 0; i < rawNameSplit.length; i++) {
-                                        name += rawNameSplit[i];
-                                        if (i!=rawNameSplit.length-1){
-                                            name+= "\"";
-                                        }
-                                    }
-                                }
-                            }else {
-                                name = rawName;
-                            }
-                            String category = split[split.length-2].toUpperCase();
+                            String name = nameSplit[1];
+                            String category = split[split.length-2].toUpperCase(); //length empieza a contar desde 1
                             String price = split[split.length-1];
                             Product product = new Product(Integer.parseInt(id), name, Double.parseDouble(price), Category.valueOf(category));
                             catalog.addProd(product);

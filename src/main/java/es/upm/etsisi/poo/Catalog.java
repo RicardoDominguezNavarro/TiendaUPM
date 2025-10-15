@@ -24,7 +24,6 @@ public class Catalog {
      */
     public Catalog() {
         products = new ArrayList<>(200);
-
     }
     /**
      * Remove the product with the given id from the catalog.
@@ -123,6 +122,10 @@ public class Catalog {
      * @param product The product object to be added.
      */
     public void addProd(Product product) {
+        if (numProducts >= maxProducts) {
+            System.out.println("Cannot add product: catalog max capacity reached.");
+            return;
+        }
         if (isIdFree(product.getId())) {
             products.add(product);
             product.setBelongToCatalog(this);
