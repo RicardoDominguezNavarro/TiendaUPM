@@ -97,7 +97,7 @@ public class App {
                         }
                         String[] nameSplit = line.split("\"");
                         if (nameSplit.length < 2) {
-                            System.out.println("Error: the name must be between quotation marks");
+                            System.out.println("The name must be between quotation marks");
                             System.out.println();
                             break;
                         }
