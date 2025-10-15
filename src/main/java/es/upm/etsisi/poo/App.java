@@ -39,11 +39,7 @@ public class App {
      * Reference to the ticket class for the ticket operations
      */
     public Ticket ticket;
-    /**
-     * Creates arrays of products and tickets
-     */
-    private Product[] productList;
-    private Ticket[] ticketList;
+
 
     /**
      * The main method
@@ -227,8 +223,6 @@ public class App {
      *This method initialize the objects with the limits needed
      */
     public void start() {
-        productList = new Product[200];
-        ticketList = new Ticket[100];
         catalog = new Catalog();
         control = new Control();
         ticket = new Ticket(catalog);

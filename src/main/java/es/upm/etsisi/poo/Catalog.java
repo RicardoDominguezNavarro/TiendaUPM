@@ -9,7 +9,7 @@ public class Catalog {
     /**
      * Maximum number of products in a catalog
      */
-    private final int maxProducts = 200;
+    private final int MAXPRODUCTS = 200;
     /**
      * number of products in a catalog
      */
@@ -122,7 +122,7 @@ public class Catalog {
      * @param product The product object to be added.
      */
     public void addProd(Product product) {
-        if (numProducts >= maxProducts) {
+        if (numProducts >= MAXPRODUCTS) {
             System.out.println("Cannot add product: catalog max capacity reached.");
             return;
         }

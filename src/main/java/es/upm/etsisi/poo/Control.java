@@ -5,10 +5,6 @@ package es.upm.etsisi.poo;
  */
 public class Control {
 
-    public Control() {
-        //  No initialization needed
-    }
-
     /**
      * Prints and returns the specified message.
      *
