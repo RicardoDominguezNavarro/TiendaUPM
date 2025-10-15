@@ -123,7 +123,7 @@ public class Catalog {
      */
     public void addProd(Product product) {
         if (numProducts >= MAXPRODUCTS) {
-            System.out.println("Cannot add product: catalog max capacity reached.");
+            System.out.println("The catalog can only have 200 products.");
             return;
         }
         if (isIdFree(product.getId())) {
