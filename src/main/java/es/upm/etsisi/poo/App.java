@@ -104,7 +104,7 @@ public class App {
 
                         try {
                             String name = nameSplit[1];
-                            String category = split[split.length-2].toUpperCase(); //length empieza a contar desde 1
+                            String category = split[split.length-2].toUpperCase();
                             String price = split[split.length-1];
                             Product product = new Product(Integer.parseInt(id), name, Double.parseDouble(price), Category.valueOf(category));
                             catalog.addProd(product);
