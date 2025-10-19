@@ -64,7 +64,7 @@ public class App {
         while (true) {
             System.out.print(UPM);
             String line = scanner.nextLine();
-            if (line.trim().isEmpty()) { //si despues de eliminar los espacio sigue vacia pasa a la siguiente iteración
+            if (line.trim().isEmpty()) {
                 continue;
             }
             if (System.getenv("fileinput")!=null &&
