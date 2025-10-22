@@ -67,9 +67,9 @@ public class App {
             if (line.trim().isEmpty()) {
                 continue;
             }
-            if (System.getenv("fileinput")!=null &&
-                    System.getenv("fileinput").equals("true"))
+            if (System.getenv("fileinput")!=null && System.getenv("fileinput").equals("true")){
                 System.out.println(line);
+            }
 
             String[] split = line.split(" ");
 
@@ -103,7 +103,7 @@ public class App {
                         }
 
                         try {
-                            String name = nameSplit[1];
+                            String name = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\""));
                             String category = split[split.length-2].toUpperCase();
                             String price = split[split.length-1];
                             Product product = new Product(Integer.parseInt(id), name, Double.parseDouble(price), Category.valueOf(category));
