@@ -3,7 +3,7 @@ package es.upm.etsisi.poo;
 import java.util.ArrayList;
 
 /**
- *This class manage a collection of products objects.
+ * This class manage a collection of products objects.
  */
 public class Catalog {
     /**
@@ -15,16 +15,18 @@ public class Catalog {
      */
     private int numProducts;
     /**
-     *List that stores products in this catalog.
+     * List that stores products in this catalog.
      */
     public ArrayList<Product> products;
+
     /**
-     *Construct an empty catalog.
+     * Construct an empty catalog.
      * Initializes the internal ArrayList with an initial capacity of 200
      */
     public Catalog() {
         products = new ArrayList<>(200);
     }
+
     /**
      * Remove the product with the given id from the catalog.
      *
@@ -35,22 +37,19 @@ public class Catalog {
             System.out.println("The id doesn't exist");
         } else {
             int position = positionProd(id);
-            if (position < 0) {
-                System.out.println("The id doesn't exist");
-            }else{
-                Product productRemove = products.get(position);
-                System.out.println(productRemove.toString());
-                products.remove(position);
-                numProducts--;
-                System.out.println("prod remove: ok");
-            }
+            Product productRemove = products.get(position);
+            System.out.println(productRemove.toString());
+            products.remove(position);
+            numProducts--;
+            System.out.println("prod remove: ok");
+
         }
     }
 
     /**
      * Update a field of the product identified by id.
      *
-     * @param id product identifier to update.
+     * @param id    product identifier to update.
      * @param field The field name to modify ("NAME", "CATEGORY", or "PRICE").
      * @param value The new value for the specified field.
      */
@@ -119,6 +118,7 @@ public class Catalog {
 
     /**
      * Adds a new product to the catalog if the id is not already in use.
+     *
      * @param product The product object to be added.
      */
     public void addProd(Product product) {
@@ -138,14 +138,6 @@ public class Catalog {
     }
 
     /**
-     * @return the list of all products in the catalog
-     */
-    public ArrayList<Product> getProducts() {
-        return products;
-
-    }
-
-    /**
      * @param id the id to search for.
      * @return the position of the product if found, or -1 if not present.
      */
@@ -160,6 +152,7 @@ public class Catalog {
 
     /**
      * Checks whether an ID is free (not associated with any product).
+     *
      * @param id of the product to verify.
      * @return true if no product with the id exists, false otherwise.
      */
@@ -176,6 +169,7 @@ public class Catalog {
 
     /**
      * Search for a product in the catalog by its id.
+     *
      * @param id the id of the product to find.
      * @return the product that matches the given id, or null if not match is found.
      */
