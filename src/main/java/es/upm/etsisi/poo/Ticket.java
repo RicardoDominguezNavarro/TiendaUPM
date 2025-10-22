@@ -99,8 +99,13 @@ public class Ticket {
                 }
             }
             if (!found) {
-                products.add(product);
-                quantities.add(quantity);
+
+                int index = 0;
+                while (index < products.size() && products.get(index).getName().compareToIgnoreCase(product.getName()) < 0){
+                    index++;
+                }
+                products.add(index,product);
+                quantities.add(index, quantity);
                 numItems += quantity;
             }
             System.out.println(print());
@@ -192,7 +197,7 @@ public class Ticket {
         double totalPrice = 0.0;
         double totalDiscount = 0.0;
 
-        for (int i = products.size() - 1; i >= 0; i--) {
+        for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
             int amount = quantities.get(i);
 
