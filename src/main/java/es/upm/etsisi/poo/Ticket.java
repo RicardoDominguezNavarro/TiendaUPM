@@ -11,7 +11,7 @@ public class Ticket {
     /**
      * Maximum number of products that can be included in a ticket
      */
-    private final int maxItems = 100;
+    private final int MAXITEMS = 100;
     /**
      * Array: list of products added to the ticket
      */
@@ -38,8 +38,8 @@ public class Ticket {
      */
     public Ticket(Catalog catalog) {
         this.catalog = catalog;
-        this.products = new ArrayList<>(maxItems);
-        this.quantities = new ArrayList<>(maxItems);
+        this.products = new ArrayList<>(MAXITEMS);
+        this.quantities = new ArrayList<>(MAXITEMS);
         this.numItems = 0;
     }
 
@@ -49,8 +49,8 @@ public class Ticket {
      * The previous information is not saved
      */
     public void newTicket() {
-        this.products = new ArrayList<>(maxItems);
-        this.quantities = new ArrayList<>(maxItems);
+        this.products = new ArrayList<>(MAXITEMS);
+        this.quantities = new ArrayList<>(MAXITEMS);
         this.numItems = 0;
         System.out.println("ticket new: ok");
     }
@@ -81,10 +81,10 @@ public class Ticket {
             }
             int newTotal = currentTotal + quantity;
 
-            if (newTotal > maxItems) {
+            if (newTotal > MAXITEMS) {
                 System.out.println("The ticket can only have 100 products");
                 valid = false;
-            } else if (newTotal == maxItems) {
+            } else if (newTotal == MAXITEMS) {
                 System.out.println("The ticket is full");
             }
         }
