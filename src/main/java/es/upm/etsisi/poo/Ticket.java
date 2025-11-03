@@ -151,7 +151,7 @@ public class Ticket {
     public double calculateDiscount(Product product, int amount) {
         double result = 0.0;
         if (amount >= 2) {
-            double discount = getDiscount(product.getCategory());
+            double discount = product.getCategory().getDiscount();
             result = product.getPrice() * discount;
         }
         return result;
@@ -164,6 +164,7 @@ public class Ticket {
      * @param category The category of the product
      * @return the discount
      */
+    /*
     public double getDiscount(Category category) {
         double percent = 0.0;
         switch (category) {
@@ -187,6 +188,8 @@ public class Ticket {
         }
         return percent;
     }
+
+     */
 
     /**
      * @return a formatted string representing the ticket, showing the products,

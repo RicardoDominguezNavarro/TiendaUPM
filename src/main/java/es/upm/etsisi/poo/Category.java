@@ -5,10 +5,22 @@ package es.upm.etsisi.poo;
  */
 public enum Category {
 
-    MERCH,
-    STATIONERY,
-    CLOTHES,
-    BOOK,
-    ELECTRONICS;
+    MERCH(0.0),
+    STATIONERY(0.05),
+    CLOTHES(0.07),
+    BOOK(0.1),
+    ELECTRONICS(0.03);
 
+    private final double discount;
+
+    private Category(double discount) {
+        this.discount = discount;
+    }
+
+    // Getter
+    public double getDiscount() {
+        return discount;
+    }
 }
+
+

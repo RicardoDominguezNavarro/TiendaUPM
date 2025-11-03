@@ -27,10 +27,7 @@ public class App {
      */
     private static final String end = "Closing application. ";
     private static final String goodbye = "Goodbye! ";
-    /**
-     * Reference to control class for utility commands
-     */
-    public Control control;
+
     /**
      * Reference to the catalog class that manages all products
      */
@@ -64,7 +61,7 @@ public class App {
         while (true) {
             System.out.print(UPM);
             String line = scanner.nextLine();
-            if (line.trim().isEmpty()) {
+            if (line.trim().isEmpty()) { //si despues de eliminar los espacio sigue vacia pasa a la siguiente iteración
                 continue;
             }
             if (System.getenv("fileinput")!=null && System.getenv("fileinput").equals("true")){
@@ -79,13 +76,7 @@ public class App {
 
             switch (command) {
                 case "help":
-                    if (control != null) {
-                        control.help();
-                        System.out.println();
-                    } else {
-                        System.out.println("Help not available.");
-                        System.out.println();
-                    }
+                    help();
                     break;
 
                 case "prod":
@@ -97,14 +88,14 @@ public class App {
                         }
                         String[] nameSplit = line.split("\"");
                         if (nameSplit.length < 2) {
-                            System.out.println("The name must be between quotation marks");
+                            System.out.println("Error: the name must be between quotation marks");
                             System.out.println();
                             break;
                         }
 
                         try {
                             String name = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\""));
-                            String category = split[split.length-2].toUpperCase();
+                            String category = split[split.length-2].toUpperCase(); //length empieza a contar desde 1
                             String price = split[split.length-1];
                             Product product = new Product(Integer.parseInt(id), name, Double.parseDouble(price), Category.valueOf(category));
                             catalog.addProd(product);
@@ -201,13 +192,7 @@ public class App {
                     return;
 
                 case "echo":
-                    if (control != null) {
-                        control.echo(line);
-                        System.out.println();
-                    } else {
-                        System.out.println("Echo not available.");
-                        System.out.println();
-                    }
+                    echo(line);
                     break;
                 default:
                     System.out.println("Unkown command");
@@ -224,7 +209,6 @@ public class App {
      */
     public void start() {
         catalog = new Catalog();
-        control = new Control();
         ticket = new Ticket(catalog);
 
     }
@@ -235,5 +219,29 @@ public class App {
     public void exit() {
         System.out.println(end);
         System.out.println(goodbye);
+    }
+
+    public static String echo(String s) {
+        System.out.println(s);
+        return s;
+    }
+    public  void help(){
+
+        System.out.println("Commands:\n" +
+                " prod add <id> \"<name>\" <category> <price>\n" +
+                " prod list\n" +
+                " prod update <id> NAME|CATEGORY|PRICE <value>\n" +
+                " prod remove <id>\n" +
+                " ticket new\n" +
+                " ticket add <prodId> <quantity>\n" +
+                " ticket remove <prodId>\n" +
+                " ticket print\n" +
+                " echo \"<texto>\"\n" +
+                " help\n" +
+                " exit");
+        System.out.println();
+        System.out.println("Categories: MERCH, STATIONERY, CLOTHES, BOOK, ELECTRONICS \n" +
+                "Discounts if there are ≥2 units in the category: MERCH 0%, STATIONERY 5%, CLOTHES 7%, BOOK 10%, \n" +
+                "ELECTRONICS 3%. ");
     }
 }
