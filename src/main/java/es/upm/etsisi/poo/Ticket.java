@@ -11,7 +11,7 @@ public class Ticket {
     /**
      * Unique ID for each ticket.
      */
-    private int id_t;
+    private String id_t;
     /**
      * Maximum number of products that can be included in a ticket
      */
@@ -34,6 +34,7 @@ public class Ticket {
     private Catalog catalog;
 
 
+
     /**
      * Builder that create a new ticket
      * Initially, the ticket is empty
@@ -45,6 +46,7 @@ public class Ticket {
         this.products = new ArrayList<>(MAXITEMS);
         this.quantities = new ArrayList<>(MAXITEMS);
         this.numItems = 0;
+        this.id_t = "";
     }
 
 
@@ -57,6 +59,12 @@ public class Ticket {
         this.products = new ArrayList<>(MAXITEMS);
         this.quantities = new ArrayList<>(MAXITEMS);
         this.numItems = 0;
+        if (id_t == null) {
+            this.id_t = IdGenerator.generateTicketIdOpen();
+        } else {
+            this.id_t = id_t;
+        }
+
         System.out.println("ticket new: ok");
     }
 
@@ -239,9 +247,15 @@ public class Ticket {
     /**
      * @return the ticket ID
      */
-    public int getId_t() {
+    public String getId_t() {
         return id_t;
     }
+
+    public void setId_t(String id_t) {
+        this.id_t = id_t;
+    }
+
+
 
     //añadir el set para que se ponga el id automatico o el q t ponga el ususiario
 }
