@@ -15,7 +15,7 @@ public class App {
      */
     private static final String UPM = "tUPM>";
     /**
-     * Welcome message that appear when teh application starts
+     * Welcome message that appear when the application starts
      */
     private static final String welcome = "Welcome to the ticket module App.";
     /**
