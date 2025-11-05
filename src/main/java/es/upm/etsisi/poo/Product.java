@@ -9,7 +9,7 @@ public class Product {
     /**
      * Unique ID for each product.
      */
-    private int id;
+    private int id_p;
     /**
      * Name of the product. Cannot be null, empty or exceed 100 characters.
      */
@@ -30,14 +30,14 @@ public class Product {
 
     /**
      * Builder that create a new product
-     * @param id the unique ID of the product
+     * @param id_p the unique ID of the product
      * @param name name of the product
      * @param price price of the product
      * @param category category of the product
      * @throws IllegalArgumentException if any argument is invalid
      */
-    public Product(int id, String name, double price, Category category) {
-        if(id <= 0) {
+    public Product(int id_p, String name, double price, Category category) {
+        if(id_p <= 0) {
             throw new IllegalArgumentException("Id may not be negative!");
         }
         if(name == null || name.trim().isEmpty() || name.trim().length() >= 100) {
@@ -49,7 +49,7 @@ public class Product {
         if(category == null) {
             throw new IllegalArgumentException("Category may not be null!");
         }
-        this.id = id;
+        this.id_p = id_p;
         this.name = name;
         this.price = price;
         this.category = category;
@@ -58,8 +58,8 @@ public class Product {
     /**
      * @return the product's ID
      */
-    public int getId() {
-        return id;
+    public int getId_p() {
+        return id_p;
     }
 
     /**
@@ -122,14 +122,14 @@ public class Product {
 
     /**
      * Updates the ID
-     * @param id the new ID
+     * @param id_p the new ID
      * @throws IllegalArgumentException if ID is invalid
      */
-    public void setId(int id) {
-        if(id <= 0) {
+    public void setId_p(int id_p) {
+        if(id_p <= 0) {
             throw new IllegalArgumentException("Id may not be negative!");
         }
-        this.id = id;
+        this.id_p = id_p;
     }
 
     /**
@@ -139,7 +139,7 @@ public class Product {
 
     public String toString() {
         return String.format(Locale.US,"{class:Product, id:%d, name:'%s', category:%s, price:%.1f}",
-                id, name, category, price);
+                id_p, name, category, price);
     }
 
 

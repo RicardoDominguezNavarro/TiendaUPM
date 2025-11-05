@@ -126,7 +126,7 @@ public class Catalog {
             System.out.println("Cannot add product: catalog max capacity reached.");
             return;
         }
-        if (isIdFree(product.getId())) {
+        if (isIdFree(product.getId_p())) {
             products.add(product);
             product.setBelongToCatalog(this);
             System.out.println(product.toString());
@@ -151,7 +151,7 @@ public class Catalog {
      */
     public int positionProd(int id) {
         for (int i = 0; i < products.size(); i++) {
-            if (id == products.get(i).getId()) {
+            if (id == products.get(i).getId_p()) {
                 return i;
             }
         }
@@ -166,7 +166,7 @@ public class Catalog {
     public boolean isIdFree(int id) {
         if (!products.isEmpty()) {
             for (Product product : products) {
-                if (id == product.getId()) {
+                if (id == product.getId_p()) {
                     return false;
                 }
             }
@@ -182,7 +182,7 @@ public class Catalog {
     public Product getProductId(int id) {
         Product result = null;
         for (Product actual : products) {
-            if (actual.getId() == id) {
+            if (actual.getId_p() == id) {
                 result = actual;
             }
         }

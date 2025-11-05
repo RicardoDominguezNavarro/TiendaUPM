@@ -9,6 +9,10 @@ import java.util.Locale;
  */
 public class Ticket {
     /**
+     * Unique ID for each ticket.
+     */
+    private int id_t;
+    /**
      * Maximum number of products that can be included in a ticket
      */
     private final int MAXITEMS = 100;
@@ -42,6 +46,7 @@ public class Ticket {
         this.quantities = new ArrayList<>(MAXITEMS);
         this.numItems = 0;
     }
+
 
 
     /**
@@ -92,7 +97,7 @@ public class Ticket {
         if (valid) {
             boolean found = false;
             for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getId() == prodId) {
+                if (products.get(i).getId_p() == prodId) {
                     quantities.set(i, quantities.get(i) + quantity);
                     numItems += quantity;
                     found = true;
@@ -124,7 +129,7 @@ public class Ticket {
     public void removeProduct(int prodId) {
         boolean found = false;
         for (int i = products.size() - 1; i >= 0; i--) {
-            if (products.get(i).getId() == prodId) {
+            if (products.get(i).getId_p() == prodId) {
                 products.remove(i);
                 quantities.remove(i);
                 numItems--;
@@ -231,4 +236,12 @@ public class Ticket {
     public void setNumItems(int numItems) {
         this.numItems = numItems;
     }
+    /**
+     * @return the ticket ID
+     */
+    public int getId_t() {
+        return id_t;
+    }
+
+    //añadir el set para que se ponga el id automatico o el q t ponga el ususiario
 }
