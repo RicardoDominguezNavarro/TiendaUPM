@@ -2,9 +2,9 @@ package es.upm.etsisi.poo;
 
 import java.util.ArrayList;
 
-public class Cashier extends User{
+public class Cash extends User{
     private final ArrayList<String> createdTicketIds = new ArrayList<>();
-    public Cashier(String id, String name, String email) {
+    public Cash(String id, String name, String email) {
         super(validateAndNormalizeId(id), name, email);
     }
 

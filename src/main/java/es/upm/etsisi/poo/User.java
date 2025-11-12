@@ -2,10 +2,10 @@ package es.upm.etsisi.poo;
 import java.util.Objects;
 
 public abstract class User {
-
     protected final String id;
     protected String name;
     protected String email;
+
 
     protected User(String id, String name, String email) {
         if (id == null){
@@ -22,7 +22,6 @@ public abstract class User {
             this.email = email;
         }
     }
-
     public String getId() {
         return id;
     }
@@ -30,7 +29,6 @@ public abstract class User {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         if (name == null){
             throw new IllegalArgumentException("name must not be null or blank");
@@ -41,7 +39,6 @@ public abstract class User {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         if (email == null) {
             this.email = "";
@@ -56,6 +53,8 @@ public abstract class User {
     public String toString() {
         return getUserType() + "[id=" + id + ", name=" + name + ", email=" + email + "]";
     }
+
+    //meter clases add, remove y lista
 
 
 }
