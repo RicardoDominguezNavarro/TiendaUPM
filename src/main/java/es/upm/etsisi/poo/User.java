@@ -5,6 +5,8 @@ public abstract class User {
     protected final String id;
     protected String name;
     protected String email;
+
+
     protected User(String id, String name, String email) {
         if (id == null){
             throw new IllegalArgumentException("id must not be null");
@@ -51,6 +53,8 @@ public abstract class User {
     public String toString() {
         return getUserType() + "[id=" + id + ", name=" + name + ", email=" + email + "]";
     }
+
+    //meter clases add, remove y lista
 
 
 }
