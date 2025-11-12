@@ -88,16 +88,10 @@ public class Ticket {
             valid = false;
 
         }else {
-            int currentTotal = 0;
-            for (int i = 0; i < quantities.size(); i++) {
-                currentTotal += quantities.get(i);
-            }
-            int newTotal = currentTotal + quantity;
-
-            if (newTotal > MAXITEMS) {
+            if (numItems + quantity > MAXITEMS) {
                 System.out.println("The ticket can only have 100 products");
                 valid = false;
-            } else if (newTotal == MAXITEMS) {
+            } else if (numItems + quantity == MAXITEMS) {
                 System.out.println("The ticket is full");
             }
         }
