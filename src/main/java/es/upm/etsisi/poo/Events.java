@@ -1,26 +1,30 @@
 package es.upm.etsisi.poo;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Events extends Product{
     private LocalDateTime expirationDate;
     private final int maxParticipants = 100;
-    private int minPlanningHours;   //12 para reunión, 72 (3días) para comidas
     private EventType eventType;
 
     public enum EventType {
-        COMIDA, REUNION
+        COMIDA(72), REUNION(12);
+        final private int minPlanningHours;
+        EventType (int hours){
+            minPlanningHours = hours;
+        }
+
+        public int getMinPlanningHours() {
+            return minPlanningHours;
+        }
     }
 
 
-    public Events (int id, String name, double price, LocalDateTime expirationDate, int maxParticipants, int minPlanningHours, EventType eventType){
+    public Events (int id, String name, double price, LocalDateTime expirationDate, EventType eventType){
         super(id, name, price, null);
         this.expirationDate = expirationDate;
-        this.minPlanningHours = minPlanningHours;
         this.eventType = eventType;
-    }
-    public int getMinPlanningHours() {
-        return minPlanningHours;
     }
 
     public LocalDateTime getExpirationDate() {
@@ -35,8 +39,28 @@ public class Events extends Product{
         return eventType;
     }
 
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
+    }
+
+    public double pricePerPerson(int numParticipants) {
+        double price = getPrice() * numParticipants;
+        return price;
+    }
+
+    public boolean validDate() {
+        boolean validDate = false;
+        int minHours = getEventType().getMinPlanningHours();
+        LocalDateTime actualTime = LocalDateTime.now();
+        LocalDateTime expirationDate = getExpirationDate();
+        if (Duration.between(actualTime, expirationDate).toHours() >= minHours) {
+            validDate = true;
+        }
+        return validDate;
     }
 
     //metodo toString, validación de fechas y calcular precio por persona
