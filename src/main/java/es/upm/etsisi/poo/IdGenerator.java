@@ -21,5 +21,5 @@ public final class IdGenerator {
         int num = RANDOM.nextInt(10_000_000);
         return String.format("UW%07d", num);
     }
-
+    
 }

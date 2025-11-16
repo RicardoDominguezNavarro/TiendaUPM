@@ -13,8 +13,7 @@ public class Events extends Product{
     }
 
 
-    public Events (int id, String name, double price, LocalDateTime expirationDate, int maxParticipants,
-                   int minPlanningHours, EventType eventType){
+    public Events (int id, String name, double price, LocalDateTime expirationDate, int maxParticipants, int minPlanningHours, EventType eventType){
         super(id, name, price, null);
         this.expirationDate = expirationDate;
         this.minPlanningHours = minPlanningHours;
@@ -34,14 +33,6 @@ public class Events extends Product{
 
     public EventType getEventType() {
         return eventType;
-    }
-
-    public void setExpirationDate(LocalDateTime expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    public void setMinPlanningHours(int minPlanningHours) {
-        this.minPlanningHours = minPlanningHours;
     }
 
     public void setEventType(EventType eventType) {

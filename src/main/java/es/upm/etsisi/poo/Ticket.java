@@ -11,7 +11,7 @@ public class Ticket {
     /**
      * Unique ID for each ticket.
      */
-    private String id_t;
+    private String id_ticket;
     /**
      * Maximum number of products that can be included in a ticket
      */
@@ -46,7 +46,7 @@ public class Ticket {
         this.products = new ArrayList<>(MAXITEMS);
         this.quantities = new ArrayList<>(MAXITEMS);
         this.numItems = 0;
-        this.id_t = "";
+        this.id_ticket = "";
     }
 
 
@@ -59,10 +59,10 @@ public class Ticket {
         this.products = new ArrayList<>(MAXITEMS);
         this.quantities = new ArrayList<>(MAXITEMS);
         this.numItems = 0;
-        if (id_t == null) {
-            this.id_t = IdGenerator.generateTicketIdOpen();
+        if (id_ticket == null) {
+            this.id_ticket = IdGenerator.generateTicketIdOpen();
         } else {
-            this.id_t = id_t;
+            this.id_ticket = id_ticket;
         }
 
         System.out.println("ticket new: ok");
@@ -99,7 +99,7 @@ public class Ticket {
         if (valid) {
             boolean found = false;
             for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getId_p() == prodId) {
+                if (products.get(i).getId_product() == prodId) {
                     quantities.set(i, quantities.get(i) + quantity);
                     numItems += quantity;
                     found = true;
@@ -131,7 +131,7 @@ public class Ticket {
     public void removeProduct(int prodId) {
         boolean found = false;
         for (int i = products.size() - 1; i >= 0; i--) {
-            if (products.get(i).getId_p() == prodId) {
+            if (products.get(i).getId_product() == prodId) {
                 products.remove(i);
                 quantities.remove(i);
                 numItems--;
@@ -241,12 +241,12 @@ public class Ticket {
     /**
      * @return the ticket ID
      */
-    public String getId_t() {
-        return id_t;
+    public String getId_ticket() {
+        return id_ticket;
     }
 
-    public void setId_t(String id_t) {
-        this.id_t = id_t;
+    public void setId_ticket(String id_ticket) {
+        this.id_ticket = id_ticket;
     }
 
 

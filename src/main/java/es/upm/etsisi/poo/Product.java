@@ -9,7 +9,7 @@ public class Product {
     /**
      * Unique ID for each product.
      */
-    private int id_p;
+    private int id_product;
     /**
      * Name of the product. Cannot be null, empty or exceed 100 characters.
      */
@@ -49,7 +49,7 @@ public class Product {
         if(category == null) {
             throw new IllegalArgumentException("Category may not be null!");
         }
-        this.id_p = id_p;
+        this.id_product = id_p;
         this.name = name;
         this.price = price;
         this.category = category;
@@ -58,8 +58,8 @@ public class Product {
     /**
      * @return the product's ID
      */
-    public int getId_p() {
-        return id_p;
+    public int getId_product() {
+        return id_product;
     }
 
     /**
@@ -122,14 +122,14 @@ public class Product {
 
     /**
      * Updates the ID
-     * @param id_p the new ID
+     * @param id_product the new ID
      * @throws IllegalArgumentException if ID is invalid
      */
-    public void setId_p(int id_p) {
-        if(id_p <= 0) {
+    public void setId_product(int id_product) {
+        if(id_product <= 0) {
             throw new IllegalArgumentException("Id may not be negative!");
         }
-        this.id_p = id_p;
+        this.id_product = id_product;
     }
 
     /**
@@ -139,7 +139,7 @@ public class Product {
 
     public String toString() {
         return String.format(Locale.US,"{class:Product, id:%d, name:'%s', category:%s, price:%.1f}",
-                id_p, name, category, price);
+                id_product, name, category, price);
     }
 
 

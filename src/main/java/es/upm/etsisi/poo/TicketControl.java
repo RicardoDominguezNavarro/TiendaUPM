@@ -11,13 +11,8 @@ public class TicketControl {
         this.tickets = new ArrayList<>();
 
         //no sé si deberia añadri algo del id del cajero
+        //organizar ticket y ticket control
     }
-
-
-
-
-
-
 
 
 }
