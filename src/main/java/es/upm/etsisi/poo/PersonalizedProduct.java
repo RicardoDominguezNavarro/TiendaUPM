@@ -1,6 +1,7 @@
 package es.upm.etsisi.poo;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class PersonalizedProduct extends Product{
@@ -35,6 +36,11 @@ public class PersonalizedProduct extends Product{
         return this.maxText;
     }
 
+    @Override
+    public double getPrice() {
+        return getPricePersonalization();
+    }
+
     public boolean addPersonalization(String textPersonalization){
         boolean added = false;
         if(personalizationList.size() < this.maxText){
@@ -44,6 +50,7 @@ public class PersonalizedProduct extends Product{
         return added;
     }
 
+    //Se hace una copia del producto porque no queremos que tdo el producto se modifique en el catalogo sino q solo uno en el ticket
     public PersonalizedProduct(PersonalizedProduct other) {
         super(other.getId_p(), other.getName(), other.getPrice(), other.getCategory());
         this.maxText = other.maxText;
@@ -54,6 +61,20 @@ public class PersonalizedProduct extends Product{
         double basePrice = super.getPrice();
         double extraPrince = basePrice * 0.10 *  personalizationList.size();
         return basePrice + extraPrince;
+    }
+
+    @Override
+    public String toString() {
+        double currentPrice = getPricePersonalization();
+        if (personalizationList.isEmpty()) {
+            return String.format(Locale.US,
+                    "{class:ProductPersonalized, id:%d, name:'%s', category:%s, price:%.1f, maxPersonal:%d}",
+                    getId_p(), getName(), getCategory(), currentPrice, maxText);
+        }else {
+            return String.format(Locale.US,
+                    "{class:ProductPersonalized, id:%d, name:'%s', category:%s, price:%.1f, maxPersonal:%d, personalizationList:%s}",
+                    getId_p(), getName(), getCategory(), currentPrice, maxText, personalizationList.toString());
+        }
     }
 
 
