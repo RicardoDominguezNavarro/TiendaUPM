@@ -1,5 +1,6 @@
 package es.upm.etsisi.poo;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -249,7 +250,17 @@ public class Ticket {
         this.id_t = id_t;
     }
 
-
+    public void dateToIdFormat (){
+        int year = LocalDateTime.now().getYear();
+        int longitud = String.valueOf(year).length();
+        int twoDigitYear = (int) (year % Math.pow(10, longitud-1));
+        String id_year = String.valueOf(twoDigitYear);
+        String id_mes = String.valueOf(LocalDateTime.now().getMonthValue());
+        String id_dia = String.valueOf(LocalDateTime.now().getDayOfMonth());
+        String id_hora = String.valueOf(LocalDateTime.now().getHour());
+        String id_minute = String.valueOf(LocalDateTime.now().getMinute());
+        String id = id_year + "-" + id_mes + "-" + id_dia + "-" + id_hora + ":" + id_minute;
+    }
 
     //añadir el set para que se ponga el id automatico o el q t ponga el ususiario
 }
