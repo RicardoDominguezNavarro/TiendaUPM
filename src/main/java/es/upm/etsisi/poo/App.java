@@ -146,7 +146,7 @@ public class App {
 
                 case "ticket":
                     if (accion.equals("new")) {
-                        ticket.newTicket();
+                        //ticket.newTicket();
                         System.out.println();
 
                     } else if (accion.equals("add")) {
@@ -156,7 +156,7 @@ public class App {
                             break;
                         }
                         try {
-                            ticket.addProduct(Integer.parseInt(split[2]), Integer.parseInt(split[3]));
+                            //ticket.addProduct(Integer.parseInt(split[2]), Integer.parseInt(split[3]));
                             System.out.println();
                         } catch (NumberFormatException e) {
                             System.out.println("prodId and quantity must be integers.");
@@ -170,14 +170,14 @@ public class App {
                             break;
                         }
                         try {
-                            ticket.removeProduct(Integer.parseInt(split[2]));
+                            //ticket.removeProduct(Integer.parseInt(split[2]));
                             System.out.println();
                         } catch (NumberFormatException e) {
                             System.out.println("Invalid prodId for ticket remove.");
                             System.out.println();
                         }
                     } else if (accion.equals("print")) {
-                        System.out.println(ticket.print());
+                        //System.out.println(ticket.print());
                         System.out.println("ticket print: ok");
                         //ticket.newTicket();
                         System.out.println();
@@ -209,7 +209,7 @@ public class App {
      */
     public void start() {
         catalog = new Catalog();
-        ticket = new Ticket(catalog);
+       // ticket = new Ticket(catalog);
 
     }
 
