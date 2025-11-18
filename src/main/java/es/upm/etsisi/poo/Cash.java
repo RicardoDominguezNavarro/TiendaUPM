@@ -28,6 +28,19 @@ public class Cash extends User{
         return cleaned;
     }
 
+    public String generateId (){
+        String id = "UW";
+        int idIntegerPart = 0;
+        int weigth = 1000000;
+        for (int i = 0; i < 7; i++) {
+            idIntegerPart += (int) (Math.random() * 10) * weigth;
+            weigth /= 10;
+        }
+        id += String.valueOf(idIntegerPart);
+        return id;
+        //se comprueba si ya existe a la hora de llamar a la funcion
+    }
+
     @Override
     public String getUserType() {
         return "Cash";
