@@ -132,7 +132,21 @@ public class Ticket {
         String id_day = String.valueOf(LocalDateTime.now().getDayOfMonth());
         String id_hour = String.valueOf(LocalDateTime.now().getHour());
         String id_minute = String.valueOf(LocalDateTime.now().getMinute());
-        String id = id_year + "-" + id_month + "-" + id_day + "-" + id_hour + ":" + id_minute;
+        String date = id_year + "-" + id_month + "-" + id_day + "-" + id_hour + ":" + id_minute;
+        return date;
+    }
+
+    public int generateId (){
+        boolean freeId = false;
+        int id = 0;
+        while (freeId == false){
+            int weight = 10000;
+            for (int i = 0; i < 5; i++) {
+                id += (int) (Math.random() * 10) * weight;
+                weight /= 10;
+            }
+
+        }
         return id;
     }
 
