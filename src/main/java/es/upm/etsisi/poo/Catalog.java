@@ -188,4 +188,13 @@ public class Catalog {
         }
         return result;
     }
+
+    public int generateId (){
+        int id = 0;
+        for (int i = 0; i < 3; i++) {
+            id += (int) (Math.random() * 200) + 200; //todos los ids generados están entre el 200 y el 400 (Se puede cambiar)
+        }
+        return id;
+        //se comprueba si ya existe a la hora de llamar a la funcion
+    }
 }
