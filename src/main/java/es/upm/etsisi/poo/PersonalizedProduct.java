@@ -9,8 +9,8 @@ public class PersonalizedProduct extends Product{
     private ArrayList<String> personalizationList;
 
 
-    public PersonalizedProduct(int id, String name, double price, Category category){
-        super(id, name, price, category);
+    public PersonalizedProduct(int id_product, String name, double price, Category category){
+        super(id_product, name, price, category);
         this.maxText = maxTextsByCategory(category);
         this.personalizationList = new ArrayList<>();
     }
@@ -52,7 +52,7 @@ public class PersonalizedProduct extends Product{
 
     //Se hace una copia del producto porque no queremos que tdo el producto se modifique en el catalogo sino q solo uno en el ticket
     public PersonalizedProduct(PersonalizedProduct other) {
-        super(other.getId_p(), other.getName(), other.getPrice(), other.getCategory());
+        super(other.getId_product(), other.getName(), other.getPrice(), other.getCategory());
         this.maxText = other.maxText;
         this.personalizationList = new ArrayList<>();
     }
@@ -69,11 +69,11 @@ public class PersonalizedProduct extends Product{
         if (personalizationList.isEmpty()) {
             return String.format(Locale.US,
                     "{class:ProductPersonalized, id:%d, name:'%s', category:%s, price:%.1f, maxPersonal:%d}",
-                    getId_p(), getName(), getCategory(), currentPrice, maxText);
+                    getId_product(), getName(), getCategory(), currentPrice, maxText);
         }else {
             return String.format(Locale.US,
                     "{class:ProductPersonalized, id:%d, name:'%s', category:%s, price:%.1f, maxPersonal:%d, personalizationList:%s}",
-                    getId_p(), getName(), getCategory(), currentPrice, maxText, personalizationList.toString());
+                    getId_product(), getName(), getCategory(), currentPrice, maxText, personalizationList.toString());
         }
     }
 

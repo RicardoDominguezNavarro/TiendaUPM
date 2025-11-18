@@ -15,7 +15,8 @@ public class Ticket {
     /**
      * Unique ID for each ticket.
      */
-    public enum TicketStatus { VACIO, ACTIVO, CERRADO }
+    public enum TicketStatus {VACIO, ACTIVO, CERRADO}
+
     private String idTicket;
     private String userId;
     private String cashId;
@@ -53,11 +54,6 @@ public class Ticket {
      */
     private Catalog catalog;
 
-
-
-
-
-
     /**
      * Builder that create a new ticket
      * Initially, the ticket is empty
@@ -82,12 +78,15 @@ public class Ticket {
     public String getCashId() {
         return cashId;
     }
+
     public TicketStatus getTicketStatus() {
         return ticketStatus;
     }
+
     public int getMAXITEMS() {
         return MAXITEMS;
     }
+
     public ArrayList<Product> getProducts() {
         return products;
     }
@@ -111,6 +110,7 @@ public class Ticket {
     public void setNumItems(int numItems) {
         this.numItems = numItems;
     }
+
     /**
      * @return the ticket ID
      */
@@ -123,10 +123,10 @@ public class Ticket {
         this.idTicket = id_ticket;
     }
 
-public void dateToIdFormat (){
+    public void dateToIdFormat() {
         int year = LocalDateTime.now().getYear();
         int longitud = String.valueOf(year).length();
-        int twoDigitYear = (int) (year % Math.pow(10, longitud-1));
+        int twoDigitYear = (int) (year % Math.pow(10, longitud - 1));
         String id_year = String.valueOf(twoDigitYear);
         String id_mes = String.valueOf(LocalDateTime.now().getMonthValue());
         String id_dia = String.valueOf(LocalDateTime.now().getDayOfMonth());

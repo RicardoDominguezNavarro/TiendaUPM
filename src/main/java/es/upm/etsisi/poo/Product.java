@@ -30,14 +30,14 @@ public class Product {
 
     /**
      * Builder that create a new product
-     * @param id_p the unique ID of the product
+     * @param id_product the unique ID of the product
      * @param name name of the product
      * @param price price of the product
      * @param category category of the product
      * @throws IllegalArgumentException if any argument is invalid
      */
-    public Product(int id_p, String name, double price, Category category) {
-        if(id_p <= 0) {
+    public Product(int id_product, String name, double price, Category category) {
+        if(id_product <= 0) {
             throw new IllegalArgumentException("Id may not be negative!");
         }
         if(name == null || name.trim().isEmpty() || name.trim().length() >= 100) {
@@ -49,7 +49,7 @@ public class Product {
         if(category == null) {
             throw new IllegalArgumentException("Category may not be null!");
         }
-        this.id_product = id_p;
+        this.id_product = id_product;
         this.name = name;
         this.price = price;
         this.category = category;
