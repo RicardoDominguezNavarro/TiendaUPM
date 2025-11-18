@@ -1,5 +1,6 @@
 package es.upm.etsisi.poo;
 import java.util.Objects;
+import java.util.ArrayList;
 
 public abstract class User {
     protected final String id;

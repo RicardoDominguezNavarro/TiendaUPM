@@ -21,8 +21,8 @@ public class Ticket {
     private String userId;
     private String cashId;
     private TicketStatus ticketStatus;
-    private LocalDateTime openingDate;
-    private LocalDateTime closingDate;
+    private String openingDate;
+    private String closingDate;
 
 
     /**
@@ -60,7 +60,7 @@ public class Ticket {
      *
      * @param catalog Contains the available products
      */
-    public Ticket(String idTicket, String userId, String cashId, LocalDateTime openingDate,
+    public Ticket(String idTicket, String userId, String cashId, String openingDate,
                   Catalog catalog) {
         this.idTicket = idTicket;
         this.userId = userId;
@@ -123,32 +123,5 @@ public class Ticket {
         this.idTicket = id_ticket;
     }
 
-    public String dateToIdFormat() {
-        int year = LocalDateTime.now().getYear();
-        int longitud = String.valueOf(year).length();
-        int twoDigitYear = (int) (year % Math.pow(10, longitud - 1));
-        String id_year = String.valueOf(twoDigitYear);
-        String id_month = String.valueOf(LocalDateTime.now().getMonthValue());
-        String id_day = String.valueOf(LocalDateTime.now().getDayOfMonth());
-        String id_hour = String.valueOf(LocalDateTime.now().getHour());
-        String id_minute = String.valueOf(LocalDateTime.now().getMinute());
-        String date = id_year + "-" + id_month + "-" + id_day + "-" + id_hour + ":" + id_minute;
-        return date;
-    }
 
-    public int generateId (){
-        boolean freeId = false;
-        int id = 0;
-        while (freeId == false){
-            int weight = 10000;
-            for (int i = 0; i < 5; i++) {
-                id += (int) (Math.random() * 10) * weight;
-                weight /= 10;
-            }
-
-        }
-        return id;
-    }
-
-    //añadir el set para que se ponga el id automatico o el q t ponga el ususiario
 }
