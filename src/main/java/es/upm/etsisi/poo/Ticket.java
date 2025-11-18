@@ -21,8 +21,8 @@ public class Ticket {
     private String userId;
     private String cashId;
     private TicketStatus ticketStatus;
-    private LocalDateTime openingDate;
-    private LocalDateTime closingDate;
+    private String openingDate;
+    private String closingDate;
 
 
     /**
@@ -60,7 +60,7 @@ public class Ticket {
      *
      * @param catalog Contains the available products
      */
-    public Ticket(String idTicket, String userId, String cashId, LocalDateTime openingDate,
+    public Ticket(String idTicket, String userId, String cashId, String openingDate,
                   Catalog catalog) {
         this.idTicket = idTicket;
         this.userId = userId;

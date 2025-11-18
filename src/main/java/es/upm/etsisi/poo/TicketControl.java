@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Locale;
 
+
 public class TicketControl {
     private final ArrayList<Ticket> tickets;
     private final Catalog catalog;
@@ -16,9 +17,8 @@ public class TicketControl {
     //organizar ticket y ticket control
 
 
-    public void newTicket( String userId, String cashId) {
-        String idTicket = IdGenerator.generateTicketIdOpen();
-        Ticket ticket = new Ticket(idTicket,userId,cashId, LocalDateTime.now(),catalog);
+    public void newTicket( String userId, String cashId, String ticketId) {
+        Ticket ticket = new Ticket(ticketId,userId,cashId,dateToIdFormat(),catalog);
         tickets.add(ticket);
 
         System.out.println("ticket new: ok");
@@ -57,7 +57,7 @@ public class TicketControl {
             System.out.println("Invalid amount or full ticket");
             valid = false;
         }else if (ticket.getNumItems() + quantity == ticket.getMAXITEMS()) {
-                System.out.println("The ticket is full");
+            System.out.println("The ticket is full");
         }
 
         Product product = null;
@@ -238,5 +238,27 @@ public class TicketControl {
         return sb.toString();
     }
 
+    public String dateToIdFormat() {
+        int year = LocalDateTime.now().getYear();
+        int longitud = String.valueOf(year).length();
+        int twoDigitYear = (int) (year % Math.pow(10, longitud - 1));
+        String id_year = String.valueOf(twoDigitYear);
+        String id_month = String.valueOf(LocalDateTime.now().getMonthValue());
+        String id_day = String.valueOf(LocalDateTime.now().getDayOfMonth());
+        String id_hour = String.valueOf(LocalDateTime.now().getHour());
+        String id_minute = String.valueOf(LocalDateTime.now().getMinute());
+        String date = id_year + "-" + id_month + "-" + id_day + "-" + id_hour + ":" + id_minute;
+        return date;
+    }
 
+    public int generateId (){
+        int id = 0;
+        int weight = 10000;
+        for (int i = 0; i < 5; i++) {
+            id += (int) (Math.random() * 10) * weight;
+            weight /= 10;
+        }
+        return id;
+        //se comprueba si ya existe a la hora de llamar a la funcion
+    }
 }
