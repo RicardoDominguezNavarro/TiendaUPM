@@ -48,56 +48,59 @@ public class TicketControl {
         //en vez de arrayList List solo???
         Ticket ticket = findTicketById (ticketId);
         boolean valid = true;
-
-        if (!ticket.getCashId().equals(cashId) || ticket.getTicketStatus() != Ticket.TicketStatus.OPEN) {
-            System.out.println("unauthorized or closed ticket");
-            valid = false;
-        }
-        if (valid && quantity < 0 || ticket.getNumItems() + quantity > ticket.getMAXITEMS()) {
-            System.out.println("Invalid amount or full ticket");
-            valid = false;
-        }else if (ticket.getNumItems() + quantity == ticket.getMAXITEMS()) {
-            System.out.println("The ticket is full");
-        }
-
-        Product product = null;
-        if (valid){
-            product = catalog.getProductId(prodId);
-            if (product == null){
-                System.out.println("product not found");
+        if (ticket == null) {
+            System.out.println("The ticketId doesn´t exist");
+        }else {
+            if (!ticket.getCashId().equals(cashId) || ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
+                System.out.println("unauthorized or closed ticket");
                 valid = false;
             }
-        }
-        //poner las excepciones de personalized y eventos
+            //los eventos cuenta como 1 solo item o segun las personas que sean??
+            if (valid && quantity < 0 || ticket.getNumItems() + quantity > ticket.getMAXITEMS()) {
+                System.out.println("Invalid amount or full ticket");
+                valid = false;
+            } else if (ticket.getNumItems() + quantity == ticket.getMAXITEMS()) {
+                System.out.println("The ticket is full");
+            }
 
-
-        if (valid) {
-
-            ArrayList<Product> products = ticket.getProducts();
-            ArrayList<Integer> quantities = ticket.getQuantities();
-            ArrayList<String> personalizedText = ticket.getMaxPers();
-
-            boolean found = false;
-            for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getId_product()== prodId && personalizedText.get(i).equals(personalized)) {
-                    quantities.set(i, quantities.get(i) + quantity);
-                    ticket.setNumItems(ticket.getNumItems() + quantity) ;
-                    found = true;
+            Product product = null;
+            if (valid) {
+                product = catalog.getProductId(prodId);
+                if (product == null) {
+                    System.out.println("product not found");
+                    valid = false;
                 }
             }
-            if (!found) {
+            //poner las excepciones de personalized y eventos
 
-                int index = 0;
-                while (index < products.size() && products.get(index).getName().compareToIgnoreCase(product.getName()) < 0){
-                    index++;
+            if (valid) {
+
+                ArrayList<Product> products = ticket.getProducts();
+                ArrayList<Integer> quantities = ticket.getQuantities();
+                ArrayList<String> personalizedText = ticket.getMaxPers();
+
+                boolean found = false;
+                for (int i = 0; i < products.size(); i++) {
+                    if (products.get(i).getId_product() == prodId && personalizedText.get(i).equals(personalized)) {
+                        quantities.set(i, quantities.get(i) + quantity);
+                        ticket.setNumItems(ticket.getNumItems() + quantity);
+                        found = true;
+                    }
                 }
-                products.add(index,product);
-                quantities.add(index, quantity);
-                personalizedText.add(index, String.valueOf(personalized)); //mirar esto porq no me cuadra
-                ticket.setNumItems(ticket.getNumItems() + quantity) ;
+                if (!found) {
+
+                    int index = 0;
+                    while (index < products.size() && products.get(index).getName().compareToIgnoreCase(product.getName()) < 0) {
+                        index++;
+                    }
+                    products.add(index, product);
+                    quantities.add(index, quantity);
+                    personalizedText.add(index, String.valueOf(personalized)); //mirar esto porq no me cuadra
+                    ticket.setNumItems(ticket.getNumItems() + quantity);
+                }
+                //System.out.println(printTicket(ticketId,cashId));
+                System.out.println("ticket add: ok");
             }
-            //System.out.println(printTicket(ticketId,cashId));
-            System.out.println("ticket add: ok");
         }
     }
 
@@ -112,7 +115,7 @@ public class TicketControl {
     public void removeProduct(String ticketId, String cashId, int prodId) {
         Ticket ticket = findTicketById(ticketId);
         if (ticket ==null){
-            System.out.println("The ticketId doesn´t exist");
+            System.out.println("The ticket doesn´t exist");
         }else{
             if (ticket.getCashId().equals(cashId)){
                 if(ticket.getTicketStatus() == Ticket.TicketStatus.OPEN){
@@ -148,6 +151,15 @@ public class TicketControl {
             }
         }
 
+    }
+
+    //Si se elimina un cajero se elimina los tickets creados por el
+    public void removeTicketsByCashier(String cashierId){
+        for (Ticket ticket : tickets) {
+            if (ticket.getCashId().equals(cashierId)){
+                tickets.remove(ticket);
+            }
+        }
     }
 
 
@@ -197,7 +209,7 @@ public class TicketControl {
     public void printTicket(String ticketId, String cashId) {
         Ticket ticket = findTicketById(ticketId);
         if (ticket ==null){
-            System.out.println("The ticketId doesn´t exist");
+            System.out.println("The ticket doesn´t exist");
         }else{
             if (ticket.getCashId().equals(cashId)){
                 if(ticket.getTicketStatus() != Ticket.TicketStatus.CLOSE){
