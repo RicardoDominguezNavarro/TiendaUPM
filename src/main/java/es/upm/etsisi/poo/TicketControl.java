@@ -17,19 +17,19 @@ public class TicketControl {
     //organizar ticket y ticket control
 
 
-    public void newTicket( String userId, String cashId, String ticketId) {
-        Ticket ticket = new Ticket(ticketId,userId,cashId,dateToIdFormat(),catalog);
+    public void newTicket(String userId, String cashId, String ticketId) {
+        Ticket ticket = new Ticket(ticketId, userId, cashId, dateToIdFormat(), catalog);
         tickets.add(ticket);
 
         System.out.println("ticket new: ok");
     }
 
-    public Ticket findTicketById (String ticketId){
+    public Ticket findTicketById(String ticketId) {
         for (int i = 0; i < tickets.size(); i++) {
             Ticket ticket = tickets.get(i);
             if (ticket.getIdTicket().equals(ticketId)) {
                 return ticket;
-            }else {
+            } else {
                 System.out.println("Ticket not found");
             }
         }
@@ -45,18 +45,17 @@ public class TicketControl {
      * @param quantity the number of units to add
      */
     public void addProductToTicket(String ticketId, String cashId, int prodId, int quantity, ArrayList<String> personalized) {
-        //en vez de arrayList List solo???
-        Ticket ticket = findTicketById (ticketId);
+        Ticket ticket = findTicketById(ticketId);
         boolean valid = true;
         if (ticket == null) {
             System.out.println("The ticketId doesn´t exist");
-        }else {
+        } else {
             if (!ticket.getCashId().equals(cashId) || ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
                 System.out.println("unauthorized or closed ticket");
                 valid = false;
             }
             //los eventos cuenta como 1 solo item o segun las personas que sean??
-            if (valid && quantity < 0 || ticket.getNumItems() + quantity > ticket.getMAXITEMS()) {
+            if (valid && quantity <= 0 || ticket.getNumItems() + quantity > ticket.getMAXITEMS()) {
                 System.out.println("Invalid amount or full ticket");
                 valid = false;
             } else if (ticket.getNumItems() + quantity == ticket.getMAXITEMS()) {
@@ -71,7 +70,41 @@ public class TicketControl {
                     valid = false;
                 }
             }
-            //poner las excepciones de personalized y eventos
+
+            if (valid && product instanceof PersonalizedProduct) {
+                PersonalizedProduct personalizedProduct = (PersonalizedProduct) product;
+                if (personalizedProduct == null) {
+                    personalized = new ArrayList<>();
+                }
+                if (personalized.size() > personalizedProduct.getMaxText()) {
+                    System.out.println("Exceeded max number of personalized texts");
+                    valid = false;
+                }
+                for (int i = 0; i < personalized.size(); i++) {
+                    String text = personalized.get(i);
+                    if (!personalizedProduct.getPersonalizationList().contains(text)) {
+                        System.out.println("Personalized text not allowed");
+                        valid = false;
+                        break;
+                    }
+                }
+            }
+            if (valid && product instanceof Events) {
+                Events event = (Events) product;
+                ArrayList<Product> products = ticket.getProducts();
+                for (int i = 0; i < products.size(); i++) {
+                    Product prod = products.get(i);
+                    if (prod instanceof Events && prod.getId_product() == prodId) {
+                        System.out.println("Event already added");
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid && !event.validDate()) {
+                    System.out.println("Event must be planned at least " + event.getEventType().getMinPlanningHours() + "hours ahead");
+                    valid = false;
+                }
+            }
 
             if (valid) {
 
@@ -114,39 +147,39 @@ public class TicketControl {
 
     public void removeProduct(String ticketId, String cashId, int prodId) {
         Ticket ticket = findTicketById(ticketId);
-        if (ticket ==null){
+        if (ticket == null) {
             System.out.println("The ticket doesn´t exist");
-        }else{
-            if (ticket.getCashId().equals(cashId)){
-                if(ticket.getTicketStatus() == Ticket.TicketStatus.OPEN){
+        } else {
+            if (ticket.getCashId().equals(cashId)) {
+                if (ticket.getTicketStatus() == Ticket.TicketStatus.OPEN) {
 
                     ArrayList<Product> products = ticket.getProducts();
                     ArrayList<Integer> quantities = ticket.getQuantities();
                     //Habria que borrar del array de personalizados tambien los textos asociados
 
-                        boolean found = false;
-                        for (int i = products.size() - 1; i >= 0; i--) {
-                            if (products.get(i).getId_product() == prodId) {
-                                int quantity = quantities.get(i);
-                                products.remove(i);
-                                quantities.remove(i);
-                                ticket.setNumItems(ticket.getNumItems() - quantity);
-                                found = true;
-                            }
+                    boolean found = false;
+                    for (int i = products.size() - 1; i >= 0; i--) {
+                        if (products.get(i).getId_product() == prodId) {
+                            int quantity = quantities.get(i);
+                            products.remove(i);
+                            quantities.remove(i);
+                            ticket.setNumItems(ticket.getNumItems() - quantity);
+                            found = true;
                         }
-                        if (found) {
-                            //System.out.println(print());
-                            System.out.println(print(ticket));
-                            System.out.println("ticket remove: ok");
-                        } else {
-                            System.out.println("There is no product in the ticket.");
-                        }
-                }else if(ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE){
+                    }
+                    if (found) {
+                        //System.out.println(print());
+                        System.out.println(print(ticket));
+                        System.out.println("ticket remove: ok");
+                    } else {
+                        System.out.println("There is no product in the ticket.");
+                    }
+                } else if (ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
                     System.out.println("This ticket cannot be modified.");
-                }else{
+                } else {
                     System.out.println("This ticket is empty.");
                 }
-            }else{
+            } else {
                 System.out.println("The cashier didn't create this ticket.");
             }
         }
@@ -154,9 +187,9 @@ public class TicketControl {
     }
 
     //Si se elimina un cajero se elimina los tickets creados por el
-    public void removeTicketsByCashier(String cashierId){
+    public void removeTicketsByCashier(String cashierId) {
         for (Ticket ticket : tickets) {
-            if (ticket.getCashId().equals(cashierId)){
+            if (ticket.getCashId().equals(cashierId)) {
                 tickets.remove(ticket);
             }
         }
@@ -208,17 +241,17 @@ public class TicketControl {
      */
     public void printTicket(String ticketId, String cashId) {
         Ticket ticket = findTicketById(ticketId);
-        if (ticket ==null){
+        if (ticket == null) {
             System.out.println("The ticket doesn´t exist");
-        }else{
-            if (ticket.getCashId().equals(cashId)){
-                if(ticket.getTicketStatus() != Ticket.TicketStatus.CLOSE){
+        } else {
+            if (ticket.getCashId().equals(cashId)) {
+                if (ticket.getTicketStatus() != Ticket.TicketStatus.CLOSE) {
                     ticket.setTicketStatus(Ticket.TicketStatus.CLOSE);
                     System.out.println(print(ticket));
                     System.out.println("ticket print: ok");
 
                 }
-            }else{
+            } else {
                 System.out.println("The cashier didn't create this ticket.");
             }
         }
@@ -236,9 +269,9 @@ public class TicketControl {
         ArrayList<Product> products = ticket.getProducts();
         ArrayList<Integer> quantities = ticket.getQuantities();
         sb.append("Ticket : ").append(ticket.getIdTicket());
-        if (ticket.getTicketStatus()== Ticket.TicketStatus.CLOSE){
+        if (ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
             sb.append("-").append(ticket.getClosingDate()).append("\n");
-        }else {
+        } else {
             sb.append("\n");
         }
         for (int i = 0; i < products.size(); i++) {
@@ -246,27 +279,27 @@ public class TicketControl {
             int amount = quantities.get(i);
             double discount = 0.0;
             for (int j = 0; j < amount; j++) {
-                if (product instanceof Events){
+                if (product instanceof Events) {
                     Events event = (Events) product;
-                    if (!event.validDate()){
-                        return "The ticket cannot be closed because the "+event.getName() +" event has passed its deadline.";
+                    if (!event.validDate()) {
+                        return "The ticket cannot be closed because the " + event.getName() + " event has passed its deadline.";
                     }
                     sb.append(event.toString()).append("\n");
 
-                }else if(product instanceof PersonalizedProduct){
+                } else if (product instanceof PersonalizedProduct) {
                     PersonalizedProduct personalizedProd = (PersonalizedProduct) product;
                     sb.append(personalizedProd.toString());
                     discount = calculateDiscount(product, amount);
                     if (discount > 0) {
-                        sb.append(" **discount -").append(String.format(Locale.US,"%.2f", discount)).append("\n");
+                        sb.append(" **discount -").append(String.format(Locale.US, "%.2f", discount)).append("\n");
                     } else {
                         sb.append("\n");
                     }
-                }else{
+                } else {
                     discount = calculateDiscount(product, amount);
                     sb.append(product.toString());
                     if (discount > 0) {
-                        sb.append(" **discount -").append(String.format(Locale.US,"%.2f", discount)).append("\n");
+                        sb.append(" **discount -").append(String.format(Locale.US, "%.2f", discount)).append("\n");
                     } else {
                         sb.append("\n");
                     }
@@ -276,16 +309,17 @@ public class TicketControl {
             }
         }
         double finalPrice = totalPrice - totalDiscount;
-        sb.append("Total price: ").append(String.format(Locale.US,"%.2f", totalPrice)).append("\n");
-        sb.append("Total discount: ").append(String.format(Locale.US,"%.2f", totalDiscount)).append("\n");
-        sb.append("Final price: ").append(String.format(Locale.US,"%.2f", finalPrice));
+        sb.append("Total price: ").append(String.format(Locale.US, "%.2f", totalPrice)).append("\n");
+        sb.append("Total discount: ").append(String.format(Locale.US, "%.2f", totalDiscount)).append("\n");
+        sb.append("Final price: ").append(String.format(Locale.US, "%.2f", finalPrice));
         return sb.toString();
     }
-    public String listTicket(){
+
+    public String listTicket() {
         StringBuilder sb = new StringBuilder();
         sb.append("Ticket List:\n");
         for (Ticket ticket : tickets) {
-            switch (ticket.getTicketStatus()){
+            switch (ticket.getTicketStatus()) {
                 case EMPTY:
                     sb.append(ticket.getOpeningDate()).append("-").append(ticket.getIdTicket());
                     break;
@@ -316,7 +350,7 @@ public class TicketControl {
         return date;
     }
 
-    public int generateId (){
+    public int generateId() {
         int id = 0;
         int weight = 10000;
         for (int i = 0; i < 5; i++) {

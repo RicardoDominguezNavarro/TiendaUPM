@@ -50,6 +50,11 @@ public class PersonalizedProduct extends Product{
         return basePrice + extraPrince;
     }
 
+    public ArrayList<String> getPersonalizationList() {
+        return personalizationList;
+    }
+
+
     @Override
     public String toString() {
         double currentPrice = getPricePersonalization();
