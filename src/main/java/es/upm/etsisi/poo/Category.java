@@ -17,7 +17,6 @@ public enum Category {
         this.discount = discount;
     }
 
-    // Getter
     public double getDiscount() {
         return discount;
     }

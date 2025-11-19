@@ -1,7 +1,6 @@
 package es.upm.etsisi.poo;
 
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
@@ -15,7 +14,7 @@ public class Ticket {
     /**
      * Unique ID for each ticket.
      */
-    public enum TicketStatus {VACIO, ACTIVO, CERRADO}
+    public enum TicketStatus {EMPTY, OPEN, CLOSE}
 
     private String idTicket;
     private String userId;
@@ -67,7 +66,7 @@ public class Ticket {
         this.cashId = cashId;
         this.openingDate = openingDate;
         this.catalog = catalog;
-        this.ticketStatus = TicketStatus.ACTIVO;
+        this.ticketStatus = TicketStatus.OPEN;
         this.products = new ArrayList<>(MAXITEMS);
         this.quantities = new ArrayList<>(MAXITEMS);
         this.maxPers = new ArrayList<>(MAXITEMS);
@@ -111,6 +110,14 @@ public class Ticket {
         this.numItems = numItems;
     }
 
+    public void setClosingDate(String closingDate) {
+        this.closingDate = closingDate;
+    }
+
+    public String getOpeningDate() {
+        return openingDate;
+    }
+
     /**
      * @return the ticket ID
      */
@@ -123,6 +130,12 @@ public class Ticket {
         this.idTicket = id_ticket;
     }
 
+    public String getClosingDate() {
+        return closingDate;
+    }
 
-    //añadir el set para que se ponga el id automatico o el q t ponga el ususiario
+    public void setTicketStatus(TicketStatus ticketStatus) {
+        this.ticketStatus = ticketStatus;
+    }
+//añadir el set para que se ponga el id automatico o el q t ponga el ususiario
 }

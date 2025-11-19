@@ -9,7 +9,7 @@ public class Events extends Product{
     private EventType eventType;
 
     public enum EventType {
-        COMIDA(72), REUNION(12);
+        FOOD(72), MEETING(12);
         final private int minPlanningHours;
         EventType (int hours){
             minPlanningHours = hours;
