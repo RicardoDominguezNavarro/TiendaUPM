@@ -9,26 +9,20 @@ public class PersonalizedProduct extends Product{
     private ArrayList<String> personalizationList;
 
 
-    public PersonalizedProduct(int id_product, String name, double price, Category category){
+
+    public PersonalizedProduct(int id_product, String name, double price, Category category, int maxText){
         super(id_product, name, price, category);
-        this.maxText = maxTextsByCategory(category);
+        this.maxText = maxText;
         this.personalizationList = new ArrayList<>();
     }
 
-    private int maxTextsByCategory(Category category){
-        switch (category){
-            case CLOTHES:
-                return 25;
-            case MERCH:
-                return 15;
-            case BOOK:
-                return 10;
-            case STATIONERY:
-                return 5;
-            case ELECTRONICS:
-                return 20;
-            default:
-                return 0;
+    //Se hace una copia del producto porque no queremos que tdo el producto se modifique en el catalogo sino q solo uno en el ticket
+    public PersonalizedProduct(PersonalizedProduct other, ArrayList<String> initialText){
+        super(other.getId_product(), other.getName(), other.getPrice(), other.getCategory());
+        this.maxText = other.getMaxText();
+        this.personalizationList = new ArrayList<>();
+        if(initialText != null){
+            this.personalizationList.addAll(initialText);
         }
     }
 
@@ -48,13 +42,6 @@ public class PersonalizedProduct extends Product{
             added = true;
         }
         return added;
-    }
-
-    //Se hace una copia del producto porque no queremos que tdo el producto se modifique en el catalogo sino q solo uno en el ticket
-    public PersonalizedProduct(PersonalizedProduct other) {
-        super(other.getId_product(), other.getName(), other.getPrice(), other.getCategory());
-        this.maxText = other.maxText;
-        this.personalizationList = new ArrayList<>();
     }
 
     public double getPricePersonalization() {
