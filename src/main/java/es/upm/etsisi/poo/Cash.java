@@ -28,7 +28,7 @@ public class Cash extends User{
         return cleaned;
     }
 
-    public String generateId (){
+    public static String generateId(){
         String id = "UW";
         int idIntegerPart = 0;
         int weigth = 1000000;
@@ -40,9 +40,21 @@ public class Cash extends User{
         return id;
         //se comprueba si ya existe a la hora de llamar a la funcion
     }
+    public ArrayList<String> getCreatedTicketIds() {
+        return createdTicketIds;
+    }
+
+    public void addCreatedTicket(String ticketId) {
+        this.createdTicketIds.add(ticketId);
+    }
 
     @Override
     public String getUserType() {
         return "Cash";
+    }
+
+    @Override
+    public String toString() {
+        return "Cash{identifier='" + getId() + "', name='" + getName() + "', email='" + getEmail() + "'}";
     }
 }

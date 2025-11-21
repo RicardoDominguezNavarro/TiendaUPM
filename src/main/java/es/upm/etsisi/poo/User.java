@@ -29,9 +29,10 @@ public abstract class User {
     public String getName() {
         return name;
     }
-    public void setName(String name) {
-        if (name == null){
-            throw new IllegalArgumentException("name must not be null or blank");
+
+    public void setName(String name){
+        if(name == null) {
+            throw new IllegalArgumentException("name must not be null");
         }
         this.name = name;
     }
@@ -50,9 +51,7 @@ public abstract class User {
     public abstract String getUserType();
 
     @Override
-    public String toString() {
-        return getUserType() + "[id=" + id + ", name=" + name + ", email=" + email + "]";
-    }
+    public abstract String toString();
 
     //meter clases add, remove y lista
 

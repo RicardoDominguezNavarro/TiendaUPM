@@ -1,5 +1,6 @@
 package es.upm.etsisi.poo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -298,6 +299,19 @@ public class App {
                 case "help":
                     help();
                     break;
+                case "prod":
+                    controlProdCommand(line, split);
+                    break;
+                case "ticket":
+                    controlTicketCommand(line, split);
+                    break;
+                case "cash":
+                    controlCashCommand(line, split);
+                    break;
+                case "client":
+                    controlClienteCommand(line, split);
+                    break;
+
             }
         }
 
@@ -341,9 +355,16 @@ public class App {
                 break;
             case "add":
                 controlAddStandardProduct(line, split);
-
-
-
+                break;
+            case "addFood":
+                controlAddEventProduct(line,split,action);
+                break;
+            case "addMeeting":
+                controlAddEventProduct(line,split,action);
+                break;
+            default:
+                System.out.println("Unknown prod command");
+                break;
         }
 
     }
@@ -359,8 +380,27 @@ public class App {
             System.out.println();
             return;
         }
-
-
+        String[] args = getAfterName(line);
+        try{
+            int id = Integer.parseInt(split[2]);
+            Category category = Category.valueOf(args[0].toUpperCase());
+            double price = Double.parseDouble(split[1]);
+            if(args.length > 2){ //es personalizado
+                int maxPers = Integer.parseInt(args[2]);
+                PersonalizedProduct productPersonalize = new PersonalizedProduct(id, name, price, category, maxPers);
+                catalog.addProd(productPersonalize);
+            }else {
+                Product product = new Product(id, name, price, category);
+                catalog.addProd(product);
+            }
+            System.out.println();
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid numeric value for id or price.");
+            System.out.println();
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid category or parameters.");
+            System.out.println();
+        }
     }
 
     private String getName(String line) {
@@ -370,6 +410,137 @@ public class App {
             return line.substring(first + 1, last);
         }
         return null;
+    }
+
+    private String[] getAfterName(String line) {
+        int lasQuote = line.lastIndexOf("\"");
+        if(lasQuote == -1){
+            return new String[0];
+        }
+        String textAfterName = line.substring(lasQuote + 1);
+        String text = textAfterName.trim();
+        if(text.isEmpty()) {
+            return new String[0];
+        }
+        return text.split(" ");
+
+
+    }
+
+    private void controlAddEventProduct(String line, String[] split, String action){
+        String name = getName(line);
+        if(name == null) {
+            System.out.println("The name can't be empty");
+            return;
+        }
+        String[] args = getAfterName(line);
+        try{
+            int id = Integer.parseInt(split[2]);
+            double price = Double.parseDouble(args[0]);
+            //esto ya ns hacerlo
+        }catch(NumberFormatException e){
+
+        }
+    }
+
+    private void controlTicketCommand(String line, String[] split){
+        String action = split[1];
+        switch (action) {
+            case "new":
+                //para saber si mete el id o no. No sé si se comprueba en el ticketAdd
+                if(split.length == 5){
+                    ticketControl.newTicket(split[2], split[3], split[4]);
+
+
+                }
+                break;
+            case "add":
+                if (split.length < 4) {
+                    System.out.println("Invalid ticket add command. Usage: ticket add <ticketId><cashId> <prodId> <amount> [--p<txt> --p<txt>]  ");
+                    System.out.println();
+                    return;
+                }
+                String ticketId = split[2];
+                String cashId = split[3];
+                int prodId = Integer.parseInt(split[4]);
+                int amount = Integer.parseInt(split[5]);
+                ArrayList<String> personalizations = new ArrayList<>();
+
+        }
+    }
+
+    private void controlClienteCommand(String line, String[] split){
+        String actionn = split[1];
+
+        switch (actionn) {
+            case "add":
+                String name = getName(line);
+                if(name == null) {
+                    System.out.println("The name can't be empty");
+                }
+                String[] args = getAfterName(line);
+                if(args.length < 3){
+                    System.out.println("Invalid client add command. Usage: client add \"<nombre>\" <DNI> <email> <cashId> ");
+                    return;
+                }
+                ticketControl.addClient(name, args[0], args[1], args[2]);
+                break;
+            case "remove":
+                if(split.length < 3){
+                    System.out.println("Invalid client remove command. Usage: client remove <DNI>");
+                    return;
+                }
+                ticketControl.removeClient(split[2]);
+                break;
+            case "list":
+                ticketControl.listClients();
+                break;
+            default:
+                System.out.println("Unknown client command");
+                break;
+
+        }
+    }
+
+    private void controlCashCommand(String line, String[] split){
+        String action = split[1];
+        switch (action) {
+            case "add":
+                String name = getName(line);
+                if(name == null) {
+                    System.out.println("The name can't be empty");
+                    return;
+                }
+                String[] args = getAfterName(line);
+                if(args.length < 1){
+                    System.out.println("Error: missing email");
+                    return;
+                }
+                String email = args[0];
+                String id = null;
+                if(!split[2].startsWith("\"")){
+                    id = split[2];
+                }
+                ticketControl.addCashier(id, name, email);
+                break;
+            case "remove":
+                if(split.length < 3){
+                    System.out.println("Invalid clash remove command. Usage: clash remove <DNI>");
+                    return;
+                }
+                ticketControl.removeCashier(split[2]);
+                break;
+            case "list":
+                ticketControl.listCashiers();
+                break;
+            case "tickets":
+                ticketControl.listCashierTickets(split[2]);
+                break;
+            default:
+                System.out.println("Unknown cash command");
+                break;
+
+        }
     }
 
 

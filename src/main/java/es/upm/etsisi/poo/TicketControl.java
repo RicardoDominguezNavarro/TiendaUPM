@@ -8,13 +8,126 @@ import java.util.Locale;
 public class TicketControl {
     private final ArrayList<Ticket> tickets;
     private final Catalog catalog;
+    private final ArrayList<User>  users;
+
 
     public TicketControl(Catalog catalog) {
         this.tickets = new ArrayList<>();
         this.catalog = catalog;
+        this.users = new ArrayList<>();
     }
-    //no sé si deberia añadri algo del id del cajero
-    //organizar ticket y ticket control
+
+    public User findUserById(String id) {
+        for(User user : users) {
+            if(user.getId().equalsIgnoreCase(id)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public void addClient(String name, String DNI, String email, String cashId){
+        if(findUserById(DNI) != null) {
+            System.out.println("Client with id: " + DNI + " already exists");
+            return;
+        }
+        User creator = findUserById(cashId);
+        if(creator == null) {
+            System.out.println("Cashier with Id " + cashId + " doesn't exist");
+            return;
+        }
+        try{
+            Client newClient = new Client(name, DNI, email, cashId);
+            users.add(newClient);
+            System.out.println(newClient.toString());
+            System.out.println("client add: ok");
+        }catch(IllegalArgumentException e){
+            System.out.println("Error creating client " + e.getMessage());
+        }
+
+    }
+
+    public void addCashier(String id, String name, String email){
+        if(id != null) {
+            if(findUserById(id) != null) {
+                System.out.println("Cashier with id: " + id + " already exists");
+                return;
+            }
+        }else{
+            do{
+                id = Cash.generateId();
+            }while (findUserById(id) != null);
+        }
+        try{
+            Cash newCashier = new Cash(id, name, email);
+            users.add(newCashier);
+            System.out.println(newCashier.toString());
+            System.out.println("cashier add: ok");
+        }catch(IllegalArgumentException e){
+            System.out.println("Error creating cashier " + e.getMessage());
+        }
+    }
+
+    public void removeClient(String id){
+        User user = findUserById(id);
+        if(user != null) {
+            users.remove(user);
+            System.out.println(user.toString());
+            System.out.println("client remove: ok");
+        }else{
+            System.out.println("Client with id: " + id + " doesn't exist");
+        }
+    }
+
+    public void removeCashier(String id){
+        User cashier = findUserById(id);
+        if(cashier != null) {
+            removeTicketsByCashier(id);
+            users.remove(cashier);
+            System.out.println(cashier.toString());
+            System.out.println("cashier remove: ok");
+        }else{
+            System.out.println("Cashier with id: " + id + " doesn't exist");
+        }
+    }
+
+    public void listClients(){
+        System.out.println("Client list:");
+        for(User user : users) {
+            if(user instanceof Client) {
+                System.out.println(user.toString());
+            }
+        }
+        System.out.println("Client list: ok");
+    }
+
+    public void listCashiers(){
+        System.out.println("Cash list:");
+        for(User user : users) {
+            if(user instanceof Cash) {
+                System.out.println(user.toString());
+            }
+        }
+        System.out.println("Cash list: ok");
+    }
+
+    public void listCashierTickets(String cashId){
+        User user = findUserById(cashId);
+        if(user instanceof Cash) {
+            System.out.println("Tickets: ");
+            Cash cashier = (Cash) user;
+            for(String ticketId: cashier.getCreatedTicketIds()){
+                Ticket ticket = findTicketById(ticketId);
+                if(ticket != null) {
+                    System.out.println(ticket.toString());
+                }
+            }
+            System.out.println("Tickets: ok");
+        }else{
+            System.out.println("Cashier with id: " + cashId + " doesn't exist");
+        }
+    }
+
 
 
     public void newTicket(String userId, String cashId, String ticketId) {
@@ -261,6 +374,7 @@ public class TicketControl {
      * @return a formatted string representing the ticket, showing the products,
      * their discounts and the total price.
      */
+
     private String print(Ticket ticket) {
         StringBuilder sb = new StringBuilder();
         double totalPrice = 0.0;
@@ -358,6 +472,6 @@ public class TicketControl {
             weight /= 10;
         }
         return id;
-        //se comprueba si ya existe a la hora de llamar a la funcion
+        //se comprueba si ya existe a la hora de llamar a la función
     }
 }
