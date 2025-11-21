@@ -31,11 +31,14 @@ public class App {
     /**
      * Reference to the catalog class that manages all products
      */
-    public Catalog catalog;
+    private Catalog catalog;
     /**
      * Reference to the ticket class for the ticket operations
      */
-    public Ticket ticket;
+    private Ticket ticket;
+
+    private TicketControl ticketControl;
+
 
 
     /**
@@ -53,6 +56,7 @@ public class App {
      *It continuously reads user input from the console, interprets commands,
      *and delegates actions to different components
      */
+    /*
     public void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(welcome);
@@ -202,16 +206,19 @@ public class App {
             }
         }
     }
+    */
 
 
     /**
      *This method initialize the objects with the limits needed
      */
+    /*
     public void start() {
         catalog = new Catalog();
        // ticket = new Ticket(catalog);
 
     }
+    */
 
     /**
      * Print the closing messages and end the application.
@@ -254,4 +261,118 @@ public class App {
                 "Discounts if there are ≥2 units in the category: MERCH 0%, STATIONERY 5%, CLOTHES 7%, BOOK 10%, \n" +
                 "ELECTRONICS 3%. ");
     }
+
+
+
+    public void start() {
+        this.catalog = new Catalog();
+        this.ticketControl = new TicketControl(catalog);
+    }
+
+    public void run(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(welcome);
+        System.out.println(welcome1);
+        while(true){
+            System.out.print(UPM);
+            if (!scanner.hasNextLine()) break;
+
+            String line = scanner.nextLine();
+
+            // Para pruebas con ficheros, imprimimos el comando leído
+            if (System.getenv("fileinput") != null && System.getenv("fileinput").equals("true")) {
+                System.out.println(line);
+            }
+
+            if (line.trim().isEmpty()) continue;
+
+            String[] split = line.split(" ");
+            String command = split[0];
+            switch (command) {
+                case "exit":
+                    exit();
+                    break;
+                case "echo":
+                    echo(line);
+                    break;
+                case "help":
+                    help();
+                    break;
+            }
+        }
+
+    }
+
+    private void controlProdCommand(String line, String[] split){
+        if(split.length < 2){
+            System.out.println("Invalid prod command");
+            return;
+        }
+        String action = split[1];
+        switch (action) {
+            case "list":
+                catalog.prodList();
+                break;
+            case "remove":
+                if (split.length < 3) {
+                    System.out.println("Invalid prod remove command. Usage: prod remove <id>");
+                    System.out.println();
+                    break;
+                }
+                try {
+                    catalog.prodRemove(Integer.parseInt(split[2]));
+                    System.out.println();
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid id for prod remove.");
+                    System.out.println();
+                }
+                break;
+            case "update":
+                if (split.length < 5) {
+                    System.out.println("Invalid prod update command. Usage: prod update <id> <field> <value>");
+                    System.out.println();
+                    return;
+                }
+                String idToUpdate = split[2];
+                String field = split[3];
+                String value = String.join(" ", Arrays.copyOfRange(split, 4, split.length));
+                catalog.updateProd(Integer.parseInt(idToUpdate), field, value);
+                System.out.println();
+                break;
+            case "add":
+                controlAddStandardProduct(line, split);
+
+
+
+        }
+
+    }
+
+    private void controlAddStandardProduct(String line, String[] split){
+        String name = getName(line);
+        if(name == null) {
+            System.out.println("The name can't be empty");
+            return;
+        }
+        if (name.length() < 2) {
+            System.out.println("Error: the name must be between quotation marks");
+            System.out.println();
+            return;
+        }
+
+
+    }
+
+    private String getName(String line) {
+        int first = line.indexOf("\"");
+        int last = line.lastIndexOf("\"");
+        if (first != -1 && last > first) {
+            return line.substring(first + 1, last);
+        }
+        return null;
+    }
+
+
+
+
 }
