@@ -1,7 +1,9 @@
 package es.upm.etsisi.poo;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 /**
@@ -126,8 +128,8 @@ public class Ticket {
     }
 
 
-    public void setId_ticket(String id_ticket) {
-        this.idTicket = id_ticket;
+    public void setIdTicket(String idTicket) {
+        this.idTicket = idTicket;
     }
 
     public String getClosingDate() {
@@ -137,5 +139,6 @@ public class Ticket {
     public void setTicketStatus(TicketStatus ticketStatus) {
         this.ticketStatus = ticketStatus;
     }
-//añadir el set para que se ponga el id automatico o el q t ponga el ususiario
+
+
 }

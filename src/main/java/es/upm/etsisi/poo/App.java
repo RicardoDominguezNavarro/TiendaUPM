@@ -444,15 +444,30 @@ public class App {
     }
 
     private void controlTicketCommand(String line, String[] split){
+
         String action = split[1];
         switch (action) {
             case "new":
                 //para saber si mete el id o no. No sé si se comprueba en el ticketAdd
-                if(split.length == 5){
-                    ticketControl.newTicket(split[2], split[3], split[4]);
-
-
+                if(split.length != 5){
+                    System.out.println("Invalid ticket new command. Usage: ticket new <userId> <cashId> <ticketId>");
+                    return;
                 }
+                String userId = split[2];
+                String cashId = split[3];
+                String ticketId = split[4];
+
+                User userNew = ticketControl.findUserById(userId);
+                User cashNew = ticketControl.findUserById(cashId);
+                if (userNew == null){
+                    System.out.println("User with id: " + userId + " doesn't exist.");
+                    return;
+                }
+                if (!(cashNew instanceof Cash)){
+                    System.out.println("User with id: " + cashId + " doesn't exist.");
+                    return;
+                }
+                ticketControl.newTicket(userId,cashId,ticketId);
                 break;
             case "add":
                 if (split.length < 4) {
@@ -460,11 +475,85 @@ public class App {
                     System.out.println();
                     return;
                 }
-                String ticketId = split[2];
-                String cashId = split[3];
-                int prodId = Integer.parseInt(split[4]);
-                int amount = Integer.parseInt(split[5]);
+                String ticketIdAdd = split[2];
+                String cashIdAdd = split[3];
+                int prodId;
+                int amount;
+                try {
+                    prodId = Integer.parseInt(split[4]);
+                    amount = Integer.parseInt(split[5]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Product ID and amount must be integers.");
+                    return;
+                }
+
+                User cashAdd = ticketControl.findUserById(cashIdAdd);
+                if (!(cashAdd instanceof Cash)){
+                    System.out.println("Cashier with id: " +cashIdAdd + " doesn't exist.");
+                    return;
+                }
                 ArrayList<String> personalizations = new ArrayList<>();
+                for (int i = 6; i < split.length; i++) {
+                    String param = split[i];
+                    if (param.startsWith("--p")) {
+                        String text = param.substring(3);
+                        personalizations.add(text);
+                    }
+                }
+                ticketControl.addProductToTicket(ticketIdAdd, cashIdAdd,prodId,amount,personalizations);
+                break;
+
+            case "remove":
+                if (split.length != 5) {
+                    System.out.println("Invalid ticket remove command. Usage: ticket remove <ticketId> <cashId> <prodId>");
+                    return;
+                }
+                String ticketIdRemove = split[2];
+                String cashIdRemove = split[3];
+                int prodIdRemove;
+                try {
+                    prodIdRemove = Integer.parseInt(split[4]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Product ID must be an integer.");
+                    return;
+                }
+
+                User cashRemove = ticketControl.findUserById(cashIdRemove);
+                if (!(cashRemove instanceof Cash)) {
+                    System.out.println("Cashier with id: " + cashIdRemove + " doesn't exist.");
+                    return;
+                }
+
+                ticketControl.removeProduct(ticketIdRemove, cashIdRemove, prodIdRemove);
+                break;
+
+            case "print":
+                if (split.length != 4) {
+                    System.out.println("Invalid ticket print command. Usage: ticket print <ticketId> <cashId>");
+                    return;
+                }
+                String ticketIdPrint = split[2];
+                String cashIdPrint = split[3];
+                User cashPrint = ticketControl.findUserById(cashIdPrint);
+                if (!(cashPrint instanceof Cash)) {
+                    System.out.println("Cashier with id: " + cashIdPrint + " doesn't exist.");
+                    return;
+                }
+
+                ticketControl.printTicket(ticketIdPrint, cashIdPrint);
+                break;
+
+            case "list":
+                if (split.length != 2) {
+                    System.out.println("Invalid ticket list command. Usage: ticket list");
+                    return;
+                }
+                System.out.println(ticketControl.listTicket());
+                break;
+
+            default:
+                System.out.println("Unknown ticket command");
+                break;
 
         }
     }

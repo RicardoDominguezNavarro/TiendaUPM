@@ -138,14 +138,12 @@ public class TicketControl {
     }
 
     public Ticket findTicketById(String ticketId) {
-        for (int i = 0; i < tickets.size(); i++) {
-            Ticket ticket = tickets.get(i);
+        for (Ticket ticket : tickets) {
             if (ticket.getIdTicket().equals(ticketId)) {
                 return ticket;
-            } else {
-                System.out.println("Ticket not found");
             }
         }
+        System.out.println("Ticket not found");
         return null;
     }
 
