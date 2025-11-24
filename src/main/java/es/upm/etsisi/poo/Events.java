@@ -63,6 +63,18 @@ public class Events extends Product{
         return validDate;
     }
 
-    //metodo toString, validación de fechas y calcular precio por persona
+    @Override
+    public String toString() {
+        return "{class:" + eventType.name() +
+                ", id:" + getId_product() +
+                ", name:'" + getName() +
+                "', price:" + getPrice() +
+                ", date of Event:" + expirationDate.toLocalDate() +
+                ", max people allowed:" + maxParticipants +
+                ", actual people in event:"+
+                "}";
+    }
+
+//metodo toString, validación de fechas y calcular precio por persona
 
 }

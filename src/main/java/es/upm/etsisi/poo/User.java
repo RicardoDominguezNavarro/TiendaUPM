@@ -53,7 +53,6 @@ public abstract class User {
     @Override
     public abstract String toString();
 
-    //meter clases add, remove y lista
 
 
 }

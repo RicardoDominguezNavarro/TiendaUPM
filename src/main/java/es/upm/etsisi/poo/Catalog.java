@@ -1,6 +1,7 @@
 package es.upm.etsisi.poo;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *This class manage a collection of products objects.
@@ -180,21 +181,22 @@ public class Catalog {
      * @return the product that matches the given id, or null if not match is found.
      */
     public Product getProductId(int id) {
-        Product result = null;
         for (Product actual : products) {
             if (actual.getId_product() == id) {
-                result = actual;
+                return actual;
             }
         }
-        return result;
+        return null;
     }
 
-    public int generateId (){
-        int id = 0;
-        for (int i = 0; i < 3; i++) {
-            id += (int) (Math.random() * 200) + 200; //todos los ids generados están entre el 200 y el 400 (Se puede cambiar)
-        }
+    // CAMBIO E2: Generador de IDs más robusto para productos automáticos (ej. addFood sin ID)
+    public int generateId() {
+        Random random = new Random();
+        int id;
+        do {
+            // Genera un ID aleatorio entre 1 y 10000 (puedes ajustar el rango)
+            id = random.nextInt(10000) + 1;
+        } while (!isIdFree(id)); // Repite si el ID ya existe
         return id;
-        //se comprueba si ya existe a la hora de llamar a la funcion
     }
 }

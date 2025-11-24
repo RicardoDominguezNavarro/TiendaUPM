@@ -309,7 +309,7 @@ public class App {
                     controlCashCommand(line, split);
                     break;
                 case "client":
-                    controlClienteCommand(line, split);
+                    controlClientCommand(line, split);
                     break;
 
             }
@@ -558,7 +558,7 @@ public class App {
         }
     }
 
-    private void controlClienteCommand(String line, String[] split){
+    private void controlClientCommand(String line, String[] split){
         String actionn = split[1];
 
         switch (actionn) {
