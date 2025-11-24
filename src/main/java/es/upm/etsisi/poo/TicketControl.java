@@ -324,32 +324,6 @@ public class TicketControl {
         return result;
     }
 
-    /*
-    public double getDiscount(Category category) {
-        double percent = 0.0;
-        switch (category) {
-            case CLOTHES:
-                percent = 0.07;
-                break;
-            case BOOK:
-                percent = 0.1;
-                break;
-            case MERCH:
-                percent = 0.0;
-                break;
-            case STATIONERY:
-                percent = 0.05;
-                break;
-            case ELECTRONICS:
-                percent = 0.03;
-                break;
-            default:
-                System.out.println("Please select a valid option");
-        }
-        return percent;
-    }
-
-     */
     public void printTicket(String ticketId, String cashId) {
         Ticket ticket = findTicketById(ticketId);
         if (ticket == null) {
