@@ -242,7 +242,7 @@ public class TicketControl {
                     personalizedText.add(index, String.valueOf(personalized)); //mirar esto porq no me cuadra
                     ticket.setNumItems(ticket.getNumItems() + quantity);
                 }
-                //System.out.println(printTicket(ticketId,cashId));
+                System.out.println(print(ticket));
                 System.out.println("ticket add: ok");
             }
         }
@@ -279,7 +279,6 @@ public class TicketControl {
                         }
                     }
                     if (found) {
-                        //System.out.println(print());
                         System.out.println(print(ticket));
                         System.out.println("ticket remove: ok");
                     } else {
