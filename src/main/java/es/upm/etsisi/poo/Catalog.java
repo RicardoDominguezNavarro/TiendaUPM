@@ -77,10 +77,14 @@ public class Catalog {
                 break;
             case "CATEGORY":
                 try {
-                    Category category = Category.valueOf(value.trim().toUpperCase());
-                    productToChange.setCategory(category);
-                    System.out.println(productToChange.toString());
-                    System.out.println("prod update: ok");
+                    if (productToChange instanceof Events){
+                        System.out.println("Product type: Event. Events can not change category.");
+                    } else {
+                        Category category = Category.valueOf(value.trim().toUpperCase());
+                        productToChange.setCategory(category);
+                        System.out.println(productToChange.toString());
+                        System.out.println("prod update: ok");
+                    }
                 } catch (IllegalArgumentException e) {
                     System.out.println("The category " + value + " doesn't exist.");
                 }
