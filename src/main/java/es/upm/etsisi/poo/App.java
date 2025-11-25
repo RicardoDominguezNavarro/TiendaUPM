@@ -375,16 +375,16 @@ public class App {
             System.out.println("The name can't be empty");
             return;
         }
+        String[] args = getAfterName(line);
         if (name.length() < 2) {
             System.out.println("Error: the name must be between quotation marks");
             System.out.println();
             return;
         }
-        String[] args = getAfterName(line);
         try{
             int id = Integer.parseInt(split[2]);
             Category category = Category.valueOf(args[0].toUpperCase());
-            double price = Double.parseDouble(split[1]);
+            double price = Double.parseDouble(args[1]);
             if(args.length > 2){ //es personalizado
                 int maxPers = Integer.parseInt(args[2]);
                 PersonalizedProduct productPersonalize = new PersonalizedProduct(id, name, price, category, maxPers);
@@ -449,43 +449,51 @@ public class App {
         switch (action) {
             case "new":
                 //para saber si mete el id o no. No sé si se comprueba en el ticketAdd
+                String userId;
+                String cashId;
+                String ticketId = null;
                 if(split.length != 5){
                     System.out.println("Invalid ticket new command. Usage: ticket new <userId> <cashId> <ticketId>");
                     return;
                 }
-                String userId = split[2];
-                String cashId = split[3];
-                String ticketId = split[4];
+                if(split.length == 5){
+                    userId = split[4];
+                    cashId = split[3];
+                    ticketId = split[2];
+                } else if (split.length == 4) {
+                    ticketId = null;
+                    cashId = split[2];
+                    userId = split[3];
+
+                }else{
+                    System.out.println("Invalid ticket new command. Usage: ticket new <userId> <cashId> <ticketId>");
+                    return;
+                }
 
                 User userNew = ticketControl.findUserById(userId);
                 User cashNew = ticketControl.findUserById(cashId);
-                if (userNew == null){
-                    System.out.println("User with id: " + userId + " doesn't exist.");
+                if (cashNew == null || !(cashNew instanceof Cash)){
+                    System.out.println("Cashier with id: " + cashId + " doesn't exist.");
                     return;
                 }
-                if (!(cashNew instanceof Cash)){
-                    System.out.println("User with id: " + cashId + " doesn't exist.");
+                if(userNew == null){
+                    System.out.println("User with id: " + userId + " doesn't exist.");
                     return;
                 }
                 ticketControl.newTicket(userId,cashId,ticketId);
                 break;
             case "add":
-                if (split.length < 4) {
+                if (split.length < 6) {
                     System.out.println("Invalid ticket add command. Usage: ticket add <ticketId><cashId> <prodId> <amount> [--p<txt> --p<txt>]  ");
                     System.out.println();
                     return;
                 }
                 String ticketIdAdd = split[2];
                 String cashIdAdd = split[3];
-                int prodId;
-                int amount;
-                try {
-                    prodId = Integer.parseInt(split[4]);
-                    amount = Integer.parseInt(split[5]);
-                } catch (NumberFormatException e) {
-                    System.out.println("Product ID and amount must be integers.");
-                    return;
-                }
+                int prodId = Integer.parseInt(split[4]);
+                int amount =  Integer.parseInt(split[5]);
+                ArrayList<String> personalizedProducts = new ArrayList<>();
+
 
                 User cashAdd = ticketControl.findUserById(cashIdAdd);
                 if (!(cashAdd instanceof Cash)){

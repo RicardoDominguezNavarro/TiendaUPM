@@ -62,7 +62,7 @@ public class TicketControl {
             Cash newCashier = new Cash(id, name, email);
             users.add(newCashier);
             System.out.println(newCashier.toString());
-            System.out.println("cashier add: ok");
+            System.out.println("cash add: ok");
         }catch(IllegalArgumentException e){
             System.out.println("Error creating cashier " + e.getMessage());
         }
@@ -85,14 +85,14 @@ public class TicketControl {
             removeTicketsByCashier(id);
             users.remove(cashier);
             System.out.println(cashier.toString());
-            System.out.println("cashier remove: ok");
+            System.out.println("cash remove: ok");
         }else{
             System.out.println("Cashier with id: " + id + " doesn't exist");
         }
     }
 
     public void listClients(){
-        System.out.println("Client list:");
+        System.out.println("Client:");
         for(User user : users) {
             if(user instanceof Client) {
                 System.out.println(user.toString());
@@ -102,7 +102,7 @@ public class TicketControl {
     }
 
     public void listCashiers(){
-        System.out.println("Cash list:");
+        System.out.println("Cash:");
         for(User user : users) {
             if(user instanceof Cash) {
                 System.out.println(user.toString());
@@ -119,10 +119,10 @@ public class TicketControl {
             for(String ticketId: cashier.getCreatedTicketIds()){
                 Ticket ticket = findTicketById(ticketId);
                 if(ticket != null) {
-                    System.out.println(ticket.toString());
+                    System.out.println("  " + ticket.getIdTicket() + "->" + ticket.getTicketStatus());
                 }
             }
-            System.out.println("Tickets: ok");
+            System.out.println("cash tickets: ok");
         }else{
             System.out.println("Cashier with id: " + cashId + " doesn't exist");
         }

@@ -103,8 +103,8 @@ public class Catalog {
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("The price is not valid.");
-                    break;
                 }
+                break;
             default:
                 System.out.println("Invalid field. Valid fields are NAME, CATEGORY, or PRICE.");
                 break;
@@ -193,13 +193,12 @@ public class Catalog {
         return null;
     }
 
-    // CAMBIO E2: Generador de IDs más robusto para productos automáticos (ej. addFood sin ID)
+
     public int generateId() {
         Random random = new Random();
         int id;
         do {
-            // Genera un ID aleatorio entre 1 y 10000 (puedes ajustar el rango)
-            id = random.nextInt(10000) + 1;
+            id = random.nextInt(1000) + 1;
         } while (!isIdFree(id)); // Repite si el ID ya existe
         return id;
     }
