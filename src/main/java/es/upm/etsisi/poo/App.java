@@ -1,5 +1,7 @@
 package es.upm.etsisi.poo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -445,9 +447,23 @@ public class App {
         try{
             int id = Integer.parseInt(split[2]);
             double price = Double.parseDouble(args[0]);
-            //esto ya ns hacerlo
-        }catch(NumberFormatException e){
-
+            LocalDate expirationDate = LocalDate.parse(args[1]); //Paso la fecha pasada por comando a LocalDate
+            LocalDateTime expirationDateTime = expirationDate.atStartOfDay(); //Le añado la hora 00:00 a la fecha para que sea de la clase LocalDateTime para poder pasarla a Events
+            int maxPeopleAllowed = Integer.parseInt(args[2]);
+            //Este if puede que haya que cambiarlo en el futuro si hay más tipos de eventos
+            if (action == "addFood"){
+               Events foodEvent = new Events(id, name, price, expirationDateTime, Events.EventType.FOOD, maxPeopleAllowed);
+               catalog.addProd(foodEvent);
+           } else if (action == "addMeeting") {
+               Events meetingEvent = new Events(id, name, price, expirationDateTime, Events.EventType.MEETING, maxPeopleAllowed);
+               catalog.addProd(meetingEvent);
+           }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid numeric value for id or price.");
+            System.out.println();
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid category or parameters.");
+            System.out.println();
         }
     }
 
