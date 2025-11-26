@@ -449,15 +449,15 @@ public class App {
             double price = Double.parseDouble(args[0]);
             LocalDate expirationDate = LocalDate.parse(args[1]); //Paso la fecha pasada por comando a LocalDate
             LocalDateTime expirationDateTime = expirationDate.atStartOfDay(); //Le añado la hora 00:00 a la fecha para que sea de la clase LocalDateTime para poder pasarla a Events
-           //Este if puede que haya que cambiarlo en el futuro si hay más tipos de eventos
+            int maxPeopleAllowed = Integer.parseInt(args[2]);
+            //Este if puede que haya que cambiarlo en el futuro si hay más tipos de eventos
             if (action == "addFood"){
-               Events foodEvent = new Events(id, name, price, expirationDateTime, Events.EventType.FOOD);
+               Events foodEvent = new Events(id, name, price, expirationDateTime, Events.EventType.FOOD, maxPeopleAllowed);
                catalog.addProd(foodEvent);
            } else if (action == "addMeeting") {
-               Events meetingEvent = new Events(id, name, price, expirationDateTime, Events.EventType.MEETING);
+               Events meetingEvent = new Events(id, name, price, expirationDateTime, Events.EventType.MEETING, maxPeopleAllowed);
                catalog.addProd(meetingEvent);
            }
-            //Falta cambiar una cosa para que se tenga en cuenta lo de maxPersonas que se pasa en el comando (args[2] <max_people>).
         } catch (NumberFormatException e) {
             System.out.println("Invalid numeric value for id or price.");
             System.out.println();
