@@ -150,6 +150,31 @@ public class TicketControl {
         }else{
             System.out.println("Cashier with id: " + cashId + " doesn't exist");
         }
+        /**if(user == null) {
+            System.out.println("Cashier with id: " + cashId + " doesn't exist");
+            return;
+        }
+        if (!(user instanceof Cash)) {
+            System.out.println("User with id: " + cashId + " is not a cashier.");
+            return;
+        }
+        Cash cashier = (Cash) user;
+        System.out.println("Tickets: ");
+        if (cashier.getCreatedTicketIds() == null || cashier.getCreatedTicketIds().isEmpty()) {
+            System.out.println("No tickets found for cashier " + cashId);
+        } else {
+            for(String ticketId: cashier.getCreatedTicketIds()){
+                System.out.println("Checking ticketId: " + ticketId);
+                Ticket ticket = findTicketById(ticketId);
+                if(ticket != null) {
+                    System.out.println("  " + ticket.getIdTicket() + "->" + ticket.getTicketStatus());
+                } else {
+                    System.out.println("Ticket with id " + ticketId + " not found.");
+                }
+            }
+        }
+        System.out.println("cash tickets: ok");*/
+
     }
 
 
@@ -159,7 +184,8 @@ public class TicketControl {
             System.out.println("User with id: " + userId + " doesn't exist");
             return;
         }
-        if(findUserById(cashId) == null) {
+        User cashUser = findUserById(cashId);
+        if(cashUser == null || !(cashUser instanceof Cash) ) {
             System.out.println("Cashier with id: " + cashId + " doesn't exist");
             return;
         }
@@ -167,7 +193,12 @@ public class TicketControl {
             ticketId = dateToIdFormat() + "-" + generateId();
         }
         Ticket ticket = new Ticket(ticketId, userId, cashId, dateToIdFormat(), catalog);
+        ticket.setTicketStatus(Ticket.TicketStatus.EMPTY);
         tickets.add(ticket);
+
+        Cash cashier = (Cash) cashUser;
+        cashier.getCreatedTicketIds().add(ticketId);
+
         System.out.println(print(ticket));
         System.out.println("ticket new: ok");
     }
@@ -456,6 +487,7 @@ public class TicketControl {
                     break;
             }
             sb.append(" - ").append(ticket.getTicketStatus()).append("\n");
+
         }
         sb.append("ticket list: ok\n");
 
