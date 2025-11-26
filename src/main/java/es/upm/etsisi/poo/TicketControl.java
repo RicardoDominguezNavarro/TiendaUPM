@@ -168,7 +168,7 @@ public class TicketControl {
         }
         Ticket ticket = new Ticket(ticketId, userId, cashId, dateToIdFormat(), catalog);
         tickets.add(ticket);
-
+        System.out.println(print(ticket));
         System.out.println("ticket new: ok");
     }
 

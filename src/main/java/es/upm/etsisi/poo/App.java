@@ -383,13 +383,17 @@ public class App {
             System.out.println("The name can't be empty");
             return;
         }
-        String[] args = getAfterName(line);
+        //String[] args = getAfterName(line);
         if (name.length() < 2) {
             System.out.println("Error: the name must be between quotation marks");
             return;
         }
         try{
-            int id = Integer.parseInt(split[2]);
+            int firstQuote = line.indexOf('"');  //posición de la primera comilla
+            String beforeName = line.substring(0,firstQuote).trim(); // desde el inicio hasta la primera comilla
+            String [] partBeforeName = beforeName.split(" "); //separa por espacios
+            int id = Integer.parseInt(partBeforeName[2]);
+            String [] args = getAfterName(line);
             Category category = Category.valueOf(args[0].toUpperCase());
             double price = Double.parseDouble(args[1]);
             if(args.length > 2){ //es personalizado
@@ -456,35 +460,31 @@ public class App {
                 String userId;
                 String cashId;
                 String ticketId = null;
-                if(split.length != 5){
-                    System.out.println("Invalid ticket new command. Usage: ticket new <userId> <cashId> <ticketId>");
-                    return;
-                }
-                if(split.length == 5){
-                    userId = split[4];
-                    cashId = split[3];
-                    ticketId = split[2];
-                } else if (split.length == 4) {
-                    ticketId = null;
+                if (split.length == 4) {
+                    // sin ticketId: ticket new <cashId> <userId>
                     cashId = split[2];
                     userId = split[3];
-
-                }else{
-                    System.out.println("Invalid ticket new command. Usage: ticket new <userId> <cashId> <ticketId>");
+                } else if (split.length == 5) {
+                    // con ticketId: ticket new <ticketId> <cashId> <userId>
+                    ticketId = split[2];
+                    cashId = split[3];
+                    userId = split[4];
+                } else {
+                    System.out.println("Invalid ticket new command. Usage: ticket new [<ticketId>] <cashId> <userId>");
                     return;
                 }
 
                 User userNew = ticketControl.findUserById(userId);
                 User cashNew = ticketControl.findUserById(cashId);
-                if (cashNew == null || !(cashNew instanceof Cash)){
+                if (cashNew == null || !(cashNew instanceof Cash)) {
                     System.out.println("Cashier with id: " + cashId + " doesn't exist.");
                     return;
                 }
-                if(userNew == null){
+                if (userNew == null) {
                     System.out.println("User with id: " + userId + " doesn't exist.");
                     return;
                 }
-                ticketControl.newTicket(userId,cashId,ticketId);
+                ticketControl.newTicket(userId, cashId, ticketId);
                 break;
             case "add":
                 if (split.length < 6) {
