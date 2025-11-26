@@ -2,6 +2,8 @@ package es.upm.etsisi.poo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 
@@ -72,7 +74,7 @@ public class TicketControl {
         User user = findUserById(id);
         if(user != null) {
             users.remove(user);
-            System.out.println(user.toString());
+            System.out.println("Client remove " + user.getId());
             System.out.println("client remove: ok");
         }else{
             System.out.println("Client with id: " + id + " doesn't exist");
@@ -84,7 +86,7 @@ public class TicketControl {
         if(cashier != null) {
             removeTicketsByCashier(id);
             users.remove(cashier);
-            System.out.println(cashier.toString());
+            System.out.println("Cash remove " + cashier.getId());
             System.out.println("cash remove: ok");
         }else{
             System.out.println("Cashier with id: " + id + " doesn't exist");
@@ -93,21 +95,43 @@ public class TicketControl {
 
     public void listClients(){
         System.out.println("Client:");
+        ArrayList<User> orderList = new ArrayList<>();
         for(User user : users) {
             if(user instanceof Client) {
-                System.out.println(user.toString());
+                orderList.add(user);
             }
+        }
+        Collections.sort(orderList, new Comparator<User>() {
+            @Override
+            public int compare(User user1, User user2) {
+                return user1.getName().compareToIgnoreCase(user2.getName());
+            }
+        });
+        for(User user : orderList) {
+            System.out.println(user.toString());
         }
         System.out.println("Client list: ok");
     }
 
     public void listCashiers(){
         System.out.println("Cash:");
+        ArrayList<User> orderList = new ArrayList<>();
         for(User user : users) {
             if(user instanceof Cash) {
-                System.out.println(user.toString());
+                orderList.add(user);
             }
         }
+        Collections.sort(orderList, new Comparator<User>() {
+            @Override
+            public int compare(User user1, User user2) {
+                return user1.getName().compareToIgnoreCase(user2.getName());
+            }
+        });
+        for(User user : orderList) {
+            System.out.println(user.toString());
+        }
+
+
         System.out.println("Cash list: ok");
     }
 
