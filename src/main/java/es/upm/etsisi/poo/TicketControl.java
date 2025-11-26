@@ -155,6 +155,17 @@ public class TicketControl {
 
 
     public void newTicket(String userId, String cashId, String ticketId) {
+        if(findUserById(userId) == null) {
+            System.out.println("User with id: " + userId + " doesn't exist");
+            return;
+        }
+        if(findUserById(cashId) == null) {
+            System.out.println("Cashier with id: " + cashId + " doesn't exist");
+            return;
+        }
+        if(ticketId == null) {
+            ticketId = dateToIdFormat() + "-" + generateId();
+        }
         Ticket ticket = new Ticket(ticketId, userId, cashId, dateToIdFormat(), catalog);
         tickets.add(ticket);
 
@@ -242,6 +253,11 @@ public class TicketControl {
             }
 
             if (valid) {
+                if (product instanceof Events) {
+                    product = new Events((Events) product, quantity);
+                }else if (product instanceof PersonalizedProduct) {// 2. Si es Personalizado, creamos la copia para fijar los textos
+                    product = new PersonalizedProduct((PersonalizedProduct) product, personalized);
+                }
 
                 ArrayList<Product> products = ticket.getProducts();
                 ArrayList<Integer> quantities = ticket.getQuantities();
