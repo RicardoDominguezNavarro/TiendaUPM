@@ -229,9 +229,13 @@ public class App {
         System.out.println(goodbye);
     }
 
-    public static String echo(String s) {
-        System.out.println(s);
-        return s;
+    public static void echo(String line) {
+        String[] parts = line.split(" ", 2);
+        if (parts.length > 1) {
+            System.out.println(parts[1]);
+        } else {
+            System.out.println();
+        };
     }
     public  void help(){
 
@@ -295,21 +299,27 @@ public class App {
                     break;
                 case "echo":
                     echo(line);
+                    System.out.println();
                     break;
                 case "help":
                     help();
+                    System.out.println();
                     break;
                 case "prod":
                     controlProdCommand(line, split);
+                    System.out.println();
                     break;
                 case "ticket":
                     controlTicketCommand(line, split);
+                    System.out.println();
                     break;
                 case "cash":
                     controlCashCommand(line, split);
+                    System.out.println();
                     break;
                 case "client":
                     controlClientCommand(line, split);
+                    System.out.println();
                     break;
 
             }
@@ -330,28 +340,23 @@ public class App {
             case "remove":
                 if (split.length < 3) {
                     System.out.println("Invalid prod remove command. Usage: prod remove <id>");
-                    System.out.println();
                     break;
                 }
                 try {
                     catalog.prodRemove(Integer.parseInt(split[2]));
-                    System.out.println();
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid id for prod remove.");
-                    System.out.println();
                 }
                 break;
             case "update":
                 if (split.length < 5) {
                     System.out.println("Invalid prod update command. Usage: prod update <id> <field> <value>");
-                    System.out.println();
                     return;
                 }
                 String idToUpdate = split[2];
                 String field = split[3];
                 String value = String.join(" ", Arrays.copyOfRange(split, 4, split.length));
                 catalog.updateProd(Integer.parseInt(idToUpdate), field, value);
-                System.out.println();
                 break;
             case "add":
                 controlAddStandardProduct(line, split);
@@ -378,7 +383,6 @@ public class App {
         String[] args = getAfterName(line);
         if (name.length() < 2) {
             System.out.println("Error: the name must be between quotation marks");
-            System.out.println();
             return;
         }
         try{
@@ -393,13 +397,10 @@ public class App {
                 Product product = new Product(id, name, price, category);
                 catalog.addProd(product);
             }
-            System.out.println();
         } catch (NumberFormatException e) {
             System.out.println("Invalid numeric value for id or price.");
-            System.out.println();
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category or parameters.");
-            System.out.println();
         }
     }
 
@@ -485,7 +486,6 @@ public class App {
             case "add":
                 if (split.length < 6) {
                     System.out.println("Invalid ticket add command. Usage: ticket add <ticketId><cashId> <prodId> <amount> [--p<txt> --p<txt>]  ");
-                    System.out.println();
                     return;
                 }
                 String ticketIdAdd = split[2];
