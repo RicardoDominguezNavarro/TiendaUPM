@@ -321,6 +321,9 @@ public class App {
                     controlClientCommand(line, split);
                     System.out.println();
                     break;
+                default:
+                    System.out.println("Invalid command");
+                    break;
 
             }
         }
