@@ -68,7 +68,8 @@ public class Ticket {
         this.cashId = cashId;
         this.openingDate = openingDate;
         this.catalog = catalog;
-        this.ticketStatus = TicketStatus.OPEN;
+        //this.ticketStatus = TicketStatus.OPEN;
+        this.ticketStatus = TicketStatus.EMPTY;
         this.products = new ArrayList<>(MAXITEMS);
         this.quantities = new ArrayList<>(MAXITEMS);
         this.maxPers = new ArrayList<>(MAXITEMS);
@@ -139,6 +140,4 @@ public class Ticket {
     public void setTicketStatus(TicketStatus ticketStatus) {
         this.ticketStatus = ticketStatus;
     }
-
-
 }

@@ -145,7 +145,7 @@ public class TicketControl {
             for(String ticketId : cashier.getCreatedTicketIds()){
                 Ticket ticket = findTicketById(ticketId);
                 if(ticket != null) {
-                    System.out.println("  " + ticket.getIdTicket() + "->" + ticket.getTicketStatus());
+                    System.out.println("  " +dateToIdFormat() + "-"+ ticket.getIdTicket() + "->" + ticket.getTicketStatus());
                 }
             }
             System.out.println("cash tickets: ok");
@@ -191,15 +191,23 @@ public class TicketControl {
             System.out.println("Cashier with id: " + cashId + " doesn't exist");
             return;
         }
+        String date;
+        String idNum;
         if(ticketId == null) {
-            ticketId = dateToIdFormat() + "-" + generateId();
+            //ticketId = dateToIdFormat() + "-" + generateId();
+            date = dateToIdFormat();
+            idNum = String.valueOf(generateId());
+        }else {
+            idNum = ticketId;
+            date = dateToIdFormat();
+
         }
-        Ticket ticket = new Ticket(ticketId, userId, cashId, dateToIdFormat(), catalog);
+        Ticket ticket = new Ticket(idNum, userId, cashId, date, catalog);
         ticket.setTicketStatus(Ticket.TicketStatus.EMPTY);
         tickets.add(ticket);
 
         Cash cashier = (Cash) cashUser;
-        cashier.getCreatedTicketIds().add(ticketId);
+        cashier.getCreatedTicketIds().add(ticket.getIdTicket());
 
         System.out.println(print(ticket));
         System.out.println("ticket new: ok");
@@ -399,8 +407,12 @@ public class TicketControl {
                 }
                 products.add(index, productToAdd);
                 quantities.add(index, quantity);
+
             }
             ticket.setNumItems(ticket.getNumItems() + quantity);
+            if (ticket.getNumItems() > 0 && ticket.getTicketStatus() == Ticket.TicketStatus.EMPTY) {
+                ticket.setTicketStatus(Ticket.TicketStatus.OPEN);
+            }
             System.out.println(print(ticket));
             System.out.println("ticket add: ok");
         }
@@ -561,6 +573,7 @@ public class TicketControl {
         StringBuilder sb = new StringBuilder();
         sb.append("Ticket List:\n");
         for (Ticket ticket : tickets) {
+            sb.append(" ");
             switch (ticket.getTicketStatus()) {
                 case EMPTY:
                     sb.append(ticket.getOpeningDate()).append("-").append(ticket.getIdTicket());
