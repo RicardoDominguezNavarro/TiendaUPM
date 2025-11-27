@@ -599,11 +599,11 @@ public class TicketControl {
         int year = LocalDateTime.now().getYear();
         int longitud = String.valueOf(year).length();
         int twoDigitYear = (int) (year % Math.pow(10, longitud - 1));
-        String id_year = String.valueOf(twoDigitYear);
-        String id_month = String.valueOf(LocalDateTime.now().getMonthValue());
-        String id_day = String.valueOf(LocalDateTime.now().getDayOfMonth());
-        String id_hour = String.valueOf(LocalDateTime.now().getHour());
-        String id_minute = String.valueOf(LocalDateTime.now().getMinute());
+        String id_year = String.format("%02d", twoDigitYear);
+        String id_month = String.format("%02d", LocalDateTime.now().getMonthValue());
+        String id_day = String.format("%02d", LocalDateTime.now().getDayOfMonth());
+        String id_hour = String.format("%02d", LocalDateTime.now().getHour());
+        String id_minute = String.format("%02d", LocalDateTime.now().getMinute());
         String date = id_year + "-" + id_month + "-" + id_day + "-" + id_hour + ":" + id_minute;
         return date;
     }
