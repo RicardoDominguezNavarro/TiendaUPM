@@ -499,6 +499,8 @@ public class TicketControl {
         } else {
             if (ticket.getCashId().equals(cashId)) {
                 if (ticket.getTicketStatus() != Ticket.TicketStatus.CLOSE) {
+                    String closingDate = dateToIdFormat();
+                    ticket.setClosingDate(closingDate);
                     ticket.setTicketStatus(Ticket.TicketStatus.CLOSE);
                     System.out.println(print(ticket));
                     System.out.println("ticket print: ok");
