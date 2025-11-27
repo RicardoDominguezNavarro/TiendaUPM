@@ -135,6 +135,8 @@ public class TicketControl {
         System.out.println("Cash list: ok");
     }
 
+
+
     public void listCashierTickets(String cashId){
         User user = findUserById(cashId);
         if(user instanceof Cash) {
