@@ -419,6 +419,7 @@ public class TicketControl {
             if (ticket.getNumItems() > 0 && ticket.getTicketStatus() == Ticket.TicketStatus.EMPTY) {
                 ticket.setTicketStatus(Ticket.TicketStatus.OPEN);
             }
+            System.out.println("ticket add " + ticket.getIdTicket() + " " + cashId + " " + prodId + " " + quantity);
             System.out.println(print(ticket));
             System.out.println("ticket add: ok");
         }
