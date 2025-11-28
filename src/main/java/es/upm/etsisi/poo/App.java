@@ -451,10 +451,10 @@ public class App {
             LocalDateTime expirationDateTime = expirationDate.atStartOfDay(); //Le añado la hora 00:00 a la fecha para que sea de la clase LocalDateTime para poder pasarla a Events
             int maxPeopleAllowed = Integer.parseInt(args[2]);
             //Este if puede que haya que cambiarlo en el futuro si hay más tipos de eventos
-            if (action == "addFood"){
+            if (action.equals("addFood")){
                Events foodEvent = new Events(id, name, price, expirationDateTime, Events.EventType.FOOD, maxPeopleAllowed);
                catalog.addProd(foodEvent);
-           } else if (action == "addMeeting") {
+           } else if (action.equals("addMeeting")) {
                Events meetingEvent = new Events(id, name, price, expirationDateTime, Events.EventType.MEETING, maxPeopleAllowed);
                catalog.addProd(meetingEvent);
            }

@@ -43,11 +43,8 @@ public class Product {
         if(name == null || name.trim().isEmpty() || name.trim().length() >= 100) {
             throw new IllegalArgumentException("Invalid name!");
         }
-        if(price <= 0.0) {
+        if(price < 0.0) {
             throw new IllegalArgumentException("Price may not be negative!");
-        }
-        if(category == null) {
-            throw new IllegalArgumentException("Category may not be null!");
         }
         this.id_product = id_product;
         this.name = name;
@@ -90,9 +87,6 @@ public class Product {
      * @throws IllegalArgumentException if category is null
      */
     public void setCategory(Category category) {
-        if(category == null) {
-            throw new IllegalArgumentException("Category may not be null!");
-        }
         this.category = category;
     }
 

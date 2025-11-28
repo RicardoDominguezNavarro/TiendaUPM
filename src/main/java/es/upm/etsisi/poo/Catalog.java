@@ -39,6 +39,7 @@ public class Catalog {
             if (position < 0) {
                 System.out.println("The id doesn't exist");
             }else{
+                System.out.println("prod remove " + id);
                 Product productRemove = products.get(position);
                 System.out.println(productRemove.toString());
                 products.remove(position);
@@ -65,6 +66,7 @@ public class Catalog {
             System.out.println("The product with the ID " + id + " doesn't exist");
             return;
         }
+        System.out.println("prod update " + productToChange.getId_product() + " '" +  productToChange.getName() + "' " + productToChange.getPrice());
         field = field.toUpperCase();
         switch (field) {
             case "NAME":
@@ -101,9 +103,11 @@ public class Catalog {
                         System.out.println(productToChange.toString());
                         System.out.println("prod update: ok");
                     }
+
                 } catch (NumberFormatException e) {
                     System.out.println("The price is not valid.");
                 }
+
                 break;
             default:
                 System.out.println("Invalid field. Valid fields are NAME, CATEGORY, or PRICE.");
@@ -115,6 +119,7 @@ public class Catalog {
      * Display all products currently in the catalog.
      */
     public void prodList() {
+        System.out.println("prod list");
         System.out.println("Catalog:");
         for (int i = 0; i < products.size(); i++) {
             System.out.println(products.get(i).toString());
@@ -132,6 +137,7 @@ public class Catalog {
             return;
         }
         if (isIdFree(product.getId_product())) {
+            System.out.println("prod add " + product.getId_product() + " " + product.getName() + " " +  product.getCategory() + " " + product.getPrice());
             products.add(product);
             product.setBelongToCatalog(this);
             System.out.println(product.toString());

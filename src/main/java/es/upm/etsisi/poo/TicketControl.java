@@ -140,6 +140,7 @@ public class TicketControl {
     public void listCashierTickets(String cashId){
         User user = findUserById(cashId);
         if(user instanceof Cash) {
+            System.out.println("cash tickets " +  cashId);
             System.out.println("Tickets:");
             Cash cashier = (Cash) user;
             for(String ticketId : cashier.getCreatedTicketIds()){
@@ -485,6 +486,9 @@ public class TicketControl {
      */
     public double calculateDiscount(Product product, int amount) {
         double result = 0.0;
+        if(product.getCategory() == null) {
+            return 0.0;
+        }
         if (amount >= 2) {
             double discount = product.getCategory().getDiscount();
             result = product.getPrice() * discount;
