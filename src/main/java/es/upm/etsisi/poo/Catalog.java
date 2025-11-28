@@ -137,7 +137,7 @@ public class Catalog {
             return;
         }
         if (isIdFree(product.getId_product())) {
-            System.out.println("prod add " + product.getId_product() + " " + product.getName() + " " +  product.getCategory() + " " + product.getPrice());
+            System.out.println("prod add " + product.getId_product() + " '" + product.getName() + "' " +  product.getCategory() + " " + product.getPrice());
             products.add(product);
             product.setBelongToCatalog(this);
             System.out.println(product.toString());

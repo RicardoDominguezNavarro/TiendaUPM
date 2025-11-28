@@ -40,6 +40,7 @@ public class TicketControl {
         }
         try{
             Client newClient = new Client(name, DNI, email, cashId);
+            System.out.println("client add " + newClient.getName() + " '" + newClient.getId() + "' " + newClient.getEmail() + " " + cashId);
             users.add(newClient);
             System.out.println(newClient.toString());
             System.out.println("client add: ok");
@@ -62,6 +63,7 @@ public class TicketControl {
         }
         try{
             Cash newCashier = new Cash(id, name, email);
+            System.out.println("cash add " + newCashier.getId() + " '" + newCashier.getName() + "' " + newCashier.getEmail());
             users.add(newCashier);
             System.out.println(newCashier.toString());
             System.out.println("cash add: ok");
@@ -94,6 +96,7 @@ public class TicketControl {
     }
 
     public void listClients(){
+        System.out.println("client list");
         System.out.println("Client:");
         ArrayList<User> orderList = new ArrayList<>();
         for(User user : users) {
@@ -114,6 +117,7 @@ public class TicketControl {
     }
 
     public void listCashiers(){
+        System.out.println("cash list");
         System.out.println("Cash:");
         ArrayList<User> orderList = new ArrayList<>();
         for(User user : users) {
@@ -205,6 +209,7 @@ public class TicketControl {
         }
         Ticket ticket = new Ticket(idNum, userId, cashId, date, catalog);
         ticket.setTicketStatus(Ticket.TicketStatus.EMPTY);
+        System.out.println("ticket new " + idNum + " " + cashId + " " + userId);
         tickets.add(ticket);
 
         Cash cashier = (Cash) cashUser;
@@ -449,6 +454,7 @@ public class TicketControl {
                         }
                     }
                     if (found) {
+                        System.out.println("ticket remove " + ticketId + " " + cashId + " " + prodId);
                         System.out.println(print(ticket));
                         System.out.println("ticket remove: ok");
                     } else {
@@ -528,6 +534,7 @@ public class TicketControl {
 
         ArrayList<Product> products = ticket.getProducts();
         ArrayList<Integer> quantities = ticket.getQuantities();
+        System.out.println("ticket print " + ticket.getIdTicket() + " " + ticket.getCashId());
         sb.append("Ticket : ").append(ticket.getIdTicket());
         if (ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
             sb.append("-").append(ticket.getClosingDate()).append("\n");
@@ -577,6 +584,7 @@ public class TicketControl {
 
     public String listTicket() {
         StringBuilder sb = new StringBuilder();
+        System.out.println("ticket list");
         sb.append("Ticket List:\n");
         for (Ticket ticket : tickets) {
             sb.append(" ");
