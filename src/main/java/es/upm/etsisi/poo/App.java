@@ -2,6 +2,8 @@ package es.upm.etsisi.poo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -391,7 +393,6 @@ public class App {
             System.out.println("Error: the name must be between quotation marks");
             return;
         }
-
          */
         try {
             String[] args = getAfterName(line);
@@ -399,7 +400,8 @@ public class App {
             String beforeName = line.substring(0, firstQuote).trim(); // desde el inicio hasta la primera comilla
             String[] partBeforeName = beforeName.split(" "); //separa por espacios
 
-            if (args.length >= 2) {int id;
+            if (args.length >= 2) {
+                int id;
                 if (partBeforeName.length < 3) {
                     id = catalog.generateId();
                 } else{
@@ -456,27 +458,45 @@ public class App {
             return;
         }
         String[] args = getAfterName(line);
+        int firstQuote = line.indexOf('"');
+        String beforeName = line.substring(0, firstQuote).trim(); // desde el inicio hasta la primera comilla
+        String[] partBeforeName = beforeName.split(" "); //separa por espacios
         try{
-            int id = Integer.parseInt(split[2]);
-            double price = Double.parseDouble(args[0]);
-            LocalDate expirationDate = LocalDate.parse(args[1]); //Paso la fecha pasada por comando a LocalDate
-            LocalDateTime expirationDateTime = expirationDate.atStartOfDay(); //Le añado la hora 00:00 a la fecha para que sea de la clase LocalDateTime para poder pasarla a Events
-            int maxPeopleAllowed = Integer.parseInt(args[2]);
-            //Este if puede que haya que cambiarlo en el futuro si hay más tipos de eventos
-            if (action.equals("addFood")){
-               Events foodEvent = new Events(id, name, price, expirationDateTime, Events.EventType.FOOD, maxPeopleAllowed);
-               catalog.addProd(foodEvent);
-           } else if (action.equals("addMeeting")) {
-               Events meetingEvent = new Events(id, name, price, expirationDateTime, Events.EventType.MEETING, maxPeopleAllowed);
-               catalog.addProd(meetingEvent);
-           }
+            if (args.length == 3) {
+                int id;
+                if (partBeforeName.length < 3) {
+                    id = catalog.generateId();
+                } else {
+                    id = Integer.parseInt(partBeforeName[2]);
+                }
+                double price = Double.parseDouble(args[0]);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate expirationDate = LocalDate.parse(args[1], formatter);
+                //LocalDate expirationDate = LocalDate.parse(args[1]); //Paso la fecha pasada por comando a LocalDate
+                LocalDateTime expirationDateTime = expirationDate.atStartOfDay(); //Le añado la hora 00:00 a la fecha para que sea de la clase LocalDateTime para poder pasarla a Events
+                int maxPeopleAllowed = Integer.parseInt(args[2]);
+                //Este if puede que haya que cambiarlo en el futuro si hay más tipos de eventos
+                if (action.equals("addFood")) {
+                    Events foodEvent = new Events(id, name, price, expirationDateTime, Events.EventType.FOOD, maxPeopleAllowed);
+                    catalog.addProd(foodEvent);
+                } else if (action.equals("addMeeting")) {
+                    Events meetingEvent = new Events(id, name, price, expirationDateTime, Events.EventType.MEETING, maxPeopleAllowed);
+                    catalog.addProd(meetingEvent);
+                }
+            }else{
+                System.out.println("The category, price or expiration date are missing.");
+            }
         } catch (NumberFormatException e) {
             System.out.println("Invalid numeric value for id or price.");
             System.out.println();
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid category or parameters.");
             System.out.println();
+        }catch (DateTimeParseException e) {
+            System.out.println("Invalid date format. Expected format: yyyy-MM-dd (example: 2025-03-28)");
+            System.out.println();
         }
+
     }
 
     private void controlTicketCommand(String line, String[] split){
