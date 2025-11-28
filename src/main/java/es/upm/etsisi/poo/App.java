@@ -381,22 +381,30 @@ public class App {
 
     private void controlAddStandardProduct(String line, String[] split){
         String name = getName(line);
-        if(name == null) {
-            System.out.println("The name can't be empty");
+        if(name == null || name.isEmpty()) {
+            System.out.println("The name can't be empty and must be between quotation marks ");
             return;
         }
         //String[] args = getAfterName(line);
+        /*
         if (name.length() < 2) {
             System.out.println("Error: the name must be between quotation marks");
             return;
         }
+
+         */
         try {
             String[] args = getAfterName(line);
-            if (args.length >= 2) {
-                int firstQuote = line.indexOf('"');  //posición de la primera comilla
-                String beforeName = line.substring(0, firstQuote).trim(); // desde el inicio hasta la primera comilla
-                String[] partBeforeName = beforeName.split(" "); //separa por espacios
-                int id = Integer.parseInt(partBeforeName[2]);
+            int firstQuote = line.indexOf('"');
+            String beforeName = line.substring(0, firstQuote).trim(); // desde el inicio hasta la primera comilla
+            String[] partBeforeName = beforeName.split(" "); //separa por espacios
+
+            if (args.length >= 2) {int id;
+                if (partBeforeName.length < 3) {
+                    id = catalog.generateId();
+                } else{
+                    id = Integer.parseInt(partBeforeName[2]);
+                }
                 Category category = Category.valueOf(args[0].toUpperCase());
                 double price = Double.parseDouble(args[1]);
                 if (args.length > 2) { //es personalizado
@@ -415,8 +423,6 @@ public class App {
             } catch(IllegalArgumentException e){
                 System.out.println("Invalid category or parameters.");
             }
-
-
     }
 
     private String getName(String line) {
