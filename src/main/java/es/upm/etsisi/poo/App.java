@@ -390,27 +390,33 @@ public class App {
             System.out.println("Error: the name must be between quotation marks");
             return;
         }
-        try{
-            int firstQuote = line.indexOf('"');  //posición de la primera comilla
-            String beforeName = line.substring(0,firstQuote).trim(); // desde el inicio hasta la primera comilla
-            String [] partBeforeName = beforeName.split(" "); //separa por espacios
-            int id = Integer.parseInt(partBeforeName[2]);
-            String [] args = getAfterName(line);
-            Category category = Category.valueOf(args[0].toUpperCase());
-            double price = Double.parseDouble(args[1]);
-            if(args.length > 2){ //es personalizado
-                int maxPers = Integer.parseInt(args[2]);
-                PersonalizedProduct productPersonalize = new PersonalizedProduct(id, name, price, category, maxPers);
-                catalog.addProd(productPersonalize);
-            }else {
-                Product product = new Product(id, name, price, category);
-                catalog.addProd(product);
+        try {
+            String[] args = getAfterName(line);
+            if (args.length >= 2) {
+                int firstQuote = line.indexOf('"');  //posición de la primera comilla
+                String beforeName = line.substring(0, firstQuote).trim(); // desde el inicio hasta la primera comilla
+                String[] partBeforeName = beforeName.split(" "); //separa por espacios
+                int id = Integer.parseInt(partBeforeName[2]);
+                Category category = Category.valueOf(args[0].toUpperCase());
+                double price = Double.parseDouble(args[1]);
+                if (args.length > 2) { //es personalizado
+                    int maxPers = Integer.parseInt(args[2]);
+                    PersonalizedProduct productPersonalize = new PersonalizedProduct(id, name, price, category, maxPers);
+                    catalog.addProd(productPersonalize);
+                } else {
+                    Product product = new Product(id, name, price, category);
+                    catalog.addProd(product);
+                }
+            }else{
+                System.out.println("The category and/or price is missing.");
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid numeric value for id or price.");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid category or parameters.");
-        }
+            } catch(NumberFormatException e){
+                System.out.println("Invalid numeric value for id or price.");
+            } catch(IllegalArgumentException e){
+                System.out.println("Invalid category or parameters.");
+            }
+
+
     }
 
     private String getName(String line) {
