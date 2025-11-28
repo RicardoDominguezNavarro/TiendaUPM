@@ -454,7 +454,7 @@ public class TicketControl {
                         }
                     }
                     if (found) {
-                        System.out.println("ticket remove " + ticketId + " " + cashId + " " + prodId);
+                        System.out.println("ticket remove " + ticketId + " " +  cashId + " " + prodId);
                         System.out.println(print(ticket));
                         System.out.println("ticket remove: ok");
                     } else {
@@ -534,7 +534,6 @@ public class TicketControl {
 
         ArrayList<Product> products = ticket.getProducts();
         ArrayList<Integer> quantities = ticket.getQuantities();
-        System.out.println("ticket print " + ticket.getIdTicket() + " " + ticket.getCashId());
         sb.append("Ticket : ").append(ticket.getIdTicket());
         if (ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
             sb.append("-").append(ticket.getClosingDate()).append("\n");

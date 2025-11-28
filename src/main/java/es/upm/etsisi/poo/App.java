@@ -298,7 +298,7 @@ public class App {
             switch (command) {
                 case "exit":
                     exit();
-                    break;
+                    return;
                 case "echo":
                     echo(line);
                     System.out.println();
@@ -562,6 +562,8 @@ public class App {
                 String ticketIdPrint = split[2];
                 String cashIdPrint = split[3];
                 User cashPrint = ticketControl.findUserById(cashIdPrint);
+                System.out.println("ticket print " + ticketIdPrint + " " + cashIdPrint);
+
                 if (!(cashPrint instanceof Cash)) {
                     System.out.println("Cashier with id: " + cashIdPrint + " doesn't exist.");
                     return;
