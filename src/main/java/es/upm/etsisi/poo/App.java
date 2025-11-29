@@ -620,9 +620,9 @@ public class App {
     }
 
     private void controlClientCommand(String line, String[] split){
-        String actionn = split[1];
+        String action = split[1];
 
-        switch (actionn) {
+        switch (action) {
             case "add":
                 String name = getName(line);
                 if(name == null) {
@@ -631,6 +631,24 @@ public class App {
                 String[] args = getAfterName(line);
                 if(args.length < 3){
                     System.out.println("Invalid client add command. Usage: client add \"<nombre>\" <DNI> <email> <cashId> ");
+                    return;
+                }
+                String email = args[0];
+                if (email == null || !email.contains("@")) {
+                    System.out.println("Invalid email format.");
+                    return;
+                }
+                int at = email.indexOf("@");
+
+                // debe haber algo después del @
+                if (at == email.length() - 1) {
+                    System.out.println("Invalid email format.");
+                    return;
+                }
+                // debe haber un punto después del @
+                String domain = email.substring(at + 1);
+                if (!domain.contains(".")) {
+                    System.out.println("Invalid email format.");
                     return;
                 }
                 ticketControl.addClient(name, args[0], args[1], args[2]);
@@ -662,11 +680,30 @@ public class App {
                     return;
                 }
                 String[] args = getAfterName(line);
+
                 if(args.length < 1){
                     System.out.println("Error: missing email");
                     return;
                 }
                 String email = args[0];
+                if (email == null || !email.contains("@")) {
+                    System.out.println("Invalid email format.");
+                    return;
+                }
+                int at = email.indexOf("@");
+
+                // debe haber algo después del @
+                if (at == email.length() - 1) {
+                    System.out.println("Invalid email format.");
+                    return;
+                }
+                // debe haber un punto después del @
+                String domain = email.substring(at + 1);
+                if (!domain.contains(".")) {
+                    System.out.println("Invalid email format.");
+                    return;
+                }
+
                 String id = null;
                 if(!split[2].startsWith("\"")){
                     id = split[2];
