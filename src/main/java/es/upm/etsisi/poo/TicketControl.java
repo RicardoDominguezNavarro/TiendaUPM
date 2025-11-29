@@ -491,7 +491,7 @@ public class TicketControl {
      * @param amount  the quantity of the product
      * @return the discount value
      */
-   /** public double calculateDiscount(Product product, int amount) {
+  /** public double calculateDiscount(Product product, int amount) {
         double result = 0.0;
         if(product.getCategory() == null) {
             return 0.0;
@@ -502,7 +502,7 @@ public class TicketControl {
         }
         return result;
     }*/
-   public double calculateDiscount(Product product, int amount) {
+ /** public double calculateDiscount(Product product, int amount) {
        double result = 0.0;
        if(product.getCategory() == null) {
            return 0.0;
@@ -515,9 +515,36 @@ public class TicketControl {
                result = product.getPrice() * discountRate;
            }
        }
+       double discount = product.getCategory().getDiscount();
 
+       if (amount >= 2) {
+           result = product.getPrice() * discount;
+       }else if (product instanceof PersonalizedProduct){
+           PersonalizedProduct personalizedProduct = (PersonalizedProduct) product;
+           if (discount > 0.0) {
+               result = product.getPrice() * discount;
+
+
+       }
        return result;
+   }*/
+   public double calculateDiscount(Product product, int amount) {
+     double result = 0.0;
+     if(product.getCategory() == null) {
+         return 0.0;
+     }
+     double discount = product.getCategory().getDiscount();
+     if (amount >= 2) {
+         result = product.getPrice() * discount;
+     }
+     else if (product instanceof PersonalizedProduct) {
+         if (discount > 0.0) {
+             result = product.getPrice() * discount;
+         }
+     }
+     return result;
    }
+
 
 
     public void printTicket(String ticketId, String cashId) {
@@ -563,7 +590,7 @@ public class TicketControl {
             Product product = products.get(i);
             int amount = quantities.get(i);
             double unitDiscount = calculateDiscount(product, amount);
-            double discount = 0.0;
+            //double discount = 0.0;
             for (int j = 0; j < amount; j++) {
                 if (product instanceof Events) {
                     Events event = (Events) product;
@@ -575,9 +602,9 @@ public class TicketControl {
                 } else if (product instanceof PersonalizedProduct) {
                     PersonalizedProduct personalizedProd = (PersonalizedProduct) product;
                     sb.append(personalizedProd.toString());
-                    discount = calculateDiscount(product, amount);
+                    //discount = calculateDiscount(product, amount);
                     if (unitDiscount > 0) {
-                        sb.append(" **discount -").append(String.format(Locale.US, "%.3f", discount)).append("\n");
+                        sb.append(" **discount -").append(String.format(Locale.US, "%.3f", unitDiscount)).append("\n");
                     } else {
                         sb.append("\n");
                     }
@@ -585,7 +612,7 @@ public class TicketControl {
                     //discount = calculateDiscount(product, amount);
                     sb.append(product.toString());
                     if (unitDiscount > 0) {
-                        sb.append(" **discount -").append(String.format(Locale.US, "%.2f", discount)).append("\n");
+                        sb.append(" **discount -").append(String.format(Locale.US, "%.2f", unitDiscount)).append("\n");
                     } else {
                         sb.append("\n");
                     }
@@ -596,7 +623,7 @@ public class TicketControl {
         }
         double finalPrice = totalPrice - totalDiscount;
         sb.append("  Total price: ").append(String.format(Locale.US, "%.2f", totalPrice)).append("\n");
-        sb.append("  Total discount: ").append(String.format(Locale.US, "%.6f", totalDiscount)).append("\n");
+        sb.append("  Total discount: ").append(String.format(Locale.US, "%.3f", totalDiscount)).append("\n");
         sb.append("  Final price: ").append(String.format(Locale.US, "%.3f", finalPrice));
         return sb.toString();
     }
