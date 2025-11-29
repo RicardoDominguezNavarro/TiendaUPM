@@ -634,9 +634,22 @@ public class App {
                     return;
                 }
                 String dni = args[0];
-                if (dni == null || dni.length() != 9 || !dni.substring(0, 8).chars().allMatch(Character::isDigit)
-                        || !Character.isLetter(dni.charAt(8))) {
-                    System.out.println("Invalid DNI format.");
+                if (dni == null || dni.length() != 9) {
+                    System.out.println("Invalid DNI/NIE length.");
+                    return;
+                }
+
+                char firstChar = dni.charAt(0);
+                String numberPart;
+                if (Character.isLetter(firstChar) && (firstChar == 'X' || firstChar == 'Y' || firstChar == 'Z')) {
+                    // Es un NIE: la parte numérica son los 7 dígitos del medio
+                    numberPart = dni.substring(1, 8);
+                } else {
+                    // Es un DNI normal: los 8 primeros son dígitos
+                    numberPart = dni.substring(0, 8);
+                }
+                if (!numberPart.chars().allMatch(Character::isDigit) || !Character.isLetter(dni.charAt(8))) {
+                    System.out.println("Invalid DNI/NIE format.");
                     return;
                 }
                 String email = args[1];
@@ -708,9 +721,11 @@ public class App {
                     System.out.println("Invalid email format.");
                     return;
                 }
-
+                int firstQuote = line.indexOf('"');
+                String beforeName = line.substring(0, firstQuote).trim();
+                String[] partBeforeName = beforeName.split(" ");
                 String id = null;
-                if(!split[2].startsWith("\"")){
+                if(partBeforeName.length>=3){
                     id = split[2];
                 }
                 ticketControl.addCashier(id, name, email);
