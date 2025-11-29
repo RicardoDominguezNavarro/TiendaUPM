@@ -633,13 +633,18 @@ public class App {
                     System.out.println("Invalid client add command. Usage: client add \"<nombre>\" <DNI> <email> <cashId> ");
                     return;
                 }
-                String email = args[0];
+                String dni = args[0];
+                if (dni == null || dni.length() != 9 || !dni.substring(0, 8).chars().allMatch(Character::isDigit)
+                        || !Character.isLetter(dni.charAt(8))) {
+                    System.out.println("Invalid DNI format.");
+                    return;
+                }
+                String email = args[1];
                 if (email == null || !email.contains("@")) {
                     System.out.println("Invalid email format.");
                     return;
                 }
                 int at = email.indexOf("@");
-
                 // debe haber algo después del @
                 if (at == email.length() - 1) {
                     System.out.println("Invalid email format.");
