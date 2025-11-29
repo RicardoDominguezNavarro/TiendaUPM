@@ -46,8 +46,8 @@ public class PersonalizedProduct extends Product{
 
     public double getPricePersonalization() {
         double basePrice = super.getPrice();
-        double extraPrince = basePrice * 0.10 *  personalizationList.size();
-        return basePrice + extraPrince;
+        double extraPrice = basePrice * 0.10 *  personalizationList.size();
+        return basePrice + extraPrice;
     }
 
     public ArrayList<String> getPersonalizationList() {
@@ -68,7 +68,4 @@ public class PersonalizedProduct extends Product{
                     getId_product(), getName(), getCategory(), currentPrice, maxText, personalizationList.toString());
         }
     }
-
-
-
 }

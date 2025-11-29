@@ -142,7 +142,16 @@ public class Catalog {
             product.setBelongToCatalog(this);
             System.out.println(product.toString());
             numProducts++;
-            System.out.println("prod add: ok");
+            if (product instanceof Events){
+                Events event = (Events) product;
+                if (event.getEventType() == Events.EventType.MEETING){
+                    System.out.println("prod addMeeting: ok");
+                }else {
+                    System.out.println("prod addFood: ok");
+                }
+            }else {
+                System.out.println("prod add: ok");
+            }
         } else {
             System.out.println("The id belongs to another product");
         }

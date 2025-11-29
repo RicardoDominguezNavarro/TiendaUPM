@@ -490,7 +490,7 @@ public class App {
             System.out.println("Invalid numeric value for id or price.");
             System.out.println();
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid category or parameters.");
+            System.out.println("Error processing ->prod addFood ->Error adding product");
             System.out.println();
         }catch (DateTimeParseException e) {
             System.out.println("Invalid date format. Expected format: yyyy-MM-dd (example: 2025-03-28)");
