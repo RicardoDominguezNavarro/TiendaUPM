@@ -541,9 +541,28 @@ public class App {
                 }
                 String ticketIdAdd = split[2];
                 String cashIdAdd = split[3];
-                int prodId = Integer.parseInt(split[4]);
-                int amount =  Integer.parseInt(split[5]);
-                ArrayList<String> personalizedProducts = new ArrayList<>();
+                //int prodId = Integer.parseInt(split[4]);
+                //int amount =  Integer.parseInt(split[5]);
+                //ArrayList<String> personalizedProducts = new ArrayList<>();
+                int prodId;
+                try {
+                    prodId = Integer.parseInt(split[4]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Product ID must be an integer.");
+                    return;
+                }
+
+                int amount;
+                try {
+                    amount = Integer.parseInt(split[5]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Amount must be a positive number.");
+                    return;
+                }
+                if (amount <= 0) {
+                    System.out.println("Amount must be positive.");
+                    return;
+                }
 
 
                 User cashAdd = ticketControl.findUserById(cashIdAdd);
@@ -559,6 +578,7 @@ public class App {
                         personalizations.add(text);
                     }
                 }
+
                 ticketControl.addProductToTicket(ticketIdAdd, cashIdAdd,prodId,amount,personalizations);
                 break;
 
