@@ -134,8 +134,6 @@ public class TicketControl {
         for(User user : orderList) {
             System.out.println(user.toString());
         }
-
-
         System.out.println("Cash list: ok");
     }
 
@@ -157,31 +155,6 @@ public class TicketControl {
         }else{
             System.out.println("Cashier with id: " + cashId + " doesn't exist");
         }
-        /**if(user == null) {
-            System.out.println("Cashier with id: " + cashId + " doesn't exist");
-            return;
-        }
-        if (!(user instanceof Cash)) {
-            System.out.println("User with id: " + cashId + " is not a cashier.");
-            return;
-        }
-        Cash cashier = (Cash) user;
-        System.out.println("Tickets: ");
-        if (cashier.getCreatedTicketIds() == null || cashier.getCreatedTicketIds().isEmpty()) {
-            System.out.println("No tickets found for cashier " + cashId);
-        } else {
-            for(String ticketId: cashier.getCreatedTicketIds()){
-                System.out.println("Checking ticketId: " + ticketId);
-                Ticket ticket = findTicketById(ticketId);
-                if(ticket != null) {
-                    System.out.println("  " + ticket.getIdTicket() + "->" + ticket.getTicketStatus());
-                } else {
-                    System.out.println("Ticket with id " + ticketId + " not found.");
-                }
-            }
-        }
-        System.out.println("cash tickets: ok");*/
-
     }
 
 
@@ -237,106 +210,6 @@ public class TicketControl {
      * @param prodId   the product ID to add
      * @param quantity the number of units to add
      */
-/*
-    public void addProductToTicket(String ticketId, String cashId, int prodId, int quantity, ArrayList<String> personalized) {
-        Ticket ticket = findTicketById(ticketId);
-        boolean valid = true;
-        if (ticket == null) {
-            System.out.println("The ticketId doesn´t exist");
-            return;
-        } else {
-            if (!ticket.getCashId().equals(cashId) || ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
-                System.out.println("unauthorized or closed ticket");
-                valid = false;
-            }
-            //los eventos cuenta como 1 solo item o segun las personas que sean??
-            if (valid && quantity <= 0 || ticket.getNumItems() + quantity > ticket.getMAXITEMS()) {
-                System.out.println("Invalid amount or full ticket");
-                valid = false;
-            } else if (ticket.getNumItems() + quantity == ticket.getMAXITEMS()) {
-                System.out.println("The ticket is full");
-            }
-
-            Product product = null;
-            if (valid) {
-                product = catalog.getProductId(prodId);
-                if (product == null) {
-                    System.out.println("product not found");
-                    valid = false;
-                }
-            }
-
-            if (valid && product instanceof PersonalizedProduct) {
-                PersonalizedProduct personalizedProduct = (PersonalizedProduct) product;
-                if (personalizedProduct == null) {
-                    personalized = new ArrayList<>();
-                }
-                if (personalized.size() > personalizedProduct.getMaxText()) {
-                    System.out.println("Exceeded max number of personalized texts");
-                    valid = false;
-                }
-                for (int i = 0; i < personalized.size(); i++) {
-                    String text = personalized.get(i);
-                    if (!personalizedProduct.getPersonalizationList().contains(text)) {
-                        System.out.println("Personalized text not allowed");
-                        valid = false;
-                        break;
-                    }
-                }
-            }
-            if (valid && product instanceof Events) {
-                Events event = (Events) product;
-                ArrayList<Product> products = ticket.getProducts();
-                for (int i = 0; i < products.size(); i++) {
-                    Product prod = products.get(i);
-                    if (prod instanceof Events && prod.getId_product() == prodId) {
-                        System.out.println("Event already added");
-                        valid = false;
-                        break;
-                    }
-                }
-                if (valid && !event.validDate()) {
-                    System.out.println("Event must be planned at least " + event.getEventType().getMinPlanningHours() + "hours ahead");
-                    valid = false;
-                }
-            }
-
-            if (valid) {
-                if (product instanceof Events) {
-                    product = new Events((Events) product, quantity);
-                }else if (product instanceof PersonalizedProduct) {// 2. Si es Personalizado, creamos la copia para fijar los textos
-                    product = new PersonalizedProduct((PersonalizedProduct) product, personalized);
-                }
-
-                ArrayList<Product> products = ticket.getProducts();
-                ArrayList<Integer> quantities = ticket.getQuantities();
-                ArrayList<String> personalizedText = ticket.getMaxPers();
-
-                boolean found = false;
-                for (int i = 0; i < products.size(); i++) {
-                    if (products.get(i).getId_product() == prodId && personalizedText.get(i).equals(personalized)) {
-                        quantities.set(i, quantities.get(i) + quantity);
-                        ticket.setNumItems(ticket.getNumItems() + quantity);
-                        found = true;
-                    }
-                }
-                if (!found) {
-
-                    int index = 0;
-                    while (index < products.size() && products.get(index).getName().compareToIgnoreCase(product.getName()) < 0) {
-                        index++;
-                    }
-                    products.add(index, product);
-                    quantities.add(index, quantity);
-                    personalizedText.add(index, String.valueOf(personalized)); //mirar esto porq no me cuadra
-                    ticket.setNumItems(ticket.getNumItems() + quantity);
-                }
-                System.out.println(print(ticket));
-                System.out.println("ticket add: ok");
-            }
-        }
-    }
-*/
 
     public void addProductToTicket(String ticketId, String cashId, int prodId, int quantity, ArrayList<String> personalized) {
         Ticket ticket = findTicketById(ticketId);
@@ -483,69 +356,17 @@ public class TicketControl {
     }
 
 
-    /**
-     * Calculate a discount for a specific product depending on its category and quantity.
-     * The discount is applied only if the quantity is two or more.
-     *
-     * @param product the product for which the discount is calculated
-     * @param amount  the quantity of the product
-     * @return the discount value
-     */
-  /** public double calculateDiscount(Product product, int amount) {
-        double result = 0.0;
-        if(product.getCategory() == null) {
-            return 0.0;
-        }
-        if (amount >= 2) {
-            double discount = product.getCategory().getDiscount();
-            result = product.getPrice() * discount;
-        }
-        return result;
-    }*/
- /** public double calculateDiscount(Product product, int amount) {
-       double result = 0.0;
-       if(product.getCategory() == null) {
-           return 0.0;
-       }
-       double discountRate = product.getCategory().getDiscount();
-       if (discountRate > 0.0) {
-           result = product.getPrice() * discountRate;
-       } else {
-           if (amount >= 2) {
-               result = product.getPrice() * discountRate;
-           }
-       }
-       double discount = product.getCategory().getDiscount();
-
-       if (amount >= 2) {
-           result = product.getPrice() * discount;
-       }else if (product instanceof PersonalizedProduct){
-           PersonalizedProduct personalizedProduct = (PersonalizedProduct) product;
-           if (discount > 0.0) {
-               result = product.getPrice() * discount;
-
-
-       }
-       return result;
-   }*/
-   public double calculateDiscount(Product product, int amount) {
-     double result = 0.0;
-     if(product.getCategory() == null) {
+    public double calculateDiscount(Product product, int amount) {
+      double result = 0.0;
+      if(product.getCategory() == null) {
          return 0.0;
-     }
-     double discount = product.getCategory().getDiscount();
-     if (amount >= 2) {
+      }
+      double discount = product.getCategory().getDiscount();
+      if (amount >= 2) {
          result = product.getPrice() * discount;
-     }
-     else if (product instanceof PersonalizedProduct) {
-         if (discount > 0.0) {
-             result = product.getPrice() * discount;
-         }
-     }
-     return result;
-   }
-
-
+      }
+      return result;
+    }
 
     public void printTicket(String ticketId, String cashId) {
         Ticket ticket = findTicketById(ticketId);
@@ -590,7 +411,6 @@ public class TicketControl {
             Product product = products.get(i);
             int amount = quantities.get(i);
             double unitDiscount = calculateDiscount(product, amount);
-            //double discount = 0.0;
             for (int j = 0; j < amount; j++) {
                 if (product instanceof Events) {
                     Events event = (Events) product;
@@ -602,14 +422,12 @@ public class TicketControl {
                 } else if (product instanceof PersonalizedProduct) {
                     PersonalizedProduct personalizedProd = (PersonalizedProduct) product;
                     sb.append(personalizedProd.toString());
-                    //discount = calculateDiscount(product, amount);
                     if (unitDiscount > 0) {
                         sb.append(" **discount -").append(String.format(Locale.US, "%.3f", unitDiscount)).append("\n");
                     } else {
                         sb.append("\n");
                     }
                 } else {
-                    //discount = calculateDiscount(product, amount);
                     sb.append(product.toString());
                     if (unitDiscount > 0) {
                         sb.append(" **discount -").append(String.format(Locale.US, "%.2f", unitDiscount)).append("\n");
@@ -674,6 +492,5 @@ public class TicketControl {
             weight /= 10;
         }
         return id;
-        //se comprueba si ya existe a la hora de llamar a la función
     }
 }
