@@ -45,7 +45,6 @@ public class App {
     private TicketControl ticketControl;
 
 
-
     /**
      * The main method
      * @param args
@@ -55,175 +54,6 @@ public class App {
         app.start();
         app.run();
     }
-
-    /**
-     *This method is the main execution loop of the program.
-     *It continuously reads user input from the console, interprets commands,
-     *and delegates actions to different components
-     */
-    /*
-    public void run() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(welcome);
-        System.out.println(welcome1);
-
-        while (true) {
-            System.out.print(UPM);
-            String line = scanner.nextLine();
-            if (line.trim().isEmpty()) { //si despues de eliminar los espacio sigue vacia pasa a la siguiente iteración
-                continue;
-            }
-            if (System.getenv("fileinput")!=null && System.getenv("fileinput").equals("true")){
-                System.out.println(line);
-            }
-
-            String[] split = line.split(" ");
-
-            String command = split[0];
-            String accion = (split.length > 1) ? split[1] : "";
-            String id = (split.length > 2) ? split[2] : "";
-
-            switch (command) {
-                case "help":
-                    help();
-                    break;
-
-                case "prod":
-                    if (accion.equals("add")) {
-                        if (split.length < 5) {
-                            System.out.println("Invalid prod add command Usage: prod add <id> \\\"<name>\\\" <category> <price>");
-                            System.out.println();
-                            break;
-                        }
-                        String[] nameSplit = line.split("\"");
-                        if (nameSplit.length < 2) {
-                            System.out.println("Error: the name must be between quotation marks");
-                            System.out.println();
-                            break;
-                        }
-
-                        try {
-                            String name = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\""));
-                            String category = split[split.length-2].toUpperCase(); //length empieza a contar desde 1
-                            String price = split[split.length-1];
-                            Product product = new Product(Integer.parseInt(id), name, Double.parseDouble(price), Category.valueOf(category));
-                            catalog.addProd(product);
-                            System.out.println();
-                        } catch (NumberFormatException e) {
-                            System.out.println("Invalid numeric value for id or price.");
-                            System.out.println();
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Invalid category or parameters.");
-                            System.out.println();
-                        }
-
-                    } else if (accion.equals("list")) {
-                        catalog.prodList();
-                        System.out.println();
-
-                    } else if (accion.equals("update")) {
-                        if (split.length < 5) {
-                            System.out.println("Invalid prod update command. Usage: prod update <id> <field> <value>");
-                            System.out.println();
-                            break;
-                        }
-                        String idToUpdate = split[2];
-                        String field = split[3];
-                        String value = String.join(" ", Arrays.copyOfRange(split, 4, split.length));
-                        catalog.updateProd(Integer.parseInt(idToUpdate), field, value);
-                        System.out.println();
-
-                    } else if (accion.equals("remove")) {
-                        if (split.length < 3) {
-                            System.out.println("Invalid prod remove command. Usage: prod remove <id>");
-                            System.out.println();
-                            break;
-                        }
-                        try {
-                            catalog.prodRemove(Integer.parseInt(split[2]));
-                            System.out.println();
-                        } catch (NumberFormatException e) {
-                            System.out.println("Invalid id for prod remove.");
-                            System.out.println();
-                        }
-                    } else {
-                        System.out.println("Unknown prod action");
-                        System.out.println();
-                    }
-                    break;
-
-
-                case "ticket":
-                    if (accion.equals("new")) {
-                        //ticket.newTicket();
-                        System.out.println();
-
-                    } else if (accion.equals("add")) {
-                        if (split.length < 4) {
-                            System.out.println("Invalid ticket add command. Usage: ticket add <prodId> <quantity>");
-                            System.out.println();
-                            break;
-                        }
-                        try {
-                            //ticket.addProduct(Integer.parseInt(split[2]), Integer.parseInt(split[3]));
-                            System.out.println();
-                        } catch (NumberFormatException e) {
-                            System.out.println("prodId and quantity must be integers.");
-                            System.out.println();
-                        }
-
-                    } else if (accion.equals("remove")) {
-                        if (split.length < 3) {
-                            System.out.println("Invalid ticket remove command. Usage: ticket remove <prodId>");
-                            System.out.println();
-                            break;
-                        }
-                        try {
-                            //ticket.removeProduct(Integer.parseInt(split[2]));
-                            System.out.println();
-                        } catch (NumberFormatException e) {
-                            System.out.println("Invalid prodId for ticket remove.");
-                            System.out.println();
-                        }
-                    } else if (accion.equals("print")) {
-                        //System.out.println(ticket.print());
-                        System.out.println("ticket print: ok");
-                        //ticket.newTicket();
-                        System.out.println();
-                    } else {
-                        System.out.println("Unknown ticket action");
-                        System.out.println();
-                    }
-                    break;
-
-                case "exit":
-                    exit();
-                    return;
-
-                case "echo":
-                    echo(line);
-                    break;
-                default:
-                    System.out.println("Unkown command");
-                    System.out.println();
-                    break;
-
-            }
-        }
-    }
-    */
-
-
-    /**
-     *This method initialize the objects with the limits needed
-     */
-    /*
-    public void start() {
-        catalog = new Catalog();
-       // ticket = new Ticket(catalog);
-
-    }
-    */
 
     /**
      * Print the closing messages and end the application.
@@ -387,13 +217,6 @@ public class App {
             System.out.println("The name can't be empty and must be between quotation marks ");
             return;
         }
-        //String[] args = getAfterName(line);
-        /*
-        if (name.length() < 2) {
-            System.out.println("Error: the name must be between quotation marks");
-            return;
-        }
-         */
         try {
             String[] args = getAfterName(line);
             int firstQuote = line.indexOf('"');
@@ -472,10 +295,8 @@ public class App {
                 double price = Double.parseDouble(args[0]);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate expirationDate = LocalDate.parse(args[1], formatter);
-                //LocalDate expirationDate = LocalDate.parse(args[1]); //Paso la fecha pasada por comando a LocalDate
-                LocalDateTime expirationDateTime = expirationDate.atStartOfDay(); //Le añado la hora 00:00 a la fecha para que sea de la clase LocalDateTime para poder pasarla a Events
+                LocalDateTime expirationDateTime = expirationDate.atStartOfDay();
                 int maxPeopleAllowed = Integer.parseInt(args[2]);
-                //Este if puede que haya que cambiarlo en el futuro si hay más tipos de eventos
                 if (action.equals("addFood")) {
                     Events foodEvent = new Events(id, name, price, expirationDateTime, Events.EventType.FOOD, maxPeopleAllowed);
                     catalog.addProd(foodEvent);
@@ -541,9 +362,6 @@ public class App {
                 }
                 String ticketIdAdd = split[2];
                 String cashIdAdd = split[3];
-                //int prodId = Integer.parseInt(split[4]);
-                //int amount =  Integer.parseInt(split[5]);
-                //ArrayList<String> personalizedProducts = new ArrayList<>();
                 int prodId;
                 try {
                     prodId = Integer.parseInt(split[4]);
@@ -563,7 +381,6 @@ public class App {
                     System.out.println("Amount must be positive.");
                     return;
                 }
-
 
                 User cashAdd = ticketControl.findUserById(cashIdAdd);
                 if (!(cashAdd instanceof Cash)){
