@@ -7,18 +7,43 @@ import java.util.Comparator;
 import java.util.Locale;
 
 
+/**
+ * The controller class responsible for managing tickets, users (clients and cashiers),
+ * and their interactions with the product catalog.
+ * It handles logic for creating, modifying, and printing tickets, as well as
+ * managing user accounts.
+ */
 public class TicketControl {
+    /**
+     * List of all tickets created in the system.
+     */
     private final ArrayList<Ticket> tickets;
+    /**
+     * Reference to the product catalog to check product availability and details.
+     */
     private final Catalog catalog;
+    /**
+     * List of all users (clients and cashiers) in the system.
+     */
     private final ArrayList<User>  users;
 
 
+
+    /**
+     * Constructs a new TicketControl instance, initializing the lists for tickets and users.
+     * @param catalog The reference to the {@code Catalog} for product lookups.
+     */
     public TicketControl(Catalog catalog) {
         this.tickets = new ArrayList<>();
         this.catalog = catalog;
         this.users = new ArrayList<>();
     }
 
+    /**
+     * Finds a user (client or cashier) by their unique ID.
+     * @param id The ID (DNI/NIE or cashier ID) of the user to find.
+     * @return The {@code User} object if found, otherwise {@code null}.
+     */
     public User findUserById(String id) {
         for(User user : users) {
             if(user.getId().equalsIgnoreCase(id)) {
@@ -28,6 +53,13 @@ public class TicketControl {
         return null;
     }
 
+    /**
+     * Adds a new client to the system.
+     * @param name The name of the client.
+     * @param DNI The client's ID (DNI/NIE).
+     * @param email The client's email.
+     * @param cashId The ID of the cashier creating the client account.
+     */
     public void addClient(String name, String DNI, String email, String cashId){
         if(findUserById(DNI) != null) {
             System.out.println("Client with id: " + DNI + " already exists");
@@ -50,6 +82,12 @@ public class TicketControl {
 
     }
 
+    /**
+     * Adds a new cashier to the system. Generates an ID if none is provided.
+     * @param id The desired ID for the cashier, or {@code null} to generate a new one.
+     * @param name The name of the cashier.
+     * @param email The email of the cashier.
+     */
     public void addCashier(String id, String name, String email){
         if(id != null) {
             if(findUserById(id) != null) {
@@ -72,6 +110,10 @@ public class TicketControl {
         }
     }
 
+    /**
+     * Removes a client from the system using their ID (DNI/NIE).
+     * @param id The ID of the client to remove.
+     */
     public void removeClient(String id){
         User user = findUserById(id);
         if(user != null) {
@@ -83,6 +125,11 @@ public class TicketControl {
         }
     }
 
+    /**
+     * Removes a cashier from the system using their ID.
+     * All tickets created by this cashier are also removed.
+     * @param id The ID of the cashier to remove.
+     */
     public void removeCashier(String id){
         User cashier = findUserById(id);
         if(cashier != null) {
@@ -95,6 +142,9 @@ public class TicketControl {
         }
     }
 
+    /**
+     * Lists all clients currently in the system, sorted alphabetically by name.
+     */
     public void listClients(){
         System.out.println("client list");
         System.out.println("Client:");
@@ -116,6 +166,9 @@ public class TicketControl {
         System.out.println("Client list: ok");
     }
 
+    /**
+     * Lists all cashiers currently in the system, sorted alphabetically by name.
+     */
     public void listCashiers(){
         System.out.println("cash list");
         System.out.println("Cash:");
@@ -138,7 +191,10 @@ public class TicketControl {
     }
 
 
-
+    /**
+     * Lists all tickets created by a specific cashier.
+     * @param cashId The ID of the cashier whose tickets should be listed.
+     */
     public void listCashierTickets(String cashId){
         User user = findUserById(cashId);
         if(user instanceof Cash) {
@@ -158,7 +214,12 @@ public class TicketControl {
     }
 
 
-
+    /**
+     * Creates and opens a new ticket.
+     * @param userId The ID of the client for whom the ticket is created.
+     * @param cashId The ID of the cashier opening the ticket.
+     * @param ticketId The desired ID for the ticket, or {@code null} to generate a new one.
+     */
     public void newTicket(String userId, String cashId, String ticketId) {
         if(findUserById(userId) == null) {
             System.out.println("User with id: " + userId + " doesn't exist");
@@ -192,6 +253,12 @@ public class TicketControl {
         System.out.println("ticket new: ok");
     }
 
+
+    /**
+     * Finds a ticket by its ID.
+     * @param ticketId The ID of the ticket to find.
+     * @return The {@code Ticket} object if found, otherwise {@code null}.
+     */
     public Ticket findTicketById(String ticketId) {
         for (Ticket ticket : tickets) {
             if (ticket.getIdTicket().equals(ticketId)) {
@@ -204,13 +271,15 @@ public class TicketControl {
 
 
     /**
-     * Adds a new product to the ticket based on its product ID and quantity.
-     * If the product already exists in the ticket, its quantity is increased.
+     * Adds a new product to the specified ticket.
+     * If the product already exists and is not an Event or PersonalizedProduct, its quantity is increased.
      *
-     * @param prodId   the product ID to add
-     * @param quantity the number of units to add
+     * @param ticketId The ID of the ticket to modify.
+     * @param cashId The ID of the cashier attempting to modify the ticket (for authorization).
+     * @param prodId The product ID to add.
+     * @param quantity The number of units or participants to add.
+     * @param personalized List of personalized text strings, if applicable.
      */
-
     public void addProductToTicket(String ticketId, String cashId, int prodId, int quantity, ArrayList<String> personalized) {
         Ticket ticket = findTicketById(ticketId);
         boolean valid = true;
@@ -299,12 +368,12 @@ public class TicketControl {
     }
 
     /**
-     * Remove a product from the ticket using the ID
-     * If the product exists, it is removed along with its quantity.
+     * Removes all entries of a specific product from the ticket.
      *
-     * @param prodId the ID of the product to remove
+     * @param ticketId The ID of the ticket to modify.
+     * @param cashId The ID of the cashier attempting to modify the ticket (for authorization).
+     * @param prodId The ID of the product to remove.
      */
-
     public void removeProduct(String ticketId, String cashId, int prodId) {
         Ticket ticket = findTicketById(ticketId);
         if (ticket == null) {
@@ -315,7 +384,6 @@ public class TicketControl {
 
                     ArrayList<Product> products = ticket.getProducts();
                     ArrayList<Integer> quantities = ticket.getQuantities();
-                    //Habria que borrar del array de personalizados tambien los textos asociados
 
                     boolean found = false;
                     for (int i = products.size() - 1; i >= 0; i--) {
@@ -346,7 +414,12 @@ public class TicketControl {
 
     }
 
-    //Si se elimina un cajero se elimina los tickets creados por el
+    /**
+     * Removes all tickets created by a specified cashier.
+     * This is typically called when a cashier is removed from the system.
+     *
+     * @param cashierId The ID of the cashier whose tickets should be removed.
+     */
     public void removeTicketsByCashier(String cashierId) {
         for (Ticket ticket : tickets) {
             if (ticket.getCashId().equals(cashierId)) {
@@ -356,6 +429,14 @@ public class TicketControl {
     }
 
 
+    /**
+     * Calculates the discount applied to a product based on its category and quantity.
+     * The discount is applied if the quantity is 2 or more.
+     *
+     * @param product The product being evaluated for a discount.
+     * @param amount The quantity of the product being purchased.
+     * @return The total discount amount (per unit) for this product, or 0.0 if no discount applies.
+     */
     public double calculateDiscount(Product product, int amount) {
       double result = 0.0;
       if(product.getCategory() == null) {
@@ -368,6 +449,13 @@ public class TicketControl {
       return result;
     }
 
+    /**
+     * Closes, calculates, and prints a ticket (receipt).
+     * Before closing, it checks for event deadlines and sets the closing date and status.
+     *
+     * @param ticketId The ID of the ticket to print.
+     * @param cashId The ID of the cashier attempting to close the ticket.
+     */
     public void printTicket(String ticketId, String cashId) {
         Ticket ticket = findTicketById(ticketId);
         if (ticket == null) {
@@ -389,10 +477,13 @@ public class TicketControl {
     }
 
     /**
-     * @return a formatted string representing the ticket, showing the products,
-     * their discounts and the total price.
+     * Generates a formatted string representing the ticket, showing the products,
+     * their discounts, and the total price.
+     * This method is responsible for calculating the final price and discount totals.
+     *
+     * @param ticket The ticket object to be formatted and printed.
+     * @return A formatted string representing the complete ticket receipt.
      */
-
     private String print(Ticket ticket) {
         StringBuilder sb = new StringBuilder();
         double totalPrice = 0.0;
@@ -446,6 +537,10 @@ public class TicketControl {
         return sb.toString();
     }
 
+    /**
+     * Generates a formatted string listing all tickets in the system along with their current status.
+     * @return A string containing the list of tickets.
+     */
     public String listTicket() {
         StringBuilder sb = new StringBuilder();
         System.out.println("ticket list");
@@ -471,6 +566,10 @@ public class TicketControl {
         return sb.toString();
     }
 
+    /**
+     * Generates a date and time string in the format "yy-MM-dd-HH:mm" used for ticket IDs and dates.
+     * @return The formatted date and time string.
+     */
     public String dateToIdFormat() {
         int year = LocalDateTime.now().getYear();
         int longitud = String.valueOf(year).length();
@@ -484,6 +583,11 @@ public class TicketControl {
         return date;
     }
 
+    /**
+     * Generates a random 5-digit number (00000 to 99999) for use as part of a ticket ID.
+     * The implementation uses a weighted approach with {@code Math.random()}.
+     * @return A 5-digit integer ID.
+     */
     public int generateId() {
         int id = 0;
         int weight = 10000;

@@ -42,12 +42,15 @@ public class App {
      */
     private Ticket ticket;
 
+    /**
+     * Reference to the control class that manages ticket and user/cashier operations.
+     */
     private TicketControl ticketControl;
 
 
     /**
-     * The main method
-     * @param args
+     * The main method and entry point of the application.
+     *@param args Command line arguments
      */
     public static void main(String[] args) {
         App app = new App();
@@ -63,6 +66,10 @@ public class App {
         System.out.println(goodbye);
     }
 
+    /**
+     * Prints the text following the "echo" command.
+     * @param line line The full command line input.
+     */
     public static void echo(String line) {
         String[] parts = line.split(" ", 2);
         if (parts.length > 1) {
@@ -71,6 +78,10 @@ public class App {
             System.out.println();
         };
     }
+
+    /**
+     * Prints the list of available commands and product categories/discounts.
+     */
     public  void help(){
 
         System.out.println("Commands:\n" +
@@ -102,12 +113,17 @@ public class App {
     }
 
 
-
+    /**
+     * Initializes the application components (Catalog and TicketControl).
+     */
     public void start() {
         this.catalog = new Catalog();
         this.ticketControl = new TicketControl(catalog);
     }
 
+    /**
+     * Enters the main command-line interface loop to process user input.
+     */
     public void run(){
         Scanner scanner = new Scanner(System.in);
         System.out.println(welcome);
@@ -164,6 +180,12 @@ public class App {
 
     }
 
+
+    /**
+     * Processes commands related to product management (add, remove, list, update).
+     * @param line The full command line input.
+     * @param split The command line input split by spaces.
+     */
     private void controlProdCommand(String line, String[] split){
         if(split.length < 2){
             System.out.println("Invalid prod command");
@@ -211,6 +233,12 @@ public class App {
 
     }
 
+
+    /**
+     * Handles the 'prod add' command to create standard or personalized products.
+     * @param line The full command line input.
+     * @param split The command line input split by spaces.
+     */
     private void controlAddStandardProduct(String line, String[] split){
         String name = getName(line);
         if(name == null || name.isEmpty()) {
@@ -250,6 +278,11 @@ public class App {
             }
     }
 
+    /**
+     * Extracts the product name enclosed in quotation marks from the command line.
+     * @param line The full command line input.
+     * @return The product name, or null if not found or invalid format.
+     */
     private String getName(String line) {
         int first = line.indexOf("\"");
         int last = line.lastIndexOf("\"");
@@ -259,6 +292,12 @@ public class App {
         return null;
     }
 
+
+    /**
+     * Extracts the arguments that appear after the product name in quotation marks.
+     * @param line The full command line input.
+     * @return An array of arguments after the name.
+     */
     private String[] getAfterName(String line) {
         int lasQuote = line.lastIndexOf("\"");
         if(lasQuote == -1){
@@ -274,6 +313,12 @@ public class App {
 
     }
 
+    /**
+     * Handles the 'prod addFood' and 'prod addMeeting' commands to create event products.
+     * @param line The full command line input.
+     * @param split The command line input split by spaces.
+     * @param action The specific action: "addFood" or "addMeeting".
+     */
     private void controlAddEventProduct(String line, String[] split, String action){
         String name = getName(line);
         if(name == null) {
@@ -320,8 +365,13 @@ public class App {
 
     }
 
-    private void controlTicketCommand(String line, String[] split){
 
+    /**
+     * Processes commands related to ticket management (new, add, remove, print, list).
+     * @param line The full command line input.
+     * @param split The command line input split by spaces.
+     */
+    private void controlTicketCommand(String line, String[] split){
         String action = split[1];
         switch (action) {
             case "new":
@@ -456,6 +506,13 @@ public class App {
         }
     }
 
+
+    /**
+     * Processes commands related to client management (add, remove, list).
+     * Handles argument parsing and validation for DNI/NIE and email format.
+     * @param line The full command line input.
+     * @param split The command line input split by spaces.
+     */
     private void controlClientCommand(String line, String[] split){
         String action = split[1];
 
@@ -525,6 +582,13 @@ public class App {
         }
     }
 
+
+    /**
+     * Processes commands related to cashier management (add, remove, list, tickets).
+     * Handles argument parsing and validation for email format.
+     * @param line The full command line input.
+     * @param split The command line input split by spaces.
+     */
     private void controlCashCommand(String line, String[] split){
         String action = split[1];
         switch (action) {

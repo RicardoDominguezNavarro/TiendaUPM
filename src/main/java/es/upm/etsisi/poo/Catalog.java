@@ -26,6 +26,8 @@ public class Catalog {
     public Catalog() {
         products = new ArrayList<>(200);
     }
+
+
     /**
      * Remove the product with the given id from the catalog.
      *
