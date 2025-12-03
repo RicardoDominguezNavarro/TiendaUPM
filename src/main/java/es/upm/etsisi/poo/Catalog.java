@@ -164,7 +164,6 @@ public class Catalog {
      */
     public ArrayList<Product> getProducts() {
         return products;
-
     }
 
     /**
