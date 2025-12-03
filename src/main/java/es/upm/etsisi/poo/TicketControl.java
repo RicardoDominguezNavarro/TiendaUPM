@@ -25,12 +25,12 @@ public class TicketControl {
     /**
      * List of all users (clients and cashiers) in the system.
      */
-    private final ArrayList<User>  users;
-
+    private final ArrayList<User> users;
 
 
     /**
      * Constructs a new TicketControl instance, initializing the lists for tickets and users.
+     *
      * @param catalog The reference to the {@code Catalog} for product lookups.
      */
     public TicketControl(Catalog catalog) {
@@ -41,12 +41,13 @@ public class TicketControl {
 
     /**
      * Finds a user (client or cashier) by their unique ID.
+     *
      * @param id The ID (DNI/NIE or cashier ID) of the user to find.
      * @return The {@code User} object if found, otherwise {@code null}.
      */
     public User findUserById(String id) {
-        for(User user : users) {
-            if(user.getId().equalsIgnoreCase(id)) {
+        for (User user : users) {
+            if (user.getId().equalsIgnoreCase(id)) {
                 return user;
             }
         }
@@ -55,28 +56,29 @@ public class TicketControl {
 
     /**
      * Adds a new client to the system.
-     * @param name The name of the client.
-     * @param DNI The client's ID (DNI/NIE).
-     * @param email The client's email.
+     *
+     * @param name   The name of the client.
+     * @param DNI    The client's ID (DNI/NIE).
+     * @param email  The client's email.
      * @param cashId The ID of the cashier creating the client account.
      */
-    public void addClient(String name, String DNI, String email, String cashId){
-        if(findUserById(DNI) != null) {
+    public void addClient(String name, String DNI, String email, String cashId) {
+        if (findUserById(DNI) != null) {
             System.out.println("Client with id: " + DNI + " already exists");
             return;
         }
         User creator = findUserById(cashId);
-        if(creator == null) {
+        if (creator == null) {
             System.out.println("Cashier with Id " + cashId + " doesn't exist");
             return;
         }
-        try{
+        try {
             Client newClient = new Client(name, DNI, email, cashId);
             System.out.println("client add " + newClient.getName() + " '" + newClient.getId() + "' " + newClient.getEmail() + " " + cashId);
             users.add(newClient);
             System.out.println(newClient.toString());
             System.out.println("client add: ok");
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println("Error creating client " + e.getMessage());
         }
 
@@ -84,43 +86,45 @@ public class TicketControl {
 
     /**
      * Adds a new cashier to the system. Generates an ID if none is provided.
-     * @param id The desired ID for the cashier, or {@code null} to generate a new one.
-     * @param name The name of the cashier.
+     *
+     * @param id    The desired ID for the cashier, or {@code null} to generate a new one.
+     * @param name  The name of the cashier.
      * @param email The email of the cashier.
      */
-    public void addCashier(String id, String name, String email){
-        if(id != null) {
-            if(findUserById(id) != null) {
+    public void addCashier(String id, String name, String email) {
+        if (id != null) {
+            if (findUserById(id) != null) {
                 System.out.println("Cashier with id: " + id + " already exists");
                 return;
             }
-        }else{
-            do{
+        } else {
+            do {
                 id = Cash.generateId();
-            }while (findUserById(id) != null);
+            } while (findUserById(id) != null);
         }
-        try{
+        try {
             Cash newCashier = new Cash(id, name, email);
             System.out.println("cash add " + newCashier.getId() + " '" + newCashier.getName() + "' " + newCashier.getEmail());
             users.add(newCashier);
             System.out.println(newCashier.toString());
             System.out.println("cash add: ok");
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println("Error creating cashier " + e.getMessage());
         }
     }
 
     /**
      * Removes a client from the system using their ID (DNI/NIE).
+     *
      * @param id The ID of the client to remove.
      */
-    public void removeClient(String id){
+    public void removeClient(String id) {
         User user = findUserById(id);
-        if(user != null) {
+        if (user != null) {
             users.remove(user);
             System.out.println("Client remove " + user.getId());
             System.out.println("client remove: ok");
-        }else{
+        } else {
             System.out.println("Client with id: " + id + " doesn't exist");
         }
     }
@@ -128,16 +132,17 @@ public class TicketControl {
     /**
      * Removes a cashier from the system using their ID.
      * All tickets created by this cashier are also removed.
+     *
      * @param id The ID of the cashier to remove.
      */
-    public void removeCashier(String id){
+    public void removeCashier(String id) {
         User cashier = findUserById(id);
-        if(cashier != null) {
+        if (cashier != null) {
             removeTicketsByCashier(id);
             users.remove(cashier);
             System.out.println("Cash remove " + cashier.getId());
             System.out.println("cash remove: ok");
-        }else{
+        } else {
             System.out.println("Cashier with id: " + id + " doesn't exist");
         }
     }
@@ -145,12 +150,12 @@ public class TicketControl {
     /**
      * Lists all clients currently in the system, sorted alphabetically by name.
      */
-    public void listClients(){
+    public void listClients() {
         System.out.println("client list");
         System.out.println("Client:");
         ArrayList<User> orderList = new ArrayList<>();
-        for(User user : users) {
-            if(user instanceof Client) {
+        for (User user : users) {
+            if (user instanceof Client) {
                 orderList.add(user);
             }
         }
@@ -160,7 +165,7 @@ public class TicketControl {
                 return user1.getName().compareToIgnoreCase(user2.getName());
             }
         });
-        for(User user : orderList) {
+        for (User user : orderList) {
             System.out.println(user.toString());
         }
         System.out.println("Client list: ok");
@@ -169,12 +174,12 @@ public class TicketControl {
     /**
      * Lists all cashiers currently in the system, sorted alphabetically by name.
      */
-    public void listCashiers(){
+    public void listCashiers() {
         System.out.println("cash list");
         System.out.println("Cash:");
         ArrayList<User> orderList = new ArrayList<>();
-        for(User user : users) {
-            if(user instanceof Cash) {
+        for (User user : users) {
+            if (user instanceof Cash) {
                 orderList.add(user);
             }
         }
@@ -184,7 +189,7 @@ public class TicketControl {
                 return user1.getName().compareToIgnoreCase(user2.getName());
             }
         });
-        for(User user : orderList) {
+        for (User user : orderList) {
             System.out.println(user.toString());
         }
         System.out.println("Cash list: ok");
@@ -193,22 +198,23 @@ public class TicketControl {
 
     /**
      * Lists all tickets created by a specific cashier.
+     *
      * @param cashId The ID of the cashier whose tickets should be listed.
      */
-    public void listCashierTickets(String cashId){
+    public void listCashierTickets(String cashId) {
         User user = findUserById(cashId);
-        if(user instanceof Cash) {
-            System.out.println("cash tickets " +  cashId);
+        if (user instanceof Cash) {
+            System.out.println("cash tickets " + cashId);
             System.out.println("Tickets:");
             Cash cashier = (Cash) user;
-            for(String ticketId : cashier.getCreatedTicketIds()){
+            for (String ticketId : cashier.getCreatedTicketIds()) {
                 Ticket ticket = findTicketById(ticketId);
-                if(ticket != null) {
-                    System.out.println("  " +dateToIdFormat() + "-"+ ticket.getIdTicket() + "->" + ticket.getTicketStatus());
+                if (ticket != null) {
+                    System.out.println("  " + dateToIdFormat() + "-" + ticket.getIdTicket() + "->" + ticket.getTicketStatus());
                 }
             }
             System.out.println("cash tickets: ok");
-        }else{
+        } else {
             System.out.println("Cashier with id: " + cashId + " doesn't exist");
         }
     }
@@ -216,27 +222,28 @@ public class TicketControl {
 
     /**
      * Creates and opens a new ticket.
-     * @param userId The ID of the client for whom the ticket is created.
-     * @param cashId The ID of the cashier opening the ticket.
+     *
+     * @param userId   The ID of the client for whom the ticket is created.
+     * @param cashId   The ID of the cashier opening the ticket.
      * @param ticketId The desired ID for the ticket, or {@code null} to generate a new one.
      */
     public void newTicket(String userId, String cashId, String ticketId) {
-        if(findUserById(userId) == null) {
+        if (findUserById(userId) == null) {
             System.out.println("User with id: " + userId + " doesn't exist");
             return;
         }
         User cashUser = findUserById(cashId);
-        if(cashUser == null || !(cashUser instanceof Cash) ) {
+        if (cashUser == null || !(cashUser instanceof Cash)) {
             System.out.println("Cashier with id: " + cashId + " doesn't exist");
             return;
         }
         String date;
         String idNum;
-        if(ticketId == null) {
+        if (ticketId == null) {
             //ticketId = dateToIdFormat() + "-" + generateId();
             date = dateToIdFormat();
             idNum = String.valueOf(generateId());
-        }else {
+        } else {
             idNum = ticketId;
             date = dateToIdFormat();
 
@@ -256,6 +263,7 @@ public class TicketControl {
 
     /**
      * Finds a ticket by its ID.
+     *
      * @param ticketId The ID of the ticket to find.
      * @return The {@code Ticket} object if found, otherwise {@code null}.
      */
@@ -274,16 +282,16 @@ public class TicketControl {
      * Adds a new product to the specified ticket.
      * If the product already exists and is not an Event or PersonalizedProduct, its quantity is increased.
      *
-     * @param ticketId The ID of the ticket to modify.
-     * @param cashId The ID of the cashier attempting to modify the ticket (for authorization).
-     * @param prodId The product ID to add.
-     * @param quantity The number of units or participants to add.
+     * @param ticketId     The ID of the ticket to modify.
+     * @param cashId       The ID of the cashier attempting to modify the ticket (for authorization).
+     * @param prodId       The product ID to add.
+     * @param quantity     The number of units or participants to add.
      * @param personalized List of personalized text strings, if applicable.
      */
     public void addProductToTicket(String ticketId, String cashId, int prodId, int quantity, ArrayList<String> personalized) {
         Ticket ticket = findTicketById(ticketId);
         boolean valid = true;
-        if(ticket == null) {
+        if (ticket == null) {
             System.out.println("Ticket with id: " + ticketId + " doesn't exist");
             valid = false;
             return;
@@ -293,7 +301,7 @@ public class TicketControl {
             valid = false;
             return;
         }
-        if (ticket.getNumItems() + quantity == ticket.getMAXITEMS()) {
+        if (ticket.getNumItems() + quantity > ticket.getMAXITEMS()) {
             System.out.println("The ticket is full");
             valid = false;
             return;
@@ -304,53 +312,54 @@ public class TicketControl {
             valid = false;
             return;
         }
-        if(product instanceof PersonalizedProduct) {
+        if (product instanceof PersonalizedProduct) {
             PersonalizedProduct personalizedProduct = (PersonalizedProduct) product;
-            if(personalized.size() > personalizedProduct.getMaxText()) {
+            if (personalized.size() > personalizedProduct.getMaxText()) {
                 System.out.println("Exceeded maximum number of personalized texts");
                 valid = false;
                 return;
             }
         }
-        if(product instanceof Events) {
+        if (product instanceof Events) {
             Events event = (Events) product;
-            for(Product prod : ticket.getProducts()) {
-                if(prod.getId_product() == prodId) {
+            for (Product prod : ticket.getProducts()) {
+                if (prod.getId_product() == prodId) {
                     System.out.println("Event already added");
                     valid = false;
                     return;
                 }
             }
-            if(!event.validDate()) {
+            if (!event.validDate()) {
                 System.out.println("Date not valid");
                 valid = false;
                 return;
             }
         }
 
-        if(valid) {
+        if (valid) {
             Product productToAdd = product;
-            if(product instanceof Events) {
+            if (product instanceof Events) {
                 productToAdd = new Events((Events) product, quantity);
-            }else if(product instanceof PersonalizedProduct) {
+            } else if (product instanceof PersonalizedProduct) {
                 productToAdd = new PersonalizedProduct((PersonalizedProduct) product, personalized);
             }
             boolean found = false;
             ArrayList<Product> products = ticket.getProducts();
             ArrayList<Integer> quantities = ticket.getQuantities();
 
-            if(!(productToAdd instanceof Events) && !(productToAdd instanceof PersonalizedProduct)) {
-                for(int i = 0; i < products.size(); i++) {
-                    if(products.get(i).getId_product() == prodId) {
+            if (!(productToAdd instanceof Events) && !(productToAdd instanceof PersonalizedProduct)) {
+                for (int i = 0; i < products.size(); i++) {
+                    if (products.get(i).getId_product() == prodId) {
                         quantities.set(i, quantities.get(i) + quantity);
                         found = true;
                         break;
                     }
                 }
             }
-            if(!found) {
+
+            if (!found) {
                 int index = 0;
-                while(index < products.size()&& products.get(index).getName().compareToIgnoreCase(productToAdd.getName()) < 0) {
+                while (index < products.size() && products.get(index).getName().compareToIgnoreCase(productToAdd.getName()) < 0) {
                     index++;
                 }
                 products.add(index, productToAdd);
@@ -371,8 +380,8 @@ public class TicketControl {
      * Removes all entries of a specific product from the ticket.
      *
      * @param ticketId The ID of the ticket to modify.
-     * @param cashId The ID of the cashier attempting to modify the ticket (for authorization).
-     * @param prodId The ID of the product to remove.
+     * @param cashId   The ID of the cashier attempting to modify the ticket (for authorization).
+     * @param prodId   The ID of the product to remove.
      */
     public void removeProduct(String ticketId, String cashId, int prodId) {
         Ticket ticket = findTicketById(ticketId);
@@ -396,7 +405,7 @@ public class TicketControl {
                         }
                     }
                     if (found) {
-                        System.out.println("ticket remove " + ticketId + " " +  cashId + " " + prodId);
+                        System.out.println("ticket remove " + ticketId + " " + cashId + " " + prodId);
                         System.out.println(print(ticket));
                         System.out.println("ticket remove: ok");
                     } else {
@@ -434,19 +443,19 @@ public class TicketControl {
      * The discount is applied if the quantity is 2 or more.
      *
      * @param product The product being evaluated for a discount.
-     * @param amount The quantity of the product being purchased.
+     * @param amount  The quantity of the product being purchased.
      * @return The total discount amount (per unit) for this product, or 0.0 if no discount applies.
      */
     public double calculateDiscount(Product product, int amount) {
-      double result = 0.0;
-      if(product.getCategory() == null) {
-         return 0.0;
-      }
-      double discount = product.getCategory().getDiscount();
-      if (amount >= 2) {
-         result = product.getPrice() * discount;
-      }
-      return result;
+        double result = 0.0;
+        if (product.getCategory() == null) {
+            return 0.0;
+        }
+        double discount = product.getCategory().getDiscount();
+        if (amount >= 2) {
+            result = product.getPrice() * discount;
+        }
+        return result;
     }
 
     /**
@@ -454,7 +463,7 @@ public class TicketControl {
      * Before closing, it checks for event deadlines and sets the closing date and status.
      *
      * @param ticketId The ID of the ticket to print.
-     * @param cashId The ID of the cashier attempting to close the ticket.
+     * @param cashId   The ID of the cashier attempting to close the ticket.
      */
     public void printTicket(String ticketId, String cashId) {
         Ticket ticket = findTicketById(ticketId);
@@ -502,32 +511,42 @@ public class TicketControl {
             Product product = products.get(i);
             int amount = quantities.get(i);
             double unitDiscount = calculateDiscount(product, amount);
-            for (int j = 0; j < amount; j++) {
-                if (product instanceof Events) {
-                    Events event = (Events) product;
-                    if (!event.validDate()) {
-                        return "The ticket cannot be closed because the " + event.getName() + " event has passed its deadline.";
-                    }
-                    sb.append(event.toString()).append("\n");
-
-                } else if (product instanceof PersonalizedProduct) {
-                    PersonalizedProduct personalizedProd = (PersonalizedProduct) product;
-                    sb.append(personalizedProd.toString());
-                    if (unitDiscount > 0) {
-                        sb.append(" **discount -").append(String.format(Locale.US, "%.3f", unitDiscount)).append("\n");
-                    } else {
-                        sb.append("\n");
-                    }
-                } else {
-                    sb.append(product.toString());
-                    if (unitDiscount > 0) {
-                        sb.append(" **discount -").append(String.format(Locale.US, "%.2f", unitDiscount)).append("\n");
-                    } else {
-                        sb.append("\n");
-                    }
+            if (product instanceof Events){
+                Events event = (Events) product;
+                if (!event.validDate()) {
+                    return "The ticket cannot be closed because the " + event.getName() + " event has passed its deadline.";
                 }
+                sb.append(event.toString()).append("\n");
                 totalPrice += product.getPrice();
                 totalDiscount += unitDiscount;
+            }else {
+                for (int j = 0; j < amount; j++) {
+                    if (product instanceof Events) {
+                        Events event = (Events) product;
+                        if (!event.validDate()) {
+                            return "The ticket cannot be closed because the " + event.getName() + " event has passed its deadline.";
+                        }
+                        sb.append(event.toString()).append("\n");
+
+                    } else if (product instanceof PersonalizedProduct) {
+                        PersonalizedProduct personalizedProd = (PersonalizedProduct) product;
+                        sb.append(personalizedProd.toString());
+                        if (unitDiscount > 0) {
+                            sb.append(" **discount -").append(String.format(Locale.US, "%.3f", unitDiscount)).append("\n");
+                        } else {
+                            sb.append("\n");
+                        }
+                    } else {
+                        sb.append(product.toString());
+                        if (unitDiscount > 0) {
+                            sb.append(" **discount -").append(String.format(Locale.US, "%.2f", unitDiscount)).append("\n");
+                        } else {
+                            sb.append("\n");
+                        }
+                    }
+                    totalPrice += product.getPrice();
+                    totalDiscount += unitDiscount;
+                }
             }
         }
         double finalPrice = totalPrice - totalDiscount;
@@ -539,6 +558,7 @@ public class TicketControl {
 
     /**
      * Generates a formatted string listing all tickets in the system along with their current status.
+     *
      * @return A string containing the list of tickets.
      */
     public String listTicket() {
@@ -568,6 +588,7 @@ public class TicketControl {
 
     /**
      * Generates a date and time string in the format "yy-MM-dd-HH:mm" used for ticket IDs and dates.
+     *
      * @return The formatted date and time string.
      */
     public String dateToIdFormat() {
@@ -586,6 +607,7 @@ public class TicketControl {
     /**
      * Generates a random 5-digit number (00000 to 99999) for use as part of a ticket ID.
      * The implementation uses a weighted approach with {@code Math.random()}.
+     *
      * @return A 5-digit integer ID.
      */
     public int generateId() {
