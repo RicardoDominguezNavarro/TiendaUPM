@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
+import java.util.stream.IntStream;
 
 
 public class TicketControl {
@@ -107,42 +108,24 @@ public class TicketControl {
     public void listClients() {
         System.out.println("client list");
         System.out.println("Client:");
-        ArrayList<User> orderList = new ArrayList<>();
-        for (User user : users) {
-            if (user instanceof Client) {
-                orderList.add(user);
-            }
-        }
-        Collections.sort(orderList, new Comparator<User>() {
-            @Override
-            public int compare(User user1, User user2) {
-                return user1.getName().compareToIgnoreCase(user2.getName());
-            }
-        });
-        for (User user : orderList) {
-            System.out.println(user.toString());
-        }
+
+        users.stream()
+                .filter(user -> user instanceof Client)
+                .sorted((u1, u2) -> u1.getName().compareToIgnoreCase(u2.getName()))
+                .forEach(System.out::println);
+
         System.out.println("Client list: ok");
     }
 
     public void listCashiers() {
         System.out.println("cash list");
         System.out.println("Cash:");
-        ArrayList<User> orderList = new ArrayList<>();
-        for (User user : users) {
-            if (user instanceof Cash) {
-                orderList.add(user);
-            }
-        }
-        Collections.sort(orderList, new Comparator<User>() {
-            @Override
-            public int compare(User user1, User user2) {
-                return user1.getName().compareToIgnoreCase(user2.getName());
-            }
-        });
-        for (User user : orderList) {
-            System.out.println(user.toString());
-        }
+
+        users.stream()
+                .filter(user -> user instanceof Cash)
+                .sorted((u1, u2) -> u1.getName().compareToIgnoreCase(u2.getName()))
+                .forEach(System.out::println);
+
         System.out.println("Cash list: ok");
     }
 
@@ -217,10 +200,11 @@ public class TicketControl {
     public void addProductToTicket(String ticketId, String cashId, String prodId, int quantity, ArrayList<String> personalized) {
         Ticket ticket = findTicketById(ticketId);
         boolean valid = true;
+
+        // 1. Validaciones básicas de existencia y permisos
         if (ticket == null) {
             System.out.println("Ticket with id: " + ticketId + " doesn't exist");
-            valid = false;
-
+            return; // Return directo para evitar anidamientos innecesarios
         }
         if (!ticket.getCashId().equals(cashId) || ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
             System.out.println("unauthorized or closed ticket");
@@ -281,10 +265,11 @@ public class TicketControl {
             }
 
             if (!found) {
-                int index = 0;
-                while (index < products.size() && products.get(index).getName().compareToIgnoreCase(productToAdd.getName()) < 0) {
-                    index++;
-                }
+                int index = IntStream.range(0, products.size()) //Usamos IntStream para encontrar el primer índice donde el nombre del producto actual sea "mayor" alfabéticamente que el que queremos insertar.
+                        .filter(i -> products.get(i).getName().compareToIgnoreCase(productToAdd.getName()) > 0)
+                        .findFirst()
+                        .orElse(products.size());
+
                 products.add(index, productToAdd);
                 quantities.add(index, quantity);
 
