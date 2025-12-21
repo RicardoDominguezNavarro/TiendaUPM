@@ -65,7 +65,7 @@ public class Events extends Product{
      * @param maxPeopleAllowed The maximum number of participants allowed for this instance.
      * @throws IllegalArgumentException if {@code maxPeopleAllowed} exceeds {@code maxParticipants}.
      */
-    public Events (int id, String name, double pricePerPerson, LocalDateTime expirationDate, EventType eventType, int maxPeopleAllowed) {
+    public Events (String id, String name, double pricePerPerson, LocalDateTime expirationDate, EventType eventType, int maxPeopleAllowed) {
         super(id, name, 0.0, null); //precio base es 0, luego se calculará por persona
         if(maxPeopleAllowed > maxParticipants){
             throw new IllegalArgumentException("Error adding product: Capacity " + maxPeopleAllowed + " exceeds limit of  " + maxParticipants);

@@ -10,13 +10,13 @@ public class PersonalizedProduct extends Product{
 
 
 
-    public PersonalizedProduct(int id_product, String name, double price, Category category, int maxText){
+    public PersonalizedProduct(String id_product, String name, double price, Category category, int maxText){
         super(id_product, name, price, category);
         this.maxText = maxText;
         this.personalizationList = new ArrayList<>();
     }
 
-    //Se hace una copia del producto porque no queremos que tdo el producto se modifique en el catalogo sino q solo uno en el ticket
+    //Constructor copia
     public PersonalizedProduct(PersonalizedProduct other, ArrayList<String> initialText){
         super(other.getId_product(), other.getName(), other.getPrice(), other.getCategory());
         this.maxText = other.getMaxText();
@@ -35,14 +35,6 @@ public class PersonalizedProduct extends Product{
         return getPricePersonalization();
     }
 
-    public boolean addPersonalization(String textPersonalization){
-        boolean added = false;
-        if(personalizationList.size() < this.maxText){
-            personalizationList.add(textPersonalization);
-            added = true;
-        }
-        return added;
-    }
 
     public double getPricePersonalization() {
         double basePrice = super.getPrice();

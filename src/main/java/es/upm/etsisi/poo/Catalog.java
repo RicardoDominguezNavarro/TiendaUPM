@@ -7,33 +7,19 @@ import java.util.Random;
  *This class manage a collection of products objects.
  */
 public class Catalog {
-    /**
-     * Maximum number of products in a catalog
-     */
+
     private final int MAXPRODUCTS = 200;
-    /**
-     * number of products in a catalog
-     */
+
     private int numProducts;
-    /**
-     *List that stores products in this catalog.
-     */
+
     public ArrayList<Product> products;
-    /**
-     *Construct an empty catalog.
-     * Initializes the internal ArrayList with an initial capacity of 200
-     */
+
     public Catalog() {
         products = new ArrayList<>(200);
     }
 
 
-    /**
-     * Remove the product with the given id from the catalog.
-     *
-     * @param id product identifier to remove.
-     */
-    public void prodRemove(int id) {
+    public void prodRemove(String id) {
         if (isIdFree(id)) {
             System.out.println("The id doesn't exist");
         } else {
@@ -51,21 +37,14 @@ public class Catalog {
         }
     }
 
-    /**
-     * Update a field of the product identified by id.
-     *
-     * @param id product identifier to update.
-     * @param field The field name to modify ("NAME", "CATEGORY", or "PRICE").
-     * @param value The new value for the specified field.
-     */
-    public void updateProd(int id, String field, String value) {
+    public void updateProd(String id, String field, String value) {
         if (field == null || value == null) {
-            System.out.println("field or value is null");
+            System.out.println("Error: field or value is null");
             return;
         }
         Product productToChange = getProductId(id);
         if (productToChange == null) {
-            System.out.println("The product with the ID " + id + " doesn't exist");
+            System.out.println("Error: the product with the ID " + id + " doesn't exist");
             return;
         }
         System.out.println("prod update " + productToChange.getId_product() + " '" +  productToChange.getName() + "' " + productToChange.getPrice());
@@ -82,8 +61,11 @@ public class Catalog {
                 break;
             case "CATEGORY":
                 try {
+                    // Si es Event o Service no se puede cambiar la categoría
                     if (productToChange instanceof Events){
-                        System.out.println("Product type: Event. Events can not change category.");
+                        System.out.println("Error: Product type: Event. Events can not change category.");
+                    } else if (productToChange instanceof Service) {
+                        System.out.println("Error: Product type: Service. Services do not use category.");
                     } else {
                         Category category = Category.valueOf(value.trim().toUpperCase());
                         productToChange.setCategory(category);
@@ -91,7 +73,7 @@ public class Catalog {
                         System.out.println("prod update: ok");
                     }
                 } catch (IllegalArgumentException e) {
-                    System.out.println("The category " + value + " doesn't exist.");
+                    System.out.println("Error: The category " + value + " doesn't exist.");
                 }
                 break;
             case "PRICE":
@@ -99,7 +81,7 @@ public class Catalog {
                     double price = Double.parseDouble(value);
                     //productToChange.setPrice(Double.parseDouble(value));
                     if (price <= 0.0) {
-                        System.out.println("The price may not be negative or zero.");
+                        System.out.println("Error: The price may not be negative or zero.");
                     } else {
                         productToChange.setPrice(price);
                         System.out.println(productToChange.toString());
@@ -107,19 +89,16 @@ public class Catalog {
                     }
 
                 } catch (NumberFormatException e) {
-                    System.out.println("The price is not valid.");
+                    System.out.println("Error: The price is not valid.");
                 }
 
                 break;
             default:
-                System.out.println("Invalid field. Valid fields are NAME, CATEGORY, or PRICE.");
+                System.out.println("Error: Invalid field. Valid fields are NAME, CATEGORY, or PRICE.");
                 break;
         }
     }
 
-    /**
-     * Display all products currently in the catalog.
-     */
     public void prodList() {
         System.out.println("prod list");
         System.out.println("Catalog:");
@@ -129,21 +108,20 @@ public class Catalog {
         System.out.println("prod list: ok");
     }
 
-    /**
-     * Adds a new product to the catalog if the id is not already in use.
-     * @param product The product object to be added.
-     */
     public void addProd(Product product) {
         if (numProducts >= MAXPRODUCTS) {
             System.out.println("Cannot add product: catalog max capacity reached.");
             return;
         }
         if (isIdFree(product.getId_product())) {
+            // Nota: product.getCategory() puede ser null si es un Service
             System.out.println("prod add " + product.getId_product() + " '" + product.getName() + "' " +  product.getCategory() + " " + product.getPrice());
             products.add(product);
-            product.setBelongToCatalog(this);
+            // ELIMINADA: product.setBelongToCatalog(this);
+
             System.out.println(product.toString());
             numProducts++;
+
             if (product instanceof Events){
                 Events event = (Events) product;
                 if (event.getEventType() == Events.EventType.MEETING){
@@ -151,43 +129,37 @@ public class Catalog {
                 }else {
                     System.out.println("prod addFood: ok");
                 }
-            }else {
+            } else if (product instanceof Service) {
+                // Si quieres un mensaje específico para servicios, ponlo aquí.
+                // De momento usamos el estándar.
+                System.out.println("prod add: ok");
+            } else {
                 System.out.println("prod add: ok");
             }
         } else {
             System.out.println("The id belongs to another product");
         }
+
     }
 
-    /**
-     * @return the list of all products in the catalog
-     */
     public ArrayList<Product> getProducts() {
         return products;
     }
 
-    /**
-     * @param id the id to search for.
-     * @return the position of the product if found, or -1 if not present.
-     */
-    public int positionProd(int id) {
+
+    public int positionProd(String id) {
         for (int i = 0; i < products.size(); i++) {
-            if (id == products.get(i).getId_product()) {
+            if (id.equals(products.get(i).getId_product())) {
                 return i;
             }
         }
         return -1;
     }
 
-    /**
-     * Checks whether an ID is free (not associated with any product).
-     * @param id of the product to verify.
-     * @return true if no product with the id exists, false otherwise.
-     */
-    public boolean isIdFree(int id) {
+    public boolean isIdFree(String id) {
         if (!products.isEmpty()) {
             for (Product product : products) {
-                if (id == product.getId_product()) {
+                if (id.equals(product.getId_product())) {
                     return false;
                 }
             }
@@ -195,14 +167,10 @@ public class Catalog {
         return true;
     }
 
-    /**
-     * Search for a product in the catalog by its id.
-     * @param id the id of the product to find.
-     * @return the product that matches the given id, or null if not match is found.
-     */
-    public Product getProductId(int id) {
+
+    public Product getProductId(String id) {
         for (Product actual : products) {
-            if (actual.getId_product() == id) {
+            if (actual.getId_product().equals(id)) {
                 return actual;
             }
         }
@@ -215,7 +183,7 @@ public class Catalog {
         int id;
         do {
             id = random.nextInt(1000) + 1;
-        } while (!isIdFree(id)); // Repite si el ID ya existe
+        } while (!isIdFree(String.valueOf(id))); // Convertimos a String para comprobar si está libre
         return id;
     }
 }

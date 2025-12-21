@@ -265,7 +265,7 @@ public class App {
                     PersonalizedProduct productPersonalize = new PersonalizedProduct(id, name, price, category, maxPers);
                     catalog.addProd(productPersonalize);
                 } else {
-                    Product product = new Product(id, name, price, category);
+                    StandardProduct product = new StandardProduct(id, name, price, category);
                     catalog.addProd(product);
                 }
             }else{
