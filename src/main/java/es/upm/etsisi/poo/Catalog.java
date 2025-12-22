@@ -3,9 +3,7 @@ package es.upm.etsisi.poo;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- *This class manage a collection of products objects.
- */
+
 public class Catalog {
 
     private final int MAXPRODUCTS = 200;

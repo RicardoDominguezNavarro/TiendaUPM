@@ -1,10 +1,6 @@
 package es.upm.etsisi.poo;
 
 
-/**
- * Represents a client user in the system, inheriting from {@code User}.
- * A client is uniquely identified by their DNI/NIE and is registered by a cashier.
- */
 public class Client extends User {
 
     // Cadena estática para comprobar la letra del DNI (Algoritmo Módulo 23)

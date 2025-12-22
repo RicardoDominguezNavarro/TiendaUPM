@@ -9,80 +9,43 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 
-/**
- * This is the main entry point of the application.
- * This class is the controller of the program, coordinating interactions
- * with the rest of the classes.
- */
 public class App {
-    /**
-     * Command line prompt prefix displayed before each user input.
-     */
+
     private static final String UPM = "tUPM>";
-    /**
-     * Welcome message that appear when the application starts
-     */
     private static final String welcome = "Welcome to the ticket module App.";
-    /**
-     * Instruction message
-     */
     private static final String welcome1 = "Ticket module. Type 'help' to see commands.";
-    /**
-     * Closing message
-     */
     private static final String end = "Closing application. ";
     private static final String goodbye = "Goodbye! ";
-
-    /**
-     * Reference to the catalog class that manages all products
-     */
     private Catalog catalog;
-    /**
-     * Reference to the ticket class for the ticket operations
-     */
     private Ticket ticket;
-
-    /**
-     * Reference to the control class that manages ticket and user/cashier operations.
-     */
     private TicketControl ticketControl;
 
 
-    /**
-     * The main method and entry point of the application.
-     *@param args Command line arguments
-     */
     public static void main(String[] args) {
         App app = new App();
         app.start();
         app.run();
     }
 
-    /**
-     * Print the closing messages and end the application.
-     */
+
     public void exit() {
         System.out.println(end);
         System.out.println(goodbye);
     }
 
-    /**
-     * Prints the text following the "echo" command.
-     * @param line line The full command line input.
-     */
+
     public static void echo(String line) {
         String[] parts = line.split(" ", 2);
         if (parts.length > 1) {
             System.out.println(parts[1]);
         } else {
             System.out.println();
-        };
+        }
+        ;
     }
 
-    /**
-     * Prints the list of available commands and product categories/discounts.
-     */
-    public  void help(){
+
+    public void help() {
 
         System.out.println("Commands:\n" +
                 "  client add \"<nombre>\" <DNI> <email> <cashId>\n" +
@@ -113,22 +76,17 @@ public class App {
     }
 
 
-    /**
-     * Initializes the application components (Catalog and TicketControl).
-     */
     public void start() {
         this.catalog = new Catalog();
         this.ticketControl = new TicketControl(catalog);
     }
 
-    /**
-     * Enters the main command-line interface loop to process user input.
-     */
-    public void run(){
+
+    public void run() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(welcome);
         System.out.println(welcome1);
-        while(true){
+        while (true) {
             System.out.print(UPM);
             if (!scanner.hasNextLine()) break;
 
@@ -181,13 +139,8 @@ public class App {
     }
 
 
-    /**
-     * Processes commands related to product management (add, remove, list, update).
-     * @param line The full command line input.
-     * @param split The command line input split by spaces.
-     */
-    private void controlProdCommand(String line, String[] split){
-        if(split.length < 2){
+    private void controlProdCommand(String line, String[] split) {
+        if (split.length < 2) {
             System.out.println("Invalid prod command");
             return;
         }
@@ -221,10 +174,10 @@ public class App {
                 controlAddStandardProduct(line, split);
                 break;
             case "addFood":
-                controlAddEventProduct(line,split,action);
+                controlAddEventProduct(line, split, action);
                 break;
             case "addMeeting":
-                controlAddEventProduct(line,split,action);
+                controlAddEventProduct(line, split, action);
                 break;
             default:
                 System.out.println("Unknown prod command");
@@ -234,14 +187,9 @@ public class App {
     }
 
 
-    /**
-     * Handles the 'prod add' command to create standard or personalized products.
-     * @param line The full command line input.
-     * @param split The command line input split by spaces.
-     */
-    private void controlAddStandardProduct(String line, String[] split){
+    private void controlAddStandardProduct(String line, String[] split) {
         String name = getName(line);
-        if(name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             System.out.println("The name can't be empty and must be between quotation marks ");
             return;
         }
@@ -255,7 +203,7 @@ public class App {
                 int id;
                 if (partBeforeName.length < 3) {
                     id = catalog.generateId();
-                } else{
+                } else {
                     id = Integer.parseInt(partBeforeName[2]);
                 }
                 Category category = Category.valueOf(args[0].toUpperCase());
@@ -268,21 +216,17 @@ public class App {
                     StandardProduct product = new StandardProduct(id, name, price, category);
                     catalog.addProd(product);
                 }
-            }else{
+            } else {
                 System.out.println("The category and/or price is missing.");
             }
-            } catch(NumberFormatException e){
-                System.out.println("Invalid numeric value for id or price.");
-            } catch(IllegalArgumentException e){
-                System.out.println("Invalid category or parameters.");
-            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid numeric value for id or price.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid category or parameters.");
+        }
     }
 
-    /**
-     * Extracts the product name enclosed in quotation marks from the command line.
-     * @param line The full command line input.
-     * @return The product name, or null if not found or invalid format.
-     */
+
     private String getName(String line) {
         int first = line.indexOf("\"");
         int last = line.lastIndexOf("\"");
@@ -293,19 +237,14 @@ public class App {
     }
 
 
-    /**
-     * Extracts the arguments that appear after the product name in quotation marks.
-     * @param line The full command line input.
-     * @return An array of arguments after the name.
-     */
     private String[] getAfterName(String line) {
         int lasQuote = line.lastIndexOf("\"");
-        if(lasQuote == -1){
+        if (lasQuote == -1) {
             return new String[0];
         }
         String textAfterName = line.substring(lasQuote + 1);
         String text = textAfterName.trim();
-        if(text.isEmpty()) {
+        if (text.isEmpty()) {
             return new String[0];
         }
         return text.split(" ");
@@ -313,15 +252,10 @@ public class App {
 
     }
 
-    /**
-     * Handles the 'prod addFood' and 'prod addMeeting' commands to create event products.
-     * @param line The full command line input.
-     * @param split The command line input split by spaces.
-     * @param action The specific action: "addFood" or "addMeeting".
-     */
-    private void controlAddEventProduct(String line, String[] split, String action){
+
+    private void controlAddEventProduct(String line, String[] split, String action) {
         String name = getName(line);
-        if(name == null) {
+        if (name == null) {
             System.out.println("The name can't be empty");
             return;
         }
@@ -329,7 +263,7 @@ public class App {
         int firstQuote = line.indexOf('"');
         String beforeName = line.substring(0, firstQuote).trim(); // desde el inicio hasta la primera comilla
         String[] partBeforeName = beforeName.split(" "); //separa por espacios
-        try{
+        try {
             if (args.length == 3) {
                 int id;
                 if (partBeforeName.length < 3) {
@@ -349,7 +283,7 @@ public class App {
                     Events meetingEvent = new Events(id, name, price, expirationDateTime, Events.EventType.MEETING, maxPeopleAllowed);
                     catalog.addProd(meetingEvent);
                 }
-            }else{
+            } else {
                 System.out.println("The category, price or expiration date are missing.");
             }
         } catch (NumberFormatException e) {
@@ -358,7 +292,7 @@ public class App {
         } catch (IllegalArgumentException e) {
             System.out.println("Error processing ->prod addFood ->Error adding product");
             System.out.println();
-        }catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             System.out.println("Invalid date format. Expected format: yyyy-MM-dd (example: 2025-03-28)");
             System.out.println();
         }
@@ -366,12 +300,7 @@ public class App {
     }
 
 
-    /**
-     * Processes commands related to ticket management (new, add, remove, print, list).
-     * @param line The full command line input.
-     * @param split The command line input split by spaces.
-     */
-    private void controlTicketCommand(String line, String[] split){
+    private void controlTicketCommand(String line, String[] split) {
         String action = split[1];
         switch (action) {
             case "new":
@@ -433,8 +362,8 @@ public class App {
                 }
 
                 User cashAdd = ticketControl.findUserById(cashIdAdd);
-                if (!(cashAdd instanceof Cash)){
-                    System.out.println("Cashier with id: " +cashIdAdd + " doesn't exist.");
+                if (!(cashAdd instanceof Cash)) {
+                    System.out.println("Cashier with id: " + cashIdAdd + " doesn't exist.");
                     return;
                 }
                 ArrayList<String> personalizations = new ArrayList<>();
@@ -446,7 +375,7 @@ public class App {
                     }
                 }
 
-                ticketControl.addProductToTicket(ticketIdAdd, cashIdAdd,prodId,amount,personalizations);
+                ticketControl.addProductToTicket(ticketIdAdd, cashIdAdd, prodId, amount, personalizations);
                 break;
 
             case "remove":
@@ -507,23 +436,17 @@ public class App {
     }
 
 
-    /**
-     * Processes commands related to client management (add, remove, list).
-     * Handles argument parsing and validation for DNI/NIE and email format.
-     * @param line The full command line input.
-     * @param split The command line input split by spaces.
-     */
-    private void controlClientCommand(String line, String[] split){
+    private void controlClientCommand(String line, String[] split) {
         String action = split[1];
 
         switch (action) {
             case "add":
                 String name = getName(line);
-                if(name == null) {
+                if (name == null) {
                     System.out.println("The name can't be empty");
                 }
                 String[] args = getAfterName(line);
-                if(args.length < 3){
+                if (args.length < 3) {
                     System.out.println("Invalid client add command. Usage: client add \"<nombre>\" <DNI> <email> <cashId> ");
                     return;
                 }
@@ -566,7 +489,7 @@ public class App {
                 ticketControl.addClient(name, args[0], args[1], args[2]);
                 break;
             case "remove":
-                if(split.length < 3){
+                if (split.length < 3) {
                     System.out.println("Invalid client remove command. Usage: client remove <DNI>");
                     return;
                 }
@@ -583,24 +506,18 @@ public class App {
     }
 
 
-    /**
-     * Processes commands related to cashier management (add, remove, list, tickets).
-     * Handles argument parsing and validation for email format.
-     * @param line The full command line input.
-     * @param split The command line input split by spaces.
-     */
-    private void controlCashCommand(String line, String[] split){
+    private void controlCashCommand(String line, String[] split) {
         String action = split[1];
         switch (action) {
             case "add":
                 String name = getName(line);
-                if(name == null) {
+                if (name == null) {
                     System.out.println("The name can't be empty");
                     return;
                 }
                 String[] args = getAfterName(line);
 
-                if(args.length < 1){
+                if (args.length < 1) {
                     System.out.println("Error: missing email");
                     return;
                 }
@@ -626,13 +543,13 @@ public class App {
                 String beforeName = line.substring(0, firstQuote).trim();
                 String[] partBeforeName = beforeName.split(" ");
                 String id = null;
-                if(partBeforeName.length>=3){
+                if (partBeforeName.length >= 3) {
                     id = split[2];
                 }
                 ticketControl.addCashier(id, name, email);
                 break;
             case "remove":
-                if(split.length < 3){
+                if (split.length < 3) {
                     System.out.println("Invalid clash remove command. Usage: clash remove <DNI>");
                     return;
                 }
