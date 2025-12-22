@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
-public class Ticket<T extends User> {
+public class Ticket {
+    protected TicketPrinter ticketPrinter;
 
     public enum TicketStatus {EMPTY, OPEN, CLOSE}
 
@@ -31,9 +32,7 @@ public class Ticket<T extends User> {
 
     private int numItems;
 
-
-
-    public Ticket(String idTicket, String userId, String cashId, String openingDate, Catalog catalog) {
+    public Ticket(String idTicket, String userId, String cashId, String openingDate, Catalog catalog, String tipoTicket){
         this.idTicket = idTicket;
         this.userId = userId;
         this.cashId = cashId;
@@ -43,6 +42,32 @@ public class Ticket<T extends User> {
         this.quantities = new ArrayList<>(MAXITEMS);
         this.maxPers = new ArrayList<>(MAXITEMS);
         this.numItems = 0;
+        setPrinter(tipoTicket, userId.startsWith("A"));
+        //El nif de una empresa empieza siempre por una letra y suele ser la A
+    }
+
+
+
+   /* public Ticket(String idTicket, String userId, String cashId, String openingDate, Catalog catalog) {
+        this.idTicket = idTicket;
+        this.userId = userId;
+        this.cashId = cashId;
+        this.openingDate = openingDate;
+        this.ticketStatus = TicketStatus.EMPTY;
+        this.products = new ArrayList<>(MAXITEMS);
+        this.quantities = new ArrayList<>(MAXITEMS);
+        this.maxPers = new ArrayList<>(MAXITEMS);
+        this.numItems = 0;
+    }*/
+
+    private void setPrinter(String tipo, boolean itsACompany) {
+        if (!itsACompany) {
+            ticketPrinter = new commonTicket();
+        } else if ("-s".equals(tipo)) {
+            ticketPrinter = new TicketCompanyServices();
+        } else {
+            ticketPrinter = new TicketCompanyCombined();
+        }
     }
 
 
@@ -100,5 +125,29 @@ public class Ticket<T extends User> {
 
     public void setTicketStatus(TicketStatus ticketStatus) {
         this.ticketStatus = ticketStatus;
+    }
+
+    public double calculateDiscount(Product product, int amount) {
+        double result = 0.0;
+        if (product.getCategory() == null) {
+            return 0.0;
+        }
+        double discount = product.getCategory().getDiscount();
+        if (amount >= 2) {
+            result = product.getPrice() * discount;
+        }
+        return result;
+    }
+
+    public String print(){
+        return ticketPrinter.print(this);
+    }
+
+    public boolean close() {
+        return ticketPrinter.close(this);
+    }
+
+    public boolean acceptsProduct(Product product) {
+        return ticketPrinter.acceptsProduct(product);
     }
 }
