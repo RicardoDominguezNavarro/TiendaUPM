@@ -1,8 +1,7 @@
 package es.upm.etsisi.poo;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.stream.IntStream;
 
 
 public class Ticket {
@@ -62,14 +61,129 @@ public class Ticket {
 
     private void setPrinter(String tipo, boolean itsACompany) {
         if (!itsACompany) {
-            ticketPrinter = new commonTicket();
+            ticketPrinter = new CommonTicket();
         } else if ("-s".equals(tipo)) {
             ticketPrinter = new TicketCompanyServices();
         } else {
             ticketPrinter = new TicketCompanyCombined();
         }
     }
+    public boolean addProduct(Product product, int quantity, ArrayList<String> personalized) {
+        if (this.ticketStatus == TicketStatus.CLOSE) {
+            System.out.println("unauthorized or closed ticket");
+            return false;
+        }
+        if (this.numItems + quantity > MAXITEMS) {
+            System.out.println("The ticket is full");
+            return false;
+        }
 
+        if (!acceptsProduct(product)) {
+            System.out.println("Invalid product type for this ticket");
+            return false;
+        }
+
+        if (product instanceof PersonalizedProduct) {
+            PersonalizedProduct personalizedProduct = (PersonalizedProduct) product;
+            if (personalized != null && personalized.size() > personalizedProduct.getMaxText()) {
+                System.out.println("Exceeded maximum number of personalized texts");
+                return false;
+            }
+        }
+
+        if (product instanceof Events) {
+            Events event = (Events) product;
+            for (Product prod : this.products) { //comprobar si existe el evento en el ticket
+                if (prod.getId_product().equals(product.getId_product())) {
+                    System.out.println("Event already added");
+                    return false;
+                }
+            }
+            if (!event.validDate()) {
+                System.out.println("Date not valid");
+                return false;
+            }
+        }
+
+        Product productToAdd = product;
+        if (product instanceof Events) {
+            productToAdd = new Events((Events) product, quantity);
+        } else if (product instanceof PersonalizedProduct) {
+            productToAdd = new PersonalizedProduct((PersonalizedProduct) product, personalized);
+        }
+
+        boolean found = false;
+        if (!(productToAdd instanceof Events) && !(productToAdd instanceof PersonalizedProduct)) {
+            for (int i = 0; i < products.size(); i++) {
+                if (products.get(i).getId_product().equals(product.getId_product())) {
+                    quantities.set(i, quantities.get(i) + quantity);
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        if (!found) {
+            String nameToAdd = productToAdd.getName();
+            int index = IntStream.range(0, products.size())
+                    .filter(i -> products.get(i).getName().compareToIgnoreCase(nameToAdd) > 0)
+                    .findFirst()
+                    .orElse(products.size());
+
+            products.add(index, productToAdd);
+            quantities.add(index, quantity);
+        }
+
+        this.numItems += quantity;
+        if (this.numItems > 0 && this.ticketStatus == TicketStatus.EMPTY) {
+            this.ticketStatus = TicketStatus.OPEN;
+        }
+
+        System.out.println("ticket add " + this.idTicket + " " + this.cashId + " " + product.getId_product() + " " + quantity);
+        System.out.println("ticket add: ok");
+        return true;
+    }
+
+    public boolean removeProduct(String prodId, String cashIdRequest) {
+        if (!this.cashId.equals(cashIdRequest)) {
+            System.out.println("The cashier didn't create this ticket.");
+            return false;
+        }
+
+        if (this.ticketStatus == TicketStatus.CLOSE) {
+            System.out.println("This ticket cannot be modified.");
+            return false;
+        }
+
+        if (this.ticketStatus == TicketStatus.EMPTY) {
+            System.out.println("This ticket is empty.");
+            return false;
+        }
+
+        boolean found = false;
+        for (int i = products.size() - 1; i >= 0; i--) {
+            if (products.get(i).getId_product().equals(prodId)) {
+                int quantity = quantities.get(i);
+                products.remove(i);
+                quantities.remove(i);
+                this.numItems -= quantity;
+                found = true;
+            }
+        }
+
+        if (found) {
+            if (this.numItems == 0) {
+                this.ticketStatus = TicketStatus.EMPTY;
+            }
+            System.out.println("ticket remove " + this.idTicket + " " + this.cashId + " " + prodId);
+            System.out.println(print());
+            System.out.println("ticket remove: ok");
+            return true;
+        } else {
+            System.out.println("There is no product in the ticket.");
+            return false;
+        }
+    }
 
     public String getCashId() {
         return cashId;
@@ -150,4 +264,5 @@ public class Ticket {
     public boolean acceptsProduct(Product product) {
         return ticketPrinter.acceptsProduct(product);
     }
+
 }

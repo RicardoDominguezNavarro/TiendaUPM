@@ -3,7 +3,7 @@ package es.upm.etsisi.poo;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class commonTicket implements TicketPrinter{
+public class CommonTicket implements TicketPrinter{
     @Override
     public String print(Ticket ticket) {
         StringBuilder sb = new StringBuilder();

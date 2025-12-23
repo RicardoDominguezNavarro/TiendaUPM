@@ -198,134 +198,29 @@ public class TicketControl {
 
     public void addProductToTicket(String ticketId, String cashId, String prodId, int quantity, ArrayList<String> personalized) {
         Ticket ticket = findTicketById(ticketId);
-        boolean valid = true;
-
-        // 1. Validaciones básicas de existencia y permisos
         if (ticket == null) {
-            System.out.println("Ticket with id: " + ticketId + " doesn't exist");
-            return; // Return directo para evitar anidamientos innecesarios
+            return;
         }
-        if (!ticket.getCashId().equals(cashId) || ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
-            System.out.println("unauthorized or closed ticket");
-            valid = false;
 
+        if (!ticket.getCashId().equals(cashId)) {
+            System.out.println("unauthorized or closed ticket");
+            return;
         }
-        if (ticket.getNumItems() + quantity > ticket.getMAXITEMS()) {
-            System.out.println("The ticket is full");
-            valid = false;
-        }
+
         Product product = catalog.getProductId(prodId);
         if (product == null) {
             System.out.println("Product with id: " + prodId + " doesn't exist");
-            valid = false;
-        }
-        if (!ticket.acceptsProduct(product)){
-            System.out.println("Invalid product type for this ticket");
-            valid = false;
-        }
-        if (product instanceof PersonalizedProduct) {
-            PersonalizedProduct personalizedProduct = (PersonalizedProduct) product;
-            if (personalized.size() > personalizedProduct.getMaxText()) {
-                System.out.println("Exceeded maximum number of personalized texts");
-                valid = false;
-
-            }
-        }
-        if (product instanceof Events) {
-            Events event = (Events) product;
-            for (Product prod : ticket.getProducts()) {
-                if (prod.getId_product() == prodId) {
-                    System.out.println("Event already added");
-                    valid = false;
-                }
-            }
-            if (!event.validDate()) {
-                System.out.println("Date not valid");
-                valid = false;
-
-            }
+            return;
         }
 
-        if (valid) {
-            Product productToAdd = product;
-            if (product instanceof Events) {
-                productToAdd = new Events((Events) product, quantity);
-            } else if (product instanceof PersonalizedProduct) {
-                productToAdd = new PersonalizedProduct((PersonalizedProduct) product, personalized);
-            }
-            boolean found = false;
-            ArrayList<Product> products = ticket.getProducts();
-            ArrayList<Integer> quantities = ticket.getQuantities();
-
-            if (!(productToAdd instanceof Events) && !(productToAdd instanceof PersonalizedProduct)) {
-                for (int i = 0; i < products.size(); i++) {
-                    if (products.get(i).getId_product() == prodId) {
-                        quantities.set(i, quantities.get(i) + quantity);
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!found) {
-                int index = IntStream.range(0, products.size()) //Usamos IntStream para encontrar el primer índice donde el nombre del producto actual sea "mayor" alfabéticamente que el que queremos insertar.
-                        .filter(i -> products.get(i).getName().compareToIgnoreCase(productToAdd.getName()) > 0)
-                        .findFirst()
-                        .orElse(products.size());
-
-                products.add(index, productToAdd);
-                quantities.add(index, quantity);
-
-            }
-            ticket.setNumItems(ticket.getNumItems() + quantity);
-            if (ticket.getNumItems() > 0 && ticket.getTicketStatus() == Ticket.TicketStatus.EMPTY) {
-                ticket.setTicketStatus(Ticket.TicketStatus.OPEN);
-            }
-            System.out.println("ticket add " + ticket.getIdTicket() + " " + cashId + " " + prodId + " " + quantity);
-            //System.out.println(ticket.print()); BORRAR ESTAS COSAS AL COMPROBAR
-            System.out.println("ticket add: ok");
-        }
+        ticket.addProduct(product, quantity, personalized);
     }
-
 
     public void removeProduct(String ticketId, String cashId, String prodId) {
         Ticket ticket = findTicketById(ticketId);
-        if (ticket == null) {
-            System.out.println("The ticket doesn´t exist");
-        } else {
-            if (ticket.getCashId().equals(cashId)) {
-                if (ticket.getTicketStatus() == Ticket.TicketStatus.OPEN) {
-
-                    ArrayList<Product> products = ticket.getProducts();
-                    ArrayList<Integer> quantities = ticket.getQuantities();
-
-                    boolean found = false;
-                    for (int i = products.size() - 1; i >= 0; i--) {
-                        if (products.get(i).getId_product() == prodId) {
-                            int quantity = quantities.get(i);
-                            products.remove(i);
-                            quantities.remove(i);
-                            ticket.setNumItems(ticket.getNumItems() - quantity);
-                            found = true;
-                        }
-                    }
-                    if (found) {
-                        System.out.println("ticket remove " + ticketId + " " + cashId + " " + prodId);
-                        System.out.println(ticket.print());
-                        System.out.println("ticket remove: ok");
-                    } else {
-                        System.out.println("There is no product in the ticket.");
-                    }
-                } else if (ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
-                    System.out.println("This ticket cannot be modified.");
-                } else {
-                    System.out.println("This ticket is empty.");
-                }
-            } else {
-                System.out.println("The cashier didn't create this ticket.");
-            }
+        if (ticket != null) {
+            ticket.removeProduct(prodId, cashId);
         }
-
     }
 
 
