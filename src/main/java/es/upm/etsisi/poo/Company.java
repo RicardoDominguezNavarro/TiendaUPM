@@ -5,6 +5,9 @@ public class Company extends User{
 
     public Company(String name, String NIF, String email, String registeringCashierId) {
         super(normalizeNIF(NIF), name, email);
+        if (!checkNIF(id)) {
+            throw new IllegalArgumentException("Invalid NIF");
+        }
         if (registeringCashierId == null) {
             this.registeringCashierId = "";
         } else {
