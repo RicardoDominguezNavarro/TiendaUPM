@@ -77,7 +77,7 @@ public class App {
 
 
     public void start() {
-        this.catalog = new Catalog();
+        this.catalog = Catalog.getInstance();
         this.ticketControl = new TicketControl(catalog);
     }
 

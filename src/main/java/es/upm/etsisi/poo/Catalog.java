@@ -5,6 +5,7 @@ import java.util.Random;
 
 
 public class Catalog {
+    private static Catalog instance;
 
     private final int MAXPRODUCTS = 200;
 
@@ -12,10 +13,16 @@ public class Catalog {
 
     public ArrayList<Product> products;
 
-    public Catalog() {
+    private Catalog() {
         products = new ArrayList<>(200);
     }
 
+    public static Catalog getInstance() {
+        if (instance == null){
+            instance = new Catalog();
+        }
+        return instance;
+    }
 
     public void prodRemove(String id) {
         if (isIdFree(id)) {
