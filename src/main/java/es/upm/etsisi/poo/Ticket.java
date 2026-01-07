@@ -31,7 +31,7 @@ public class Ticket implements Serializable {
         this.quantities = new ArrayList<>(MAXITEMS);
         this.maxPers = new ArrayList<>(MAXITEMS);
         this.numItems = 0;
-        setPrinter(tipoTicket, userId.startsWith("A"));
+        setPrinter(tipoTicket, Company.checkNIF(userId));
         //El nif de una empresa empieza siempre por una letra y suele ser la A
     }
 
