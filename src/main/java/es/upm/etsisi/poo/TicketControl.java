@@ -25,9 +25,9 @@ public class TicketControl {
         return null;
     }
 
-    public void addClient(String name, String DNI, String email, String cashId) {
-        if (findUserById(DNI) != null) {
-            System.out.println("Client with id: " + DNI + " already exists");
+    public void addClient(String name, String id, String email, String cashId) {
+        if (findUserById(id) != null) {
+            System.out.println("Client /Company with id: " + id + " already exists");
             return;
         }
         User creator = findUserById(cashId);
@@ -36,13 +36,21 @@ public class TicketControl {
             return;
         }
         try {
-            Client newClient = new Client(name, DNI, email, cashId);
-            System.out.println("client add " + newClient.getName() + " '" + newClient.getId() + "' " + newClient.getEmail() + " " + cashId);
-            users.add(newClient);
-            System.out.println(newClient.toString());
+            User newUser;
+            // Probamos primero si es NIF de empresa
+            if (Company.checkNIF(id)) {
+                newUser = new Company(name, id, email, cashId);
+            } else {
+                // Si no es NIF, asumimos Cliente (allí se validará el DNI y lanzará excepción si falla)
+                newUser = new Client(name, id, email, cashId);
+            }
+            System.out.println("client add " + newUser.getName() + " '" + newUser.getId() + "' " + newUser.getEmail() + " " + cashId);
+            users.add(newUser);
+            System.out.println(newUser.toString());
             System.out.println("client add: ok");
+
         } catch (IllegalArgumentException e) {
-            System.out.println("Error creating client " + e.getMessage());
+            System.out.println("Error creating user: " + e.getMessage());
         }
 
     }
@@ -371,6 +379,7 @@ public class TicketControl {
         return id;
     }
 
+    // Métodos para que se cumpla el requisito de la persistencia
     public void saveState() {
         // Guardamos los datos en un fichero llamado "tienda_upm_data.dat"
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("tienda_upm_data.dat"))) {

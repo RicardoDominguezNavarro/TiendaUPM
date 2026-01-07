@@ -119,10 +119,9 @@ public class Catalog {
             return;
         }
         if (isIdFree(product.getId_product())) {
-            // Nota: product.getCategory() puede ser null si es un Service
+
             System.out.println("prod add " + product.getId_product() + " '" + product.getName() + "' " +  product.getCategory() + " " + product.getPrice());
             products.add(product);
-            // ELIMINADA: product.setBelongToCatalog(this);
 
             System.out.println(product.toString());
             numProducts++;
@@ -135,8 +134,6 @@ public class Catalog {
                     System.out.println("prod addFood: ok");
                 }
             } else if (product instanceof Service) {
-                // Si quieres un mensaje específico para servicios, ponlo aquí.
-                // De momento usamos el estándar.
                 System.out.println("prod add: ok");
             } else {
                 System.out.println("prod add: ok");
