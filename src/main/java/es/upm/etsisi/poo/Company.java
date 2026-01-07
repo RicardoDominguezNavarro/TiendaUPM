@@ -90,7 +90,12 @@ public class Company extends User{
 
     @Override
     public String toString() {
-        return "";
+        return "COMPANY{" +
+                "identifier='" + getId() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", cash=" + getRegisteringCashierId() +
+                '}';
     }
 }
 

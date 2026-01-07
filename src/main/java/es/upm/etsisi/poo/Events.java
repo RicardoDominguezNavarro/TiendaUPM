@@ -102,12 +102,12 @@ public class Events extends Product{
         String dateStr = expirationDate.toLocalDate().toString();
         if (actualPeople == 0) { //Formato de catalogo
             return String.format(Locale.US,
-                    "{class:%s, id:%d, name:'%s', price:%.1f, date of Event:%s, max people allowed:%d}",
+                    "{class:%s, id:%s, name:'%s', price:%.1f, date of Event:%s, max people allowed:%d}",
                     eventType == EventType.FOOD ? "Food" : "Meeting",
                     getId_product(), getName(), getPrice(), dateStr, maxPeopleAllowed);
         }else {// Formato Ticket (con 'actual people')
             return String.format(Locale.US,
-                    "{class:%s, id:%d, name:'%s', price:%.1f, date of Event:%s, max people allowed:%d, actual people in event:%d}",
+                    "{class:%s, id:%s, name:'%s', price:%.1f, date of Event:%s, max people allowed:%d, actual people in event:%d}",
                     eventType == EventType.FOOD ? "Food" : "Meeting",
                     getId_product(), getName(), getPrice(), dateStr, maxPeopleAllowed, actualPeople);
         }

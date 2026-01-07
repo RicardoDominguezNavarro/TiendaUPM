@@ -11,14 +11,13 @@ public class Service extends Product {
         // Genera id
         // Pasa nombre generado, precio 0.0 y categoría null al padre
         super(generateNextId(), "Service-" + nextServiceId, 0.0, null);
-
         if (expirationDate == null) {
             throw new IllegalArgumentException("Expiration date required");
         }
         this.expirationDate = expirationDate;
     }
 
-    // Generar el id y aumentar el contador
+    // Generar id y aumentar el contador
     private static String generateNextId() {
         String id = nextServiceId + "S";
         nextServiceId++;
@@ -35,9 +34,6 @@ public class Service extends Product {
 
     @Override
     public String toString() {
-        // Formato específico para servicios (sin precio ni nombre)
-        return String.format(Locale.US,
-                "{class:Service, id:%s, expiration:%s}",
-                getId_product(), expirationDate.toString());
+        return super.toString().replace("class:Service", "class:ProductService");
     }
 }

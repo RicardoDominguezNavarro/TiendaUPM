@@ -26,14 +26,24 @@ public class Client extends User {
             return false;
         }
         dni = dni.toUpperCase().trim();
-        if (!dni.matches("^[0-9]{8}[A-Z]$")) {
+        if (!dni.matches("^([0-9]{8}|[XYZ][0-9]{7})[A-Z]$")) {
             return false;
         }
         try {
-            String numberPart = dni.substring(0, 8);
-            char letterPart = dni.charAt(8);
-            int dniNumber = Integer.parseInt(numberPart);
+            String numberPartStr = dni.substring(0, 8);
+            char firstChar = dni.charAt(0);
+            if (firstChar == 'X'){
+                numberPartStr = "0" + dni.substring(1, 8);
+            }
+            else if (firstChar == 'Y'){
+                numberPartStr = "1" + dni.substring(1, 8);
+            }
+            else if(firstChar == 'Z'){
+                numberPartStr = "2" + dni.substring(1, 8);
+            }
+            int dniNumber = Integer.parseInt(numberPartStr);
             int index = dniNumber % 23;
+            char letterPart = dni.charAt(8);
             return DNI_LETTERS.charAt(index) == letterPart;
         } catch (NumberFormatException e) {
             return false;

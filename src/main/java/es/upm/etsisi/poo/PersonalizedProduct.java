@@ -52,11 +52,11 @@ public class PersonalizedProduct extends Product{
         double currentPrice = getPricePersonalization();
         if (personalizationList.isEmpty()) {
             return String.format(Locale.US,
-                    "{class:ProductPersonalized, id:%d, name:'%s', category:%s, price:%.1f, maxPersonal:%d}",
+                    "{class:ProductPersonalized, id:%s, name:'%s', category:%s, price:%.1f, maxPersonal:%d}",
                     getId_product(), getName(), getCategory(), currentPrice, maxText);
         }else {
             return String.format(Locale.US,
-                    "{class:ProductPersonalized, id:%d, name:'%s', category:%s, price:%.1f, maxPersonal:%d, personalizationList:%s}",
+                    "{class:ProductPersonalized, id:%s, name:'%s', category:%s, price:%.1f, maxPersonal:%d, personalizationList:%s}",
                     getId_product(), getName(), getCategory(), currentPrice, maxText, personalizationList.toString());
         }
     }
