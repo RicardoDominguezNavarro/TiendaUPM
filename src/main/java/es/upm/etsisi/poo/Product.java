@@ -1,15 +1,14 @@
 package es.upm.etsisi.poo;
 
 import java.util.Locale;
-
-
-public abstract class Product {
-
+import java.io.Serializable;
+public abstract class Product implements Serializable {
 
     private String id_product;
     private String name;
     private double price;
     private Category category;
+    private static final long serialVersionUID = 1L;
 
     protected Product(String id_product, String name, double price, Category category) {
         if (id_product == null || id_product.trim().isEmpty()) {

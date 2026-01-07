@@ -1,29 +1,20 @@
 package es.upm.etsisi.poo;
 
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.stream.IntStream;
-
 
 public class TicketControl {
 
-    private final ArrayList<Ticket> tickets;
-
+    private ArrayList<Ticket> tickets;
     private final Catalog catalog;
-
-    private final ArrayList<User> users;
-
-
+    private ArrayList<User> users;
 
     public TicketControl(Catalog catalog) {
         this.tickets = new ArrayList<>();
         this.catalog = catalog;
         this.users = new ArrayList<>();
     }
-
 
     public User findUserById(String id) {
         for (User user : users) {
@@ -33,7 +24,6 @@ public class TicketControl {
         }
         return null;
     }
-
 
     public void addClient(String name, String DNI, String email, String cashId) {
         if (findUserById(DNI) != null) {
@@ -56,7 +46,6 @@ public class TicketControl {
         }
 
     }
-
 
     public void addCashier(String id, String name, String email) {
         if (id != null) {
@@ -380,5 +369,44 @@ public class TicketControl {
             weight /= 10;
         }
         return id;
+    }
+
+    public void saveState() {
+        // Guardamos los datos en un fichero llamado "tienda_upm_data.dat"
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("tienda_upm_data.dat"))) {
+            out.writeObject(users);
+            out.writeObject(tickets);
+            // Como Catalog es Singleton, guardamos solo su lista interna de productos
+            out.writeObject(catalog.getProducts());
+            System.out.println("Persistencia: Datos guardados correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error saving data: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void loadState() {
+        File file = new File("tienda_upm_data.dat");
+        if (!file.exists()) {
+            System.out.println("tienda_upm_data.dat not found");
+            return;
+        }
+
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+            // leer MISMO ORDEN en que se guardaron
+            this.users = (ArrayList<User>) in.readObject();
+            this.tickets = (ArrayList<Ticket>) in.readObject();
+
+            // Recuperamos la lista de productos y actualizamos el Singleton Catalog
+            ArrayList<Product> loadedProducts = (ArrayList<Product>) in.readObject();
+            if (loadedProducts != null) {
+                catalog.getProducts().clear();
+                catalog.getProducts().addAll(loadedProducts);
+            }
+            System.out.println("Persistencia: Datos cargados correctamente.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error loading data: " + e.getMessage());
+
+        }
     }
 }

@@ -1,11 +1,7 @@
 package es.upm.etsisi.poo;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 
@@ -22,10 +18,14 @@ public class App {
     private TicketCLIController ticketCLI;
     private ClientCLIController clientCLI;
     private CashierCLIController cashierCLI;
+    private String inputFilePath; // Variable para guardar la ruta del archivo si se pasa por argumento
 
 
     public static void main(String[] args) {
         App app = new App();
+        if (args.length > 0) {
+            app.inputFilePath = args[0];
+        }
         app.start();
         app.run();
     }
@@ -49,6 +49,7 @@ public class App {
     public void start() {
         this.catalog = Catalog.getInstance();
         this.ticketControl = new TicketControl(catalog);
+        this.ticketControl.loadState();
         this.productCLI = new ProductCLIController(catalog);
         this.ticketCLI = new TicketCLIController(ticketControl);
         this.clientCLI = new ClientCLIController(ticketControl);
@@ -90,19 +91,44 @@ public class App {
 
 
     public void run() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner;
+        boolean isFileMode = false;
+        try {
+            if (inputFilePath != null) {
+                File file = new File(inputFilePath);
+                if (file.exists()) {
+                    scanner = new Scanner(file);
+                    isFileMode = true; // archivo
+                } else {
+                    System.out.println("Error: The file '" + inputFilePath + "' does not exist.");
+                    return; // Salimos si el archivo no existe
+                }
+            } else {
+                scanner = new Scanner(System.in);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+            return;
+        }
         System.out.println(welcome);
         System.out.println(welcome1);
+
         while (true) {
             System.out.print(UPM);
-            if (!scanner.hasNextLine()) break;
-
-            String line = scanner.nextLine();
-
-            if (System.getenv("fileinput") != null && System.getenv("fileinput").equals("true")) {
-                System.out.println(line);
+            if (!scanner.hasNextLine()){
+                System.out.println("Please enter a line to proceed.");
+                break;
             }
 
+
+            String line = scanner.nextLine();
+            //  Si leemos de archivo, imprimimos la línea
+            if (isFileMode) {
+                System.out.println(line);
+            }
+            if (System.getenv("fileinput") != null && System.getenv("fileinput").equals("true")) {
+                if (!isFileMode) System.out.println(line);
+            }
             String[] split = line.split(" ");
             String command = split[0];
 
@@ -112,7 +138,7 @@ public class App {
                     return;
                 case "echo":
                     echo(line);
-                    System.out.println();
+                    // System.out.println();
                     break;
                 case "help":
                     help();

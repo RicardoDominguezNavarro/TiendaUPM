@@ -1,6 +1,7 @@
 package es.upm.etsisi.poo;
+import java.io.Serializable;
 
-public interface TicketPrinter {
+public interface TicketPrinter extends Serializable {
 
     String print(Ticket ticket);
 

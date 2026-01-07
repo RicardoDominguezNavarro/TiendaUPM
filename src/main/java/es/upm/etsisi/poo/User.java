@@ -1,15 +1,12 @@
 package es.upm.etsisi.poo;
 import java.util.Objects;
+import java.io.Serializable;
 
-
-public abstract class User {
-
+public abstract class User implements Serializable {
+    private static final long serialVersionUID = 1L;
     protected final String id;
-
     protected String name;
-
     protected String email;
-
 
     protected User(String id, String name, String email) {
         if (id == null){

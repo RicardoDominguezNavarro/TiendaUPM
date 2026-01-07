@@ -2,34 +2,24 @@ package es.upm.etsisi.poo;
 
 import java.util.ArrayList;
 import java.util.stream.IntStream;
+import java.io.Serializable;
 
+public class Ticket implements Serializable {
 
-public class Ticket {
     protected TicketPrinter ticketPrinter;
-
     public enum TicketStatus {EMPTY, OPEN, CLOSE}
-
     private String idTicket;
-
     private String userId;
-
     private String cashId;
-
     private TicketStatus ticketStatus;
-
     private String openingDate;
-
     private String closingDate;
-
     private final int MAXITEMS = 100;
-
     private ArrayList<Product> products;
-
     private ArrayList<Integer> quantities;
-
     private ArrayList<String> maxPers;
-
     private int numItems;
+    private static final long serialVersionUID = 1L;
 
     public Ticket(String idTicket, String userId, String cashId, String openingDate, Catalog catalog, String tipoTicket){
         this.idTicket = idTicket;
