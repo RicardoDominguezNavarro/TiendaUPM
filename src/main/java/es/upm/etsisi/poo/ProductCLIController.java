@@ -141,7 +141,7 @@ public class ProductCLIController {
         } catch (NumberFormatException e) {
             System.out.println("Invalid numeric value for id or price.");
         } catch (IllegalArgumentException e) {
-            System.out.println("Error processing ->prod " + action);
+            System.out.println("Error processing ->prod " + action + " ->" + e.getMessage());
         } catch (DateTimeParseException e) {
             System.out.println("Invalid date format. Expected format: yyyy-MM-dd");
         }

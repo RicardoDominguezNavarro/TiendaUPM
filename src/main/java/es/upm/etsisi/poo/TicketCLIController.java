@@ -96,20 +96,25 @@ public class TicketCLIController {
     }
 
     private void handleAddProduct(String[] split) {
-        if (split.length < 6) {
+        if (split.length < 5) {
             System.out.println("Invalid ticket add command. Usage: ticket add <ticketId><cashId> <prodId> <amount> [--p<txt>]");
             return;
         }
         String ticketIdAdd = split[2];
         String cashIdAdd = split[3];
         String prodIdStr = split[4];
-        int amount;
-        try {
-            amount = Integer.parseInt(split[5]);
-        } catch (NumberFormatException e) {
-            System.out.println("Amount must be a positive number.");
-            return;
+        int amount = 1;
+        int nextIndex = 5;
+        if(split.length > 5){
+            try {
+                amount = Integer.parseInt(split[5]);
+                nextIndex = 6;
+            } catch (NumberFormatException e) {
+                System.out.println("Amount must be a positive number.");
+                return;
+            }
         }
+
         if (amount <= 0) {
             System.out.println("Amount must be positive.");
             return;
@@ -120,14 +125,13 @@ public class TicketCLIController {
             return;
         }
         ArrayList<String> personalizations = new ArrayList<>();
-        for (int i = 6; i < split.length; i++) {
+        for (int i = nextIndex; i < split.length; i++) {
             String param = split[i];
             if (param.startsWith("--p")) {
                 String text = param.substring(3);
                 personalizations.add(text);
             }
         }
-
         ticketControl.addProductToTicket(ticketIdAdd, cashIdAdd, prodIdStr, amount, personalizations);
     }
 
