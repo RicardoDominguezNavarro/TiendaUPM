@@ -17,8 +17,11 @@ public class App {
     private static final String end = "Closing application. ";
     private static final String goodbye = "Goodbye! ";
     private Catalog catalog;
-    private Ticket ticket;
     private TicketControl ticketControl;
+    private ProductCLIController productCLI;
+    private TicketCLIController ticketCLI;
+    private ClientCLIController clientCLI;
+    private CashierCLIController cashierCLI;
 
 
     public static void main(String[] args) {
@@ -41,12 +44,19 @@ public class App {
         } else {
             System.out.println();
         }
-        ;
+    }
+
+    public void start() {
+        this.catalog = Catalog.getInstance();
+        this.ticketControl = new TicketControl(catalog);
+        this.productCLI = new ProductCLIController(catalog);
+        this.ticketCLI = new TicketCLIController(ticketControl);
+        this.clientCLI = new ClientCLIController(ticketControl);
+        this.cashierCLI = new CashierCLIController(ticketControl);
     }
 
 
     public void help() {
-
         System.out.println("Commands:\n" +
                 "  client add \"<nombre>\" <DNI> <email> <cashId>\n" +
                 "  client remove <DNI>\n" +
@@ -76,10 +86,7 @@ public class App {
     }
 
 
-    public void start() {
-        this.catalog = Catalog.getInstance();
-        this.ticketControl = new TicketControl(catalog);
-    }
+
 
 
     public void run() {
@@ -92,15 +99,13 @@ public class App {
 
             String line = scanner.nextLine();
 
-            // Para pruebas con ficheros, imprimimos el comando leído
             if (System.getenv("fileinput") != null && System.getenv("fileinput").equals("true")) {
                 System.out.println(line);
             }
 
-            if (line.trim().isEmpty()) continue;
-
             String[] split = line.split(" ");
             String command = split[0];
+
             switch (command) {
                 case "exit":
                     exit();
@@ -114,31 +119,29 @@ public class App {
                     System.out.println();
                     break;
                 case "prod":
-                    controlProdCommand(line, split);
+                    productCLI.handleCommand(line, split);
                     System.out.println();
                     break;
                 case "ticket":
-                    controlTicketCommand(line, split);
+                    ticketCLI.handleCommand(line, split);
                     System.out.println();
                     break;
                 case "cash":
-                    controlCashCommand(line, split);
+                    cashierCLI.handleCommand(line, split);
                     System.out.println();
                     break;
                 case "client":
-                    controlClientCommand(line, split);
+                    clientCLI.handleCommand(line, split);
                     System.out.println();
                     break;
                 default:
                     System.out.println("Invalid command");
                     break;
-
             }
         }
-
     }
 
-
+/*
     private void controlProdCommand(String line, String[] split) {
         if (split.length < 2) {
             System.out.println("Invalid prod command");
@@ -567,4 +570,5 @@ public class App {
 
         }
     }
+    */
 }
