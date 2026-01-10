@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class TicketControl {
 
-    private ArrayList<Ticket> tickets;
+    private ArrayList<Ticket<?>> tickets;
     private final Catalog catalog;
     private ArrayList<User> users;
 
@@ -168,7 +168,7 @@ public class TicketControl {
             idNum = ticketId;
             date = dateToIdFormat();
         }
-        Ticket ticket = new Ticket(idNum, userId, cashId, date, catalog, type);
+        Ticket<?> ticket = new Ticket(idNum, userId, cashId, date, catalog, type);
         ticket.setTicketStatus(Ticket.TicketStatus.EMPTY);
         System.out.println("ticket new " + idNum + " " + cashId + " " + userId);
         tickets.add(ticket);
@@ -181,8 +181,8 @@ public class TicketControl {
     }
 
 
-    public Ticket findTicketById(String ticketId) {
-        for (Ticket ticket : tickets) {
+    public Ticket<?> findTicketById(String ticketId) {
+        for (Ticket<?> ticket : tickets) {
             if (ticket.getIdTicket().equals(ticketId)) {
                 return ticket;
             }
@@ -194,7 +194,7 @@ public class TicketControl {
 
 
     public void addProductToTicket(String ticketId, String cashId, String prodId, int quantity, ArrayList<String> personalized) {
-        Ticket ticket = findTicketById(ticketId);
+        Ticket<?> ticket = findTicketById(ticketId);
         if (ticket == null) {
             return;
         }
@@ -214,7 +214,7 @@ public class TicketControl {
     }
 
     public void removeProduct(String ticketId, String cashId, String prodId) {
-        Ticket ticket = findTicketById(ticketId);
+        Ticket<?> ticket = findTicketById(ticketId);
         if (ticket != null) {
             ticket.removeProduct(prodId, cashId);
         }
@@ -222,11 +222,7 @@ public class TicketControl {
 
 
     public void removeTicketsByCashier(String cashierId) {
-        for (Ticket ticket : tickets) {
-            if (ticket.getCashId().equals(cashierId)) {
-                tickets.remove(ticket);
-            }
-        }
+        tickets.removeIf(ticket -> ticket.getCashId().equals(cashierId));
     }
 
 
@@ -243,7 +239,7 @@ public class TicketControl {
     }*/
 
     public void printTicket(String ticketId, String cashId) {
-        Ticket ticket = findTicketById(ticketId);
+        Ticket<?> ticket = findTicketById(ticketId);
 
         if (ticket == null) {
             System.out.println("The ticket doesn´t exist");
@@ -333,7 +329,7 @@ public class TicketControl {
         StringBuilder sb = new StringBuilder();
         System.out.println("ticket list");
         sb.append("Ticket List:\n");
-        for (Ticket ticket : tickets) {
+        for (Ticket<?> ticket : tickets) {
             sb.append(" ");
             switch (ticket.getTicketStatus()) {
                 case EMPTY:
@@ -404,8 +400,7 @@ public class TicketControl {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
             // Recuperamos las listas en el MISMO ORDEN que se guardaron en saveState
             this.users = (ArrayList<User>) in.readObject();
-            this.tickets = (ArrayList<Ticket>) in.readObject();
-
+            this.tickets = (ArrayList<Ticket<?>>) in.readObject();
             // Recuperamos la lista de productos
             ArrayList<Product> loadedProducts = (ArrayList<Product>) in.readObject();
 

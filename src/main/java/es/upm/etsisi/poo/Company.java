@@ -5,7 +5,7 @@ public class Company extends User{
 
     public Company(String name, String NIF, String email, String registeringCashierId) {
         super(normalizeNIF(NIF), name, email);
-        if (!checkNIF(id)) {
+        if (!checkNIF(this.id)) {
             throw new IllegalArgumentException("Invalid NIF");
         }
         if (registeringCashierId == null) {
@@ -17,6 +17,10 @@ public class Company extends User{
 
     public static boolean checkNIF(String nif) {
         boolean validNIF = true;
+        if (nif == null || nif.length() != 9) {
+            System.out.println("Invalid NIF");
+            validNIF = false;
+        }
         String entityLettersList = "ABCDEFGHJNPQRSUVW";
         String nifType1 = "ABEH";
         String nifType2 = "KPQS";
@@ -25,27 +29,36 @@ public class Company extends User{
         String numericPart = "";
         String controlElement = nifElements[nifElements.length-1];
 
+
         for (int i = 1; i < nifElements.length - 1; i++) {
             numericPart = String.join("", numericPart, nifElements[i]);
         }
-        if (entityLetter.matches("\\d") || !entityLettersList.contains(entityLetter) || numericPart.length() != 7){
+
+        if (numericPart.length() != 7 || !entityLettersList.contains(entityLetter)) {
+            System.out.println("Invalid NIF");
             validNIF = false;
         }
+
         String posibleControlElements = "JABCDEFGHI";
         String [] posibleControlElementsList = posibleControlElements.split("");
-        if (nifType1.contains(entityLetter)){
-            if (!controlElement.equals(nifAlgorithm(numericPart.split("")))){
-                validNIF = false;
-            }
-        } else if (nifType2.contains(entityLetter)) {
+        try {
+            String algoResult = nifAlgorithm(numericPart.split(""));
 
-            if (!controlElement.equals(posibleControlElementsList[Integer.parseInt(nifAlgorithm(numericPart.split("")))])){
-                validNIF = false;
+            if (nifType1.contains(entityLetter)) {
+                if (!controlElement.equals(algoResult)) {
+                    validNIF = false;
+                }
+            } else if (nifType2.contains(entityLetter)) {
+                if (!controlElement.equals(posibleControlElementsList[Integer.parseInt(algoResult)])) {
+                    validNIF = false;
+                }
+            } else {
+                if ((!controlElement.equals(algoResult)) && (!controlElement.equals(posibleControlElementsList[Integer.parseInt(algoResult)]))) {
+                    validNIF = false;
+                }
             }
-        }else{
-            if((!controlElement.equals(nifAlgorithm(numericPart.split("")))) && (!controlElement.equals(posibleControlElementsList[Integer.parseInt(nifAlgorithm(numericPart.split("")))]))){
-                validNIF = false;
-            }
+        } catch (Exception e) {
+            return false;
         }
         return validNIF;
     }
@@ -69,6 +82,9 @@ public class Company extends User{
         }
         totalSumInt = oddSum + evenSum;
         result = 10 - (totalSumInt % 10);
+        if (result == 10) {
+            result = 0;
+        }
         return String.valueOf(result);
     }
 
@@ -85,17 +101,12 @@ public class Company extends User{
 
     @Override
     public String getUserType() {
-        return "";
+        return "Company";
     }
 
     @Override
     public String toString() {
-        return "COMPANY{" +
-                "identifier='" + getId() + '\'' +
-                ", name='" + getName() + '\'' +
-                ", email='" + getEmail() + '\'' +
-                ", cash=" + getRegisteringCashierId() +
-                '}';
+        return "{class:Company, id:" + getId() + ", name: '" + getName() + "', email:" + getEmail() + "}";
     }
 }
 

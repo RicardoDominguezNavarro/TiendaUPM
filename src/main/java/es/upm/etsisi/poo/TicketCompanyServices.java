@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class TicketCompanyServices implements TicketPrinter{
 
     @Override
-    public String print(Ticket ticket) {
+    public String print(Ticket<?> ticket) {
         StringBuilder sb = new StringBuilder();
         sb.append("Services Included: \n");
         for (int i = 0; i < ticket.getProducts().size(); i++) {
@@ -23,7 +23,7 @@ public class TicketCompanyServices implements TicketPrinter{
     }
 
     @Override
-    public boolean close(Ticket ticket) {
+    public boolean close(Ticket<?> ticket) {
         // En tickets de solo empresa (servicios), la de validez es en print().
         return true;
     }

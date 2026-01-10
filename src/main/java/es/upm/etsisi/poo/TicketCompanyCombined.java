@@ -7,7 +7,7 @@ import java.util.Locale;
 public class TicketCompanyCombined implements TicketPrinter{
 
     @Override
-    public String print(Ticket ticket) {
+    public String print(Ticket<?> ticket) {
         StringBuilder sb = new StringBuilder();
         ArrayList<Product> products = ticket.getProducts();
         ArrayList<Integer> quantities = ticket.getQuantities();
@@ -62,7 +62,7 @@ public class TicketCompanyCombined implements TicketPrinter{
     }
 
     @Override
-    public boolean close(Ticket ticket) {
+    public boolean close(Ticket<?> ticket) {
         // Debe haber al menos un Producto y un Servicio
         boolean hasProduct = false;
         boolean hasService = false;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.stream.IntStream;
 import java.io.Serializable;
 
-public class Ticket implements Serializable {
+public class Ticket<T extends User> implements Serializable {
 
     protected TicketPrinter ticketPrinter;
     public enum TicketStatus {EMPTY, OPEN, CLOSE}

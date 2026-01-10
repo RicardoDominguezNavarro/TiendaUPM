@@ -5,7 +5,7 @@ import java.util.Locale;
 
 public class CommonTicket implements TicketPrinter{
     @Override
-    public String print(Ticket ticket) {
+    public String print(Ticket<?> ticket) {
         StringBuilder sb = new StringBuilder();
         double totalPrice = 0.0;
         double totalDiscount = 0.0;
@@ -69,7 +69,7 @@ public class CommonTicket implements TicketPrinter{
     }
 
     @Override
-    public boolean close(Ticket ticket) {
+    public boolean close(Ticket<?> ticket) {
         //es true porq siempre se puede cerrar
         return true;
     }
