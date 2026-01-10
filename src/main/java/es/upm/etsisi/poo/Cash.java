@@ -1,9 +1,11 @@
 package es.upm.etsisi.poo;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class Cash extends User{
+public class Cash extends User {
     private final ArrayList<String> createdTicketIds = new ArrayList<>();
+
     public Cash(String id, String name, String email) {
         super(validateAndNormalizeId(id), name, email);
     }
@@ -28,18 +30,32 @@ public class Cash extends User{
         return cleaned;
     }
 
-    public static String generateId(){
-        String id = "UW";
-        int idIntegerPart = 0;
-        int weigth = 1000000;
+    /**
+     * public static String generateId(){
+     * String id = "UW";
+     * int idIntegerPart = 0;
+     * int weigth = 1000000;
+     * for (int i = 0; i < 7; i++) {
+     * idIntegerPart += (int) (Math.random() * 10) * weigth;
+     * weigth /= 10;
+     * }
+     * id += String.valueOf(idIntegerPart);
+     * return id;
+     * //se comprueba si ya existe a la hora de llamar a la funcion
+     * }
+     */
+
+    public static String generateId() {
+        StringBuilder id = new StringBuilder("UW");
         for (int i = 0; i < 7; i++) {
-            idIntegerPart += (int) (Math.random() * 10) * weigth;
-            weigth /= 10;
+            //Genera un dígito entre 0 y 9
+            int digit = (int) (Math.random() * 10);
+            //Se suma al String directamente
+            id.append(digit);
         }
-        id += String.valueOf(idIntegerPart);
-        return id;
-        //se comprueba si ya existe a la hora de llamar a la funcion
+        return id.toString();
     }
+
     public ArrayList<String> getCreatedTicketIds() {
         return createdTicketIds;
     }

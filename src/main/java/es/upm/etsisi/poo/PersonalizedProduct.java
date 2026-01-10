@@ -60,4 +60,5 @@ public class PersonalizedProduct extends Product{
                     getId_product(), getName(), getCategory(), currentPrice, maxText, personalizationList.toString());
         }
     }
+
 }
