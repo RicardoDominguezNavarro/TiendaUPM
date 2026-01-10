@@ -24,6 +24,9 @@ public class Service extends Product {
         nextServiceId++;
         return id;
     }
+    public static void setNextServiceId(int id) {
+        nextServiceId = id;
+    }
 
     public LocalDate getExpirationDate() {
         return expirationDate;

@@ -41,7 +41,7 @@ public class TicketControl {
             if (Company.checkNIF(id)) {
                 newUser = new Company(name, id, email, cashId);
             } else {
-                // Si no es NIF, asumimos Cliente (allí se validará el DNI y lanzará excepción si falla)
+                // Si no es NIF, asumimos Cliente (se valida el DNI y lanzará excepción si falla)
                 newUser = new Client(name, id, email, cashId);
             }
             System.out.println("client add " + newUser.getName() + " '" + newUser.getId() + "' " + newUser.getEmail() + " " + cashId);
@@ -397,25 +397,45 @@ public class TicketControl {
     public void loadState() {
         File file = new File("tienda_upm_data.dat");
         if (!file.exists()) {
-            System.out.println("tienda_upm_data.dat not found");
+            // Si el archivo no existe, simplemente no cargamos nada y la app inicia vacía.
             return;
         }
 
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
-            // leer MISMO ORDEN en que se guardaron
+            // Recuperamos las listas en el MISMO ORDEN que se guardaron en saveState
             this.users = (ArrayList<User>) in.readObject();
             this.tickets = (ArrayList<Ticket>) in.readObject();
 
-            // Recuperamos la lista de productos y actualizamos el Singleton Catalog
+            // Recuperamos la lista de productos
             ArrayList<Product> loadedProducts = (ArrayList<Product>) in.readObject();
+
+            // Actualizamos el Singleton Catalog con los productos cargados
             if (loadedProducts != null) {
                 catalog.getProducts().clear();
                 catalog.getProducts().addAll(loadedProducts);
+                // Recalcular el contador estático de Service para evitar IDs duplicados (ej: "1S")
+                int maxServiceId = 0;
+                for (Product p : loadedProducts) {
+                    if (p instanceof Service) {
+                        // Los IDs de servicio son "1S", "2S"... Quitamos la 'S' para ver el número
+                        String idStr = p.getId_product().replace("S", "");
+                        try {
+                            int idVal = Integer.parseInt(idStr);
+                            if (idVal > maxServiceId) {
+                                maxServiceId = idVal;
+                            }
+                        } catch (NumberFormatException e) {
+                            // Ignoramos si el ID no tiene el formato esperado
+                        }
+                    }
+                }
+                // Ajustamos el contador para que el siguiente servicio sea maxServiceId + 1
+                Service.setNextServiceId(maxServiceId + 1);
             }
             System.out.println("Persistencia: Datos cargados correctamente.");
         } catch (IOException | ClassNotFoundException e) {
+            // Capturamos errores de lectura
             System.out.println("Error loading data: " + e.getMessage());
-
         }
     }
 }
