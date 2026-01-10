@@ -30,7 +30,6 @@ public class ClientCLIController {
                     return;
                 }
 
-                // La lógica de distinguir NIF/DNI debe estar en TicketControl
                 ticketControl.addClient(name, idDoc, email, cashId);
                 break;
 

@@ -12,9 +12,13 @@ public class TicketCompanyCombined implements TicketPrinter{
         ArrayList<Product> products = ticket.getProducts();
         ArrayList<Integer> quantities = ticket.getQuantities();
         // Contar servicios para calcular el descuento
-        long numServices = products.stream().filter(p -> p instanceof Service).count();
+        long numServices = 0;
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i) instanceof Service) {
+                numServices += quantities.get(i);
+            }
+        }
         double discountPercentage = numServices * 0.15; // 15% por servicio
-
         double totalPrice = 0.0;
         double totalDiscount = 0.0;
 
@@ -24,24 +28,32 @@ public class TicketCompanyCombined implements TicketPrinter{
         } else {
             sb.append("\n");
         }
-        // Imprimir productos y servicios
-        for (int i = 0; i < products.size(); i++) {
-            Product product = products.get(i);
-            int amount = quantities.get(i);
-
+        sb.append("Services Included: \n");
+        for (Product product : products) {
             if (product instanceof Service) {
-                // verificar fecha y NO imprimir precio
                 Service service = (Service) product;
                 if (service.getExpirationDate().isBefore(LocalDate.now())) {
                     return "Error: Service " + service.getId_product() + " has expired.";
                 }
                 sb.append(service.toString()).append("\n");
-            } else {
-                // para los productos aplicar descuento acumulado
-                double itemPrice = product.getPrice() * amount;
+            }
+        }
+        sb.append("Product Included\n");
+        for (int i = 0; i < products.size(); i++) {
+            Product product = products.get(i);
+            int amount = quantities.get(i);
+
+            if (!(product instanceof Service)) {
+                // si es un evento no multiplicar por amount
+                double itemPrice;
+                if (product instanceof Events) {
+                    itemPrice = product.getPrice();
+                } else {
+                    itemPrice = product.getPrice() * amount;
+                }
+
                 double itemDiscount = itemPrice * discountPercentage;
 
-                // Formato de salida del producto
                 sb.append(product.toString());
                 if (itemDiscount > 0) {
                     sb.append(" **discount -").append(String.format(Locale.US, "%.2f", itemDiscount));
@@ -66,7 +78,6 @@ public class TicketCompanyCombined implements TicketPrinter{
         // Debe haber al menos un Producto y un Servicio
         boolean hasProduct = false;
         boolean hasService = false;
-
         for (Product p : ticket.getProducts()) {
             if (p instanceof Service) {
                 hasService = true;

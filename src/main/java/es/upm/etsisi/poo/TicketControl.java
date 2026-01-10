@@ -167,8 +167,12 @@ public class TicketControl {
         } else {
             idNum = ticketId;
             date = dateToIdFormat();
+            if (findTicketById(ticketId) != null) {
+                System.out.println("Ticket with id: " + ticketId + " already exists");
+                return;
+            }
         }
-        Ticket<?> ticket = new Ticket(idNum, userId, cashId, date, catalog, type);
+        Ticket<?> ticket = new Ticket(idNum, userId, cashId, date, type);
         ticket.setTicketStatus(Ticket.TicketStatus.EMPTY);
         System.out.println("ticket new " + idNum + " " + cashId + " " + userId);
         tickets.add(ticket);
@@ -210,7 +214,11 @@ public class TicketControl {
             return;
         }
 
-        ticket.addProduct(product, quantity, personalized);
+        try {
+            boolean added = ticket.addProduct(product, quantity, personalized);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void removeProduct(String ticketId, String cashId, String prodId) {
@@ -224,19 +232,6 @@ public class TicketControl {
     public void removeTicketsByCashier(String cashierId) {
         tickets.removeIf(ticket -> ticket.getCashId().equals(cashierId));
     }
-
-
-   /* public double calculateDiscount(Product product, int amount) {
-        double result = 0.0;
-        if (product.getCategory() == null) {
-            return 0.0;
-        }
-        double discount = product.getCategory().getDiscount();
-        if (amount >= 2) {
-            result = product.getPrice() * discount;
-        }
-        return result;
-    }*/
 
     public void printTicket(String ticketId, String cashId) {
         Ticket<?> ticket = findTicketById(ticketId);
@@ -260,69 +255,6 @@ public class TicketControl {
             }
         }
     }
-
-    /*private String print(Ticket ticket) {
-        StringBuilder sb = new StringBuilder();
-        double totalPrice = 0.0;
-        double totalDiscount = 0.0;
-
-        ArrayList<Product> products = ticket.getProducts();
-        ArrayList<Integer> quantities = ticket.getQuantities();
-
-        sb.append("Ticket : ").append(ticket.getIdTicket());
-        if (ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
-            sb.append("-").append(ticket.getClosingDate()).append("\n");
-        } else {
-            sb.append("\n");
-        }
-        for (int i = 0; i < products.size(); i++) {
-            Product product = products.get(i);
-            int amount = quantities.get(i);
-            double unitDiscount = ticket.calculateDiscount(product, amount);
-            if (product instanceof Events){
-                Events event = (Events) product;
-                if (!event.validDate()) {
-                    return "The ticket cannot be closed because the " + event.getName() + " event has passed its deadline.";
-                }
-                sb.append(event.toString()).append("\n");
-                totalPrice += product.getPrice();
-                totalDiscount += unitDiscount;
-            }else {
-                for (int j = 0; j < amount; j++) {
-                    if (product instanceof Events) {
-                        Events event = (Events) product;
-                        if (!event.validDate()) {
-                            return "The ticket cannot be closed because the " + event.getName() + " event has passed its deadline.";
-                        }
-                        sb.append(event.toString()).append("\n");
-
-                    } else if (product instanceof PersonalizedProduct) {
-                        PersonalizedProduct personalizedProd = (PersonalizedProduct) product;
-                        sb.append(personalizedProd.toString());
-                        if (unitDiscount > 0) {
-                            sb.append(" **discount -").append(String.format(Locale.US, "%.3f", unitDiscount)).append("\n");
-                        } else {
-                            sb.append("\n");
-                        }
-                    } else {
-                        sb.append(product.toString());
-                        if (unitDiscount > 0) {
-                            sb.append(" **discount -").append(String.format(Locale.US, "%.2f", unitDiscount)).append("\n");
-                        } else {
-                            sb.append("\n");
-                        }
-                    }
-                    totalPrice += product.getPrice();
-                    totalDiscount += unitDiscount;
-                }
-            }
-        }
-        double finalPrice = totalPrice - totalDiscount;
-        sb.append("  Total price: ").append(String.format(Locale.US, "%.2f", totalPrice)).append("\n");
-        sb.append("  Total discount: ").append(String.format(Locale.US, "%.3f", totalDiscount)).append("\n");
-        sb.append("  Final price: ").append(String.format(Locale.US, "%.3f", finalPrice));
-        return sb.toString();
-    }*/
 
 
     public String listTicket() {
@@ -375,13 +307,10 @@ public class TicketControl {
         return id;
     }
 
-    // Métodos para que se cumpla el requisito de la persistencia
     public void saveState() {
-        // Guardamos los datos en un fichero llamado "tienda_upm_data.dat"
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("tienda_upm_data.dat"))) {
             out.writeObject(users);
             out.writeObject(tickets);
-            // Como Catalog es Singleton, guardamos solo su lista interna de productos
             out.writeObject(catalog.getProducts());
             System.out.println("Persistencia: Datos guardados correctamente.");
         } catch (IOException e) {
@@ -393,26 +322,21 @@ public class TicketControl {
     public void loadState() {
         File file = new File("tienda_upm_data.dat");
         if (!file.exists()) {
-            // Si el archivo no existe, simplemente no cargamos nada y la app inicia vacía.
+            // Si el archivo no existe, no cargamos nada y la app inicia vacía.
             return;
         }
 
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
-            // Recuperamos las listas en el MISMO ORDEN que se guardaron en saveState
             this.users = (ArrayList<User>) in.readObject();
             this.tickets = (ArrayList<Ticket<?>>) in.readObject();
-            // Recuperamos la lista de productos
             ArrayList<Product> loadedProducts = (ArrayList<Product>) in.readObject();
 
-            // Actualizamos el Singleton Catalog con los productos cargados
             if (loadedProducts != null) {
                 catalog.getProducts().clear();
                 catalog.getProducts().addAll(loadedProducts);
-                // Recalcular el contador estático de Service para evitar IDs duplicados (ej: "1S")
                 int maxServiceId = 0;
                 for (Product p : loadedProducts) {
                     if (p instanceof Service) {
-                        // Los IDs de servicio son "1S", "2S"... Quitamos la 'S' para ver el número
                         String idStr = p.getId_product().replace("S", "");
                         try {
                             int idVal = Integer.parseInt(idStr);
@@ -424,12 +348,10 @@ public class TicketControl {
                         }
                     }
                 }
-                // Ajustamos el contador para que el siguiente servicio sea maxServiceId + 1
                 Service.setNextServiceId(maxServiceId + 1);
             }
-            System.out.println("Persistencia: Datos cargados correctamente.");
+            System.out.println("Persistence: Data loaded successfully.");
         } catch (IOException | ClassNotFoundException e) {
-            // Capturamos errores de lectura
             System.out.println("Error loading data: " + e.getMessage());
         }
     }

@@ -1,6 +1,7 @@
 package es.upm.etsisi.poo;
 
 public class CommandUtils {
+
     public static String getName(String line) {
         int first = line.indexOf("\"");
         int last = line.lastIndexOf("\"");

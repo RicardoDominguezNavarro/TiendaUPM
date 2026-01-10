@@ -6,7 +6,6 @@ import java.util.Locale;
 public class Service extends Product {
     private static int nextServiceId = 1; // Contador para generar IDs 1S, 2S...
     private LocalDate expirationDate;
-    private String categoryName;
 
     public Service(LocalDate expirationDate) {
         // Genera id

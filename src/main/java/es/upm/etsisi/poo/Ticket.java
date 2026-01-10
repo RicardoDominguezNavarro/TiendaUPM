@@ -21,7 +21,7 @@ public class Ticket<T extends User> implements Serializable {
     private int numItems;
     private static final long serialVersionUID = 1L;
 
-    public Ticket(String idTicket, String userId, String cashId, String openingDate, Catalog catalog, String tipoTicket){
+    public Ticket(String idTicket, String userId, String cashId, String openingDate, String tipoTicket){
         this.idTicket = idTicket;
         this.userId = userId;
         this.cashId = cashId;
@@ -33,22 +33,9 @@ public class Ticket<T extends User> implements Serializable {
         this.numItems = 0;
         boolean isCompany = Company.checkNIF(userId);
         setPrinter(tipoTicket, isCompany);
-        //El nif de una empresa empieza siempre por una letra y suele ser la A
     }
 
 
-
-   /* public Ticket(String idTicket, String userId, String cashId, String openingDate, Catalog catalog) {
-        this.idTicket = idTicket;
-        this.userId = userId;
-        this.cashId = cashId;
-        this.openingDate = openingDate;
-        this.ticketStatus = TicketStatus.EMPTY;
-        this.products = new ArrayList<>(MAXITEMS);
-        this.quantities = new ArrayList<>(MAXITEMS);
-        this.maxPers = new ArrayList<>(MAXITEMS);
-        this.numItems = 0;
-    }*/
 
     private void setPrinter(String tipo, boolean itsACompany) {
         if (!itsACompany) {
@@ -59,6 +46,7 @@ public class Ticket<T extends User> implements Serializable {
             ticketPrinter = new TicketCompanyCombined();
         }
     }
+
     public boolean addProduct(Product product, int quantity, ArrayList<String> personalized) {
         if (this.ticketStatus == TicketStatus.CLOSE) {
             System.out.println("unauthorized or closed ticket");
@@ -184,9 +172,6 @@ public class Ticket<T extends User> implements Serializable {
         return ticketStatus;
     }
 
-    public int getMAXITEMS() {
-        return MAXITEMS;
-    }
 
     public ArrayList<Product> getProducts() {
         return products;
@@ -196,16 +181,9 @@ public class Ticket<T extends User> implements Serializable {
         return quantities;
     }
 
-    public ArrayList<String> getMaxPers() {
-        return maxPers;
-    }
 
     public int getNumItems() {
         return numItems;
-    }
-
-    public void setNumItems(int numItems) {
-        this.numItems = numItems;
     }
 
     public void setClosingDate(String closingDate) {
@@ -220,9 +198,6 @@ public class Ticket<T extends User> implements Serializable {
         return idTicket;
     }
 
-    public void setIdTicket(String idTicket) {
-        this.idTicket = idTicket;
-    }
 
     public String getClosingDate() {
         return closingDate;

@@ -6,10 +6,13 @@ import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
 public class ProductCLIController {
+
     private final Catalog catalog;
+
     public ProductCLIController(Catalog catalog) {
         this.catalog = catalog;
     }
+
     public void handleCommand(String line, String[] split) {
         if(split.length < 2) {
             System.out.println("Invalid prod command");
@@ -35,7 +38,8 @@ public class ProductCLIController {
                 String idToUpdate = split[2];
                 String field = split[3];
                 String value = String.join(" ", Arrays.copyOfRange(split, 4, split.length));
-                catalog.updateProd(idToUpdate, field, value);                break;
+                catalog.updateProd(idToUpdate, field, value);
+                break;
             case "add":
                 if (split.length >= 3 && split[2].matches("\\d{4}-\\d{2}-\\d{2}")) {
                     handleAddService(split);
@@ -55,6 +59,7 @@ public class ProductCLIController {
         }
 
     }
+
     private void handleAddService(String[] split) {
             try {
             String dateStr = split[2];
@@ -67,6 +72,7 @@ public class ProductCLIController {
             System.out.println("Error adding service: " + e.getMessage());
         }
     }
+
     private void handleAddStandardProduct(String line, String[] split) {
         String name = CommandUtils.getName(line);
         if (name == null || name.isEmpty()) {
@@ -105,6 +111,7 @@ public class ProductCLIController {
             System.out.println("Invalid category or parameters.");
         }
     }
+
     private void handleAddEventProduct(String line, String[] split, String action) {
         String name = CommandUtils.getName(line);
         if (name == null) {

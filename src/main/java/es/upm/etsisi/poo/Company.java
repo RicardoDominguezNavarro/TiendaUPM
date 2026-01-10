@@ -18,8 +18,7 @@ public class Company extends User{
     public static boolean checkNIF(String nif) {
         boolean validNIF = true;
         if (nif == null || nif.length() != 9) {
-            System.out.println("Invalid NIF");
-            validNIF = false;
+            return false;
         }
         String entityLettersList = "ABCDEFGHJNPQRSUVW";
         String nifType1 = "ABEH";
@@ -35,8 +34,7 @@ public class Company extends User{
         }
 
         if (numericPart.length() != 7 || !entityLettersList.contains(entityLetter)) {
-            System.out.println("Invalid NIF");
-            validNIF = false;
+             return false;
         }
 
         String posibleControlElements = "JABCDEFGHI";
