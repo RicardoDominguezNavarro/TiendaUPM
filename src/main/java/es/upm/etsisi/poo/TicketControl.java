@@ -312,7 +312,7 @@ public class TicketControl {
             out.writeObject(users);
             out.writeObject(tickets);
             out.writeObject(catalog.getProducts());
-            System.out.println("Persistencia: Datos guardados correctamente.");
+            System.out.println("Persistence: Data saved successfully.");
         } catch (IOException e) {
             System.out.println("Error saving data: " + e.getMessage());
         }
