@@ -38,6 +38,9 @@ public class Service extends Product {
 
     @Override
     public String toString() {
-        return super.toString().replace("class:Service", "class:ProductService");
+        // Sobrescribimos para no mostrar precio, ni nombre, ni categoría. Formato: {class:ProductService, id:1S, expiration:yyyy-MM-dd}
+        return String.format(Locale.US,
+                "{class:ProductService, id:%s, expiration:%s}",
+                getId_product(), expirationDate.toString());
     }
 }
