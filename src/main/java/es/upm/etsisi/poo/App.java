@@ -32,6 +32,7 @@ public class App {
 
 
     public void exit() {
+        ticketControl.saveState();
         System.out.println(end);
         System.out.println(goodbye);
     }
