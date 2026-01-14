@@ -175,12 +175,13 @@ public class TicketControl {
         Ticket<?> ticket = new Ticket(idNum, userId, cashId, date, type);
         ticket.setTicketStatus(Ticket.TicketStatus.EMPTY);
         System.out.println("ticket new " + idNum + " " + cashId + " " + userId);
+
         tickets.add(ticket);
 
         Cash cashier = (Cash) cashUser;
         cashier.getCreatedTicketIds().add(ticket.getIdTicket());
 
-        //System.out.println(print(ticket));
+        System.out.println(ticket.print());
         System.out.println("ticket new: ok");
     }
 
@@ -322,7 +323,6 @@ public class TicketControl {
     public void loadState() {
         File file = new File("tienda_upm_data.dat");
         if (!file.exists()) {
-            // Si el archivo no existe, no cargamos nada y la app inicia vacía.
             return;
         }
 
