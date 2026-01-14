@@ -119,6 +119,7 @@ public class Ticket<T extends User> implements Serializable {
         }
 
         System.out.println("ticket add " + this.idTicket + " " + this.cashId + " " + product.getId_product() + " " + quantity);
+        System.out.println(print());
         System.out.println("ticket add: ok");
         return true;
     }
