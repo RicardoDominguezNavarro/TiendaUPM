@@ -6,14 +6,21 @@ import java.util.ArrayList;
 
 public class TicketControl {
 
+    private static TicketControl instance;
     private ArrayList<Ticket<?>> tickets;
-    private final Catalog catalog;
+    private final Catalog catalog = Catalog.getInstance();
     private ArrayList<User> users;
 
-    public TicketControl(Catalog catalog) {
+    public TicketControl() {
         this.tickets = new ArrayList<>();
-        this.catalog = catalog;
         this.users = new ArrayList<>();
+    }
+
+    public static TicketControl getInstance() {
+        if (instance == null){
+            instance = new TicketControl();
+        }
+        return instance;
     }
 
     public User findUserById(String id) {
