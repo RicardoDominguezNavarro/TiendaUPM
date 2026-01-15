@@ -11,7 +11,7 @@ public class TicketControl {
     private final Catalog catalog = Catalog.getInstance();
     private ArrayList<User> users;
 
-    public TicketControl() {
+    private TicketControl() {
         this.tickets = new ArrayList<>();
         this.users = new ArrayList<>();
     }
