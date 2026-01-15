@@ -8,13 +8,12 @@ public class TicketControl {
 
     private static TicketControl instance;
     private ArrayList<Ticket<?>> tickets;
-    private final Catalog catalog;
+    private final Catalog catalog = Catalog.getInstance();
     private ArrayList<User> users;
 
-    private TicketControl() {
+    public TicketControl() {
         this.tickets = new ArrayList<>();
         this.users = new ArrayList<>();
-        this.catalog = Catalog.getInstance();
     }
 
     public static TicketControl getInstance() {

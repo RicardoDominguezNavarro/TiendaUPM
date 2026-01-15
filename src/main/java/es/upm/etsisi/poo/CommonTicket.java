@@ -64,13 +64,12 @@ public class CommonTicket implements TicketPrinter{
         double finalPrice = totalPrice - totalDiscount;
         sb.append("  Total price: ").append(String.format(Locale.US, "%.2f", totalPrice)).append("\n");
         sb.append("  Total discount: ").append(String.format(Locale.US, "%.3f", totalDiscount)).append("\n");
-        sb.append("  Final price: ").append(String.format(Locale.US, "%.3f", finalPrice));
+        sb.append("  Final Price: ").append(String.format(Locale.US, "%.3f", finalPrice));
         return sb.toString();
     }
 
     @Override
     public boolean close(Ticket<?> ticket) {
-        //es true porq siempre se puede cerrar
         return true;
     }
 

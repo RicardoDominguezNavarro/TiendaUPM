@@ -68,6 +68,6 @@ public class Client extends User {
 
     @Override
     public String toString() {
-        return "{class:Client, id:" + getId() + ", name: '" + getName() + "', email:" + getEmail() + "}";
+        return " USER{identifier= " + getId() + ", name= '" + getName() + "', email=" + getEmail() + " cash= " + registeringCashierId +"}";
     }
 }
