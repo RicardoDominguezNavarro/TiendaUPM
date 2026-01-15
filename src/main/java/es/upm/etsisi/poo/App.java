@@ -18,7 +18,7 @@ public class App {
     private TicketCLIController ticketCLI;
     private ClientCLIController clientCLI;
     private CashierCLIController cashierCLI;
-    private String inputFilePath; // Variable para guardar la ruta del archivo si se pasa por argumento
+    private String inputFilePath;
 
 
     public static void main(String[] args) {
@@ -127,10 +127,11 @@ public class App {
                 String[] split = line.split(" ");
                 String command = split[0];
 
+                if (command.equals("exit")) {
+                    return;
+                }
+
                 switch (command) {
-                    case "exit":
-                        exit();
-                        return;
                     case "echo":
                         echo(line);
                         break;
