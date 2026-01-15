@@ -49,7 +49,7 @@ public class App {
 
     public void start() {
         this.catalog = Catalog.getInstance();
-        this.ticketControl = new TicketControl(catalog);
+        this.ticketControl = TicketControl.getInstance();
         this.ticketControl.loadState();
         this.productCLI = new ProductCLIController(catalog);
         this.ticketCLI = new TicketCLIController(ticketControl);
@@ -88,9 +88,6 @@ public class App {
     }
 
 
-
-
-
     public void run() {
         Scanner scanner;
         boolean isFileMode = false;
@@ -102,7 +99,7 @@ public class App {
                     isFileMode = true; // archivo
                 } else {
                     System.out.println("Error: The file '" + inputFilePath + "' does not exist.");
-                    return; // Salimos si el archivo no existe
+                    return;
                 }
             } else {
                 scanner = new Scanner(System.in);
@@ -113,58 +110,60 @@ public class App {
         }
         System.out.println(welcome);
         System.out.println(welcome1);
+        try {
+            while (true) {
+                System.out.print(UPM);
+                if (!scanner.hasNextLine()) {
+                    System.out.println("Please enter a line to proceed.");
+                    break;
+                }
 
-        while (true) {
-            System.out.print(UPM);
-            if (!scanner.hasNextLine()){
-                System.out.println("Please enter a line to proceed.");
-                break;
-            }
+                String line = scanner.nextLine();
+                if (isFileMode) {
+                    System.out.println(line);
+                }
+                if (System.getenv("fileinput") != null && System.getenv("fileinput").equals("true")) {
+                    if (!isFileMode) System.out.println(line);
+                }
+                String[] split = line.split(" ");
+                String command = split[0];
 
-
-            String line = scanner.nextLine();
-            //  Si leemos de archivo, imprimimos la línea
-            if (isFileMode) {
-                System.out.println(line);
+                switch (command) {
+                    case "exit":
+                        exit();
+                        return;
+                    case "echo":
+                        echo(line);
+                        break;
+                    case "help":
+                        help();
+                        System.out.println();
+                        break;
+                    case "prod":
+                        productCLI.handleCommand(line, split);
+                        System.out.println();
+                        break;
+                    case "ticket":
+                        ticketCLI.handleCommand(line, split);
+                        System.out.println();
+                        break;
+                    case "cash":
+                        cashierCLI.handleCommand(line, split);
+                        System.out.println();
+                        break;
+                    case "client":
+                        clientCLI.handleCommand(line, split);
+                        System.out.println();
+                        break;
+                    default:
+                        System.out.println("Invalid command");
+                        break;
+                }
             }
-            if (System.getenv("fileinput") != null && System.getenv("fileinput").equals("true")) {
-                if (!isFileMode) System.out.println(line);
-            }
-            String[] split = line.split(" ");
-            String command = split[0];
-
-            switch (command) {
-                case "exit":
-                    exit();
-                    return;
-                case "echo":
-                    echo(line);
-                    // System.out.println();
-                    break;
-                case "help":
-                    help();
-                    System.out.println();
-                    break;
-                case "prod":
-                    productCLI.handleCommand(line, split);
-                    System.out.println();
-                    break;
-                case "ticket":
-                    ticketCLI.handleCommand(line, split);
-                    System.out.println();
-                    break;
-                case "cash":
-                    cashierCLI.handleCommand(line, split);
-                    System.out.println();
-                    break;
-                case "client":
-                    clientCLI.handleCommand(line, split);
-                    System.out.println();
-                    break;
-                default:
-                    System.out.println("Invalid command");
-                    break;
-            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            exit();
         }
     }
 
