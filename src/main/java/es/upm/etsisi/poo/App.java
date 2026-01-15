@@ -49,7 +49,7 @@ public class App {
 
     public void start() {
         this.catalog = Catalog.getInstance();
-        this.ticketControl = new TicketControl(catalog);
+        this.ticketControl = TicketControl.getInstance();
         this.ticketControl.loadState();
         this.productCLI = new ProductCLIController(catalog);
         this.ticketCLI = new TicketCLIController(ticketControl);
