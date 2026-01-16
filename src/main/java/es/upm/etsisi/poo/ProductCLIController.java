@@ -62,9 +62,15 @@ public class ProductCLIController {
 
     private void handleAddService(String[] split) {
             try {
+                if (split.length < 4){
+                    System.out.println("Usage: prod add <yyyy-MM-dd> <CATEGORY>");
+                    return;
+                }
             String dateStr = split[2];
+            String categoryStr = split[3].toUpperCase();
             LocalDate expDate = LocalDate.parse(dateStr);
-            Service newService = new Service(expDate);
+            Service.Category category = Service.Category.valueOf(categoryStr);
+            Service newService = new Service(category,expDate);
             catalog.addProd(newService);
         } catch (DateTimeParseException e) {
             System.out.println("Invalid date format for Service expected yyyy-MM-dd.");
