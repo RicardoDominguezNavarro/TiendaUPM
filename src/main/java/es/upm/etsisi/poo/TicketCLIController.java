@@ -36,6 +36,8 @@ public class TicketCLIController {
                     System.out.println("Cashier with id: " + cashIdPrint + " doesn't exist.");
                     return;
                 }
+                System.out.println("ticket print " + ticketIdPrint+ " " + cashIdPrint);
+
                 ticketControl.printTicket(ticketIdPrint, cashIdPrint);
                 break;
 
