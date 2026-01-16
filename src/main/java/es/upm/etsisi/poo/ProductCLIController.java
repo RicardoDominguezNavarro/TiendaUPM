@@ -48,8 +48,6 @@ public class ProductCLIController {
                 }
                 break;
             case "addFood":
-                handleAddEventProduct(line, action);
-                break;
             case "addMeeting":
                 handleAddEventProduct(line, action);
                 break;
@@ -127,7 +125,7 @@ public class ProductCLIController {
 
     private void handleAddEventProduct(String line, String action) {
         String name = CommandUtils.getName(line);
-        if (name == null) {
+        if (name == null || name.trim().isEmpty()) {
             System.out.println("The name can't be empty");
             return;
         }

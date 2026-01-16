@@ -13,7 +13,7 @@ public class ClientCLIController {
         switch (action) {
             case "add":
                 String name = CommandUtils.getName(line);
-                if (name == null) {
+                if (name == null || name.trim().isEmpty()) {
                     System.out.println("The name can't be empty");
                     return;
                 }
