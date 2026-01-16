@@ -107,8 +107,8 @@ public class Catalog {
     public void prodList() {
         System.out.println("prod list");
         System.out.println("Catalog:");
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println("  " + products.get(i).toString());
+        for (Product product : products) {
+            System.out.println("  " + product.toString());
         }
         System.out.println("prod list: ok");
     }

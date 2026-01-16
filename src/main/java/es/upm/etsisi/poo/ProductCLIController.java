@@ -44,14 +44,14 @@ public class ProductCLIController {
                 if (split.length >= 3 && split[2].matches("\\d{4}-\\d{2}-\\d{2}")) {
                     handleAddService(split);
                 } else {
-                    handleAddStandardProduct(line, split);
+                    handleAddStandardProduct(line);
                 }
                 break;
             case "addFood":
-                handleAddEventProduct(line, split, action);
+                handleAddEventProduct(line, action);
                 break;
             case "addMeeting":
-                handleAddEventProduct(line, split, action);
+                handleAddEventProduct(line, action);
                 break;
             default:
                 System.out.println("Unknown prod command");
@@ -86,7 +86,7 @@ public class ProductCLIController {
         }
     }
 
-    private void handleAddStandardProduct(String line, String[] split) {
+    private void handleAddStandardProduct(String line) {
         String name = CommandUtils.getName(line);
         if (name == null || name.isEmpty()) {
             System.out.println("The name can't be empty and must be between quotation marks ");
@@ -125,7 +125,7 @@ public class ProductCLIController {
         }
     }
 
-    private void handleAddEventProduct(String line, String[] split, String action) {
+    private void handleAddEventProduct(String line, String action) {
         String name = CommandUtils.getName(line);
         if (name == null) {
             System.out.println("The name can't be empty");
