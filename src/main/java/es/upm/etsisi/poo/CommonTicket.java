@@ -44,7 +44,7 @@ public class CommonTicket implements TicketPrinter{
                         PersonalizedProduct personalizedProd = (PersonalizedProduct) product;
                         sb.append(personalizedProd.toString());
                         if (unitDiscount > 0) {
-                            sb.append(" **discount -"   ).append(unitDiscount);
+                            sb.append(" **discount -"   ).append(unitDiscount).append("\n");
                         } else {
                             sb.append("\n");
                         }
