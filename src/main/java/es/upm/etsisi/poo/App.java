@@ -59,6 +59,7 @@ public class App {
 
 
     public void help() {
+        System.out.print(" ");
         System.out.println("Commands:\n" +
                 "  client add \"<nombre>\" (<DNI>|<NIF>) <email> <cashId>\n" +
                 "  client remove <DNI>\n" +
