@@ -174,7 +174,7 @@ public class TicketControl {
         } else {
             idNum = ticketId;
             date = dateToIdFormat();
-            if (findTicketById(ticketId) != null) {
+            if (findTicketByIdForNewTicket(ticketId) != null) {
                 System.out.println("Ticket with id: " + ticketId + " already exists");
                 return;
             }
@@ -200,6 +200,15 @@ public class TicketControl {
             }
         }
         System.out.println("Ticket not found");
+        return null;
+    }
+
+    public Ticket<?> findTicketByIdForNewTicket(String ticketId) {
+        for (Ticket<?> ticket : tickets) {
+            if (ticket.getIdTicket().equals(ticketId)) {
+                return ticket;
+            }
+        }
         return null;
     }
 
