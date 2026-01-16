@@ -7,7 +7,7 @@ public class TicketCompanyServices implements TicketPrinter{
     @Override
     public String print(Ticket<?> ticket) {
         StringBuilder sb = new StringBuilder();
-        sb.append("Ticket Company Services: ").append(ticket.getIdTicket()).append("\n");
+        sb.append("Ticket : ").append(ticket.getIdTicket()).append("\n");
         sb.append("Services Included: \n");
         for (int i = 0; i < ticket.getProducts().size(); i++) {
             Product product = ticket.getProducts().get(i);
@@ -18,7 +18,7 @@ public class TicketCompanyServices implements TicketPrinter{
                     return "Error: Ticket cannot close. Service " + service.getId_product() + " has expired.";
                 }
             }
-            sb.append(product.toString()).append("\n");
+            sb.append("  ").append(product.toString()).append("\n");
         }
         return sb.toString();
     }

@@ -1,6 +1,8 @@
 package es.upm.etsisi.poo;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -44,9 +46,11 @@ public class Service extends Product {
 
     @Override
     public String toString() {
-        // Sobrescribimos para no mostrar precio, ni nombre, ni categoría. Formato: {class:ProductService, id:1S, expiration:yyyy-MM-dd}
+        Date date = Date.from(expirationDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        String printId = getId_product().replace("S", "");
+
         return String.format(Locale.US,
-                "{class:ProductService, id:%s,category:%s, expiration:%s}",
-                getId_product(), category, expirationDate.toString());
+                "{class:ProductService, id:%s, category:%s, expiration:%s}",
+                printId, category, date.toString());
     }
 }

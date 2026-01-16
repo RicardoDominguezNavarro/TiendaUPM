@@ -22,7 +22,7 @@ public class TicketCompanyCombined implements TicketPrinter{
         double totalPrice = 0.0;
         double totalDiscount = 0.0;
 
-        sb.append("Ticket Company Combined: ").append(ticket.getIdTicket());
+        sb.append("Ticket: ").append(ticket.getIdTicket());
         if (ticket.getTicketStatus() == Ticket.TicketStatus.CLOSE) {
             sb.append("-").append(ticket.getClosingDate()).append("\n");
         } else {
@@ -35,16 +35,14 @@ public class TicketCompanyCombined implements TicketPrinter{
                 if (service.getExpirationDate().isBefore(LocalDate.now())) {
                     return "Error: Service " + service.getId_product() + " has expired.";
                 }
-                sb.append(service.toString()).append("\n");
+                sb.append("  ").append(service.toString()).append("\n");
             }
         }
         sb.append("Product Included\n");
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i);
             int amount = quantities.get(i);
-
             if (!(product instanceof Service)) {
-                // si es un evento no multiplicar por amount
                 double itemPrice;
                 if (product instanceof Events) {
                     itemPrice = product.getPrice();
@@ -53,22 +51,19 @@ public class TicketCompanyCombined implements TicketPrinter{
                 }
 
                 double itemDiscount = itemPrice * discountPercentage;
-
-                sb.append(product.toString());
-                if (itemDiscount > 0) {
-                    sb.append(" **discount -").append(String.format(Locale.US, "%.2f", itemDiscount));
-                }
-                sb.append("\n");
-
+                sb.append("  ").append(product.toString()).append("\n");
                 totalPrice += itemPrice;
                 totalDiscount += itemDiscount;
             }
         }
-
         double finalPrice = totalPrice - totalDiscount;
-        sb.append("  Total price: ").append(String.format(Locale.US, "%.2f", totalPrice)).append("\n");
-        sb.append("  Total discount: ").append(String.format(Locale.US, "%.3f", totalDiscount)).append("\n");
-        sb.append("  Final price: ").append(String.format(Locale.US, "%.3f", finalPrice));
+        sb.append("  Total price: ").append(totalPrice).append("\n");
+        if (totalDiscount > 0) {
+            sb.append("  Extra Discount from services:").append(totalDiscount)
+                    .append(" **discount -").append(totalDiscount).append("\n");
+        }
+        sb.append("  Total discount: ").append(totalDiscount).append("\n");
+        sb.append("  Final Price: ").append(finalPrice);
 
         return sb.toString();
     }

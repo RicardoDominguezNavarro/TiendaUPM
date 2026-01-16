@@ -28,7 +28,7 @@ public class CommonTicket implements TicketPrinter{
                 if (!event.validDate()) {
                     return "The ticket cannot be closed because the " + event.getName() + " event has passed its deadline.";
                 }
-                sb.append(event.toString()).append("\n");
+                sb.append("  ").append(event.toString()).append("\n");
                 totalPrice += product.getPrice();
                 totalDiscount += unitDiscount;
             }else {
@@ -44,7 +44,7 @@ public class CommonTicket implements TicketPrinter{
                         PersonalizedProduct personalizedProd = (PersonalizedProduct) product;
                         sb.append(personalizedProd.toString());
                         if (unitDiscount > 0) {
-                            sb.append(" **discount -").append(String.format(Locale.US, "%.3f", unitDiscount)).append("\n");
+                            sb.append(" **discount -"   ).append(unitDiscount);
                         } else {
                             sb.append("\n");
                         }

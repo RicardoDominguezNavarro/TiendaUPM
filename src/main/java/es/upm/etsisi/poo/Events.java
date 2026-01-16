@@ -30,7 +30,7 @@ public class Events extends Product{
 
 
     public Events (String id, String name, double pricePerPerson, LocalDateTime expirationDate, EventType eventType, int maxPeopleAllowed) {
-        super(id, name, pricePerPerson, null); //precio base es 0, luego se calculará por persona
+        super(id, name, pricePerPerson, null);
         if(maxPeopleAllowed > maxParticipants){
             throw new IllegalArgumentException("Error adding product: Capacity " + maxPeopleAllowed + " exceeds limit of  " + maxParticipants);
         }

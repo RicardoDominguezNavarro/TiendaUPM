@@ -54,7 +54,7 @@ public class PersonalizedProduct extends Product{
             return String.format(Locale.US,
                     "{class:ProductPersonalized, id:%s, name:'%s', category:%s, price:%.1f, maxPersonal:%d}",
                     getId_product(), getName(), getCategory(), currentPrice, maxText);
-        }else {
+        } else {
             return String.format(Locale.US,
                     "{class:ProductPersonalized, id:%s, name:'%s', category:%s, price:%.1f, maxPersonal:%d, personalizationList:%s}",
                     getId_product(), getName(), getCategory(), currentPrice, maxText, personalizationList.toString());

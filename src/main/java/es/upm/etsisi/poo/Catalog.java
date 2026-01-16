@@ -32,7 +32,7 @@ public class Catalog {
             if (position < 0) {
                 System.out.println("The id doesn't exist");
             }else{
-                System.out.println("prod remove " + id);
+                // System.out.println("prod remove " + id);
                 Product productRemove = products.get(position);
                 System.out.println(productRemove.toString());
                 products.remove(position);
@@ -52,7 +52,7 @@ public class Catalog {
             System.out.println("Error: the product with the ID " + id + " doesn't exist");
             return;
         }
-        System.out.println("prod update " + productToChange.getId_product() + " '" +  productToChange.getName() + "' " + productToChange.getPrice());
+        // System.out.println("prod update " + productToChange.getId_product() + " '" +  productToChange.getName() + "' " + productToChange.getPrice());
         field = field.toUpperCase();
         switch (field) {
             case "NAME":
@@ -108,7 +108,7 @@ public class Catalog {
         System.out.println("prod list");
         System.out.println("Catalog:");
         for (int i = 0; i < products.size(); i++) {
-            System.out.println(products.get(i).toString());
+            System.out.println("  " + products.get(i).toString());
         }
         System.out.println("prod list: ok");
     }
@@ -120,7 +120,7 @@ public class Catalog {
         }
         if (isIdFree(product.getId_product())) {
 
-            System.out.println("prod add " + product.getId_product() + " '" + product.getName() + "' " +  product.getCategory() + " " + product.getPrice());
+            // System.out.println("prod add " + product.getId_product() + " '" + product.getName() + "' " +  product.getCategory() + " " + product.getPrice());
             products.add(product);
 
             System.out.println(product.toString());

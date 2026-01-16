@@ -3,7 +3,7 @@ package es.upm.etsisi.poo;
 
 public class Client extends User {
 
-        // Cadena estática para comprobar la letra del DNI (Algoritmo Módulo 23)
+    // Cadena estática para comprobar la letra del DNI (Algoritmo Módulo 23)
     private static final String DNI_LETTERS = "TRWAGMYFPDXBNJZSQVHLCKE";
     private String registeringCashierId;
 
@@ -68,6 +68,10 @@ public class Client extends User {
 
     @Override
     public String toString() {
-        return " USER{identifier= " + getId() + ", name= '" + getName() + "', email=" + getEmail() + " cash= " + registeringCashierId +"}";
-    }
+        return "USER{" +
+                "identifier='" + getId() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", cash=" + registeringCashierId +
+                '}';    }
 }
