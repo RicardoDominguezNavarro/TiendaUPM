@@ -72,7 +72,7 @@ public class App {
                 "  ticket remove <ticketId><cashId> <prodId> \n" +
                 "  ticket print <ticketId> <cashId> \n" +
                 "  ticket list\n" +
-                "  prod add([<id>] \"<name>\" <category> <price> [<maxPers>]) || (\"<name>\" <category> )\n" +
+                "  prod add ([<id>] \"<name>\" <category> <price> [<maxPers>]) || (\"<name>\" <category> )\n" +
                 "  prod update <id> NAME|CATEGORY|PRICE <value>\n" +
                 "  prod addFood [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>\n" +
                 "  prod addMeeting [<id>] \"<name>\" <price> <expiration:yyyy-MM-dd> <max_people>\n" +
@@ -80,7 +80,7 @@ public class App {
                 "  prod remove <id>\n" +
                 "  help\n" +
                 "  echo “<text>” \n" +
-                "  exit");
+                "  exit\n");
         System.out.println();
         System.out.println("Categories: MERCH, STATIONERY, CLOTHES, BOOK, ELECTRONICS \n" +
                 "Discounts if there are ≥2 units in the category: MERCH 0%, STATIONERY 5%, CLOTHES 7%, BOOK 10%, ELECTRONICS 3%. ");
