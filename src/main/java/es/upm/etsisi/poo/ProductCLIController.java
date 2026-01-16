@@ -69,7 +69,14 @@ public class ProductCLIController {
             String dateStr = split[2];
             String categoryStr = split[3].toUpperCase();
             LocalDate expDate = LocalDate.parse(dateStr);
-            Service.Category category = Service.Category.valueOf(categoryStr);
+            Service.Category category;
+            try {
+                category = Service.Category.valueOf(categoryStr);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: '" + categoryStr + "' is not a valid SERVICE category.");
+                System.out.println("Valid service categories are: TRANSPORT, SHOWS, INSURANCE");
+                return;
+            }
             Service newService = new Service(category,expDate);
             catalog.addProd(newService);
         } catch (DateTimeParseException e) {
